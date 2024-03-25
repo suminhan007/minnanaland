@@ -1,0 +1,14 @@
+import React from "react";
+
+type ColorProps = {
+  value?: string;
+};
+const ColorPicker: React.FC<ColorProps> = ({}) => {
+  return <div> <input
+  type="color"
+  value={value}
+  onChange={(e) => handleChangeColor(e, item.id)}
+/></div>;
+};
+
+export default ColorPicker;

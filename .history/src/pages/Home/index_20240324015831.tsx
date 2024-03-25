@@ -1,0 +1,27 @@
+import React from "react";
+import styled from "styled-components";
+import {
+  LandLayout,
+  LandHeader,
+  LandContent,
+  LandFooter,
+} from "@suminhan/land-design";
+
+type Props = {};
+const Home: React.FC<Props> = ({}) => {
+  return (
+    <LandLayout>
+      <LandHeader />
+    </LandLayout>
+  );
+};
+
+export const StyleWrap = styled.div`
+  width: 100vw;
+`;
+export const StyleContentWrap = styled.div`
+  margin: 64px auto 0;
+  width: calc(100vw - 48px);
+  max-width: 960px;
+`;
+export default Home;
