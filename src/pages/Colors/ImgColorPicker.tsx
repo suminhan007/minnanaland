@@ -4,9 +4,10 @@ import Uploader from "../../components/Uploader";
 import Pop from "../../components/Pop";
 import Message from "../../components/Message";
 import ColorPicker from "../../components/ColorPicker";
+import { IconCloseCircle } from "../../components/Icon";
 
 type Props = {};
-const ImgColorPicker: React.FC<Props> = ({}) => {
+const ImgColorPicker: React.FC<Props> = ({ }) => {
   const [imgUrl, setImgUrl] = useState<string>("");
   const [colors, setColors] = useState<any>([]);
   const convertRgbToHex = (rgb: string) => {
@@ -42,16 +43,16 @@ const ImgColorPicker: React.FC<Props> = ({}) => {
     if (colorArr.length > 0) {
       colorArr.length < 12
         ? setColorArr([
-            ...colorArr,
-            { id: colorArr.length + 1, value: e.target.value },
-          ])
+          ...colorArr,
+          { id: colorArr.length + 1, value: e.target.value },
+        ])
         : handleShowToast(true, "已达上限～长按删除后重试");
     } else {
       handleShowToast(true, "请先上传图片并提取颜色～");
     }
   };
-  const handleDeleteCOlor = (id: number) => {
-    colorArr.splice(id - 1, 1);
+  const handleDeleteColor = (index: number) => {
+    setColorArr(colorArr.splice(index, 1));
   };
   //提示信息
   const [toast, setToast] = useState<boolean>(false);
@@ -146,13 +147,15 @@ const ImgColorPicker: React.FC<Props> = ({}) => {
       </Uploader>
       {/* 颜色列表 */}
       <StyleColorList
-        className={`StyleColorList flex flex-wrap gap-12 p-24 ${
-          colors.length ? "show" : "hide"
-        }`}
+        className={`StyleColorList flex flex-wrap gap-12 p-24 ${colors.length ? "show" : "hide"
+          }`}
       >
-        {colorArr?.map((item: any) => (
+        {colorArr?.map((item: any, index: number) => (
           <div className="flex column justify-center gap-4">
-            <ColorPicker value={item.value} />
+            <StyleColorItem className="relative hover-pop">
+              <ColorPicker value={item.value} />
+              <div className="absolute cursor-pointer close-icon" onClick={() => handleDeleteColor(index)}> <IconCloseCircle fill="var(--color-red-6)" /></div>
+            </StyleColorItem>
             <Pop content="长按删除" />
             <div
               className="fs-12 color-gray-2"
@@ -201,15 +204,20 @@ const StyleColorList = styled.div`
   }
 `;
 const StyleColorItem = styled.div`
-  width: 100%;
-  border-radius: 8px;
-  &.color {
-    border-radius: 24px;
+  width: 40px;
+  aspect-ratio: 1;
+  .close-icon {
+    top: 0;
+    right: 0;
+    transform: translate(40%,-40%);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--transition-15) linear;
+    will-change: opacity;
   }
-  &:hover {
-    .StylePop {
-      opacity: 1;
-    }
+  &:hover .close-icon{
+    opacity: 1;
+    pointer-events: all;
   }
 `;
 

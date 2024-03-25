@@ -10,7 +10,7 @@ import ImgColorPicker from "./ImgColorPicker";
 
 type Props = {};
 
-const Colors: React.FC<Props> = ({}) => {
+const Colors: React.FC<Props> = ({ }) => {
   const [activedNav, setActivedNav] = useState<number>(1);
   return (
     <Layout className="width-100vw">

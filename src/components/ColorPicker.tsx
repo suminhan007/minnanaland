@@ -6,11 +6,13 @@ import Input from "./Input";
 type ColorProps = {
   value?: string;
   size?: string | number;
+  showDrop?: boolean;
   onChange?: (e: React.UIEvent) => void;
 };
 const ColorPicker: React.FC<ColorProps> = ({
   value = "#ff0000",
   size = 40,
+  showDrop,
   onChange,
 }) => {
   // 当前设置的 16 进制颜色
@@ -18,8 +20,8 @@ const ColorPicker: React.FC<ColorProps> = ({
     !value
       ? "var(--od-light-color)"
       : value === "transparent"
-      ? "transparent"
-      : tinycolor(value).toString()
+        ? "transparent"
+        : tinycolor(value).toString()
   );
   // 当前输入的 hex 值
   const inputHex = useMemo(() => {
@@ -66,10 +68,9 @@ const ColorPicker: React.FC<ColorProps> = ({
       size={typeof size === "string" ? size : `${size}px`}
     >
       <div className="land-color-trigger"></div>
-      <StyledColorPanel
-        className={`land-color-drop absolute flex column gap-8 bg-white radius-6 p-16 ${
-          true ? "show" : ""
-        }`}
+      {showDrop && <StyledColorPanel
+        className={`land-color-drop absolute flex column gap-8 bg-white radius-6 p-16 ${true ? "show" : ""
+          }`}
       >
         <StyledColorGrid
           className="StyledColorGrid relative width-100 radius-6"
@@ -100,7 +101,7 @@ const ColorPicker: React.FC<ColorProps> = ({
               // onChange={(e: any) => setInputOpacity(e.target.value)}
               className="radius-6"
               currentColor={currentColor}
-              // opacity={inputOpacity}
+            // opacity={inputOpacity}
             />
           </StyledOpacityWrap>
         )}
@@ -109,7 +110,7 @@ const ColorPicker: React.FC<ColorProps> = ({
           value={inputHex}
           onChange={(e) => setCurrentColor(e)}
         />
-      </StyledColorPanel>
+      </StyledColorPanel>}
     </StyledColorPicker>
   );
 };
@@ -165,7 +166,7 @@ const StyledColorGrid = styled.div<{
   .color-thumb {
     width: 16px;
     height: 16px;
-    border: 2px solid #fff;
+    border: 2px solid var(--od-light-color);
     outline: 1px solid var(--color-border-1);
     border-radius: 6px;
     &:hover {
@@ -197,7 +198,7 @@ const StyledColorSlider = styled.input<{
   &.opacity {
     position: absolute;
     background: ${(props) =>
-      `linear-gradient(to right, rgba(0,0,0,0), ${props.currentColor})`};
+    `linear-gradient(to right, rgba(0,0,0,0), ${props.currentColor})`};
     width: 100%;
     height: 16px;
     &::-webkit-slider-thumb {
@@ -211,7 +212,7 @@ const StyledColorSlider = styled.input<{
     height: 16px;
     border-radius: 4px;
     background: ${(props) => props.currentColor};
-    border: 2px solid #fff;
+    border: 2px solid var(--od-light-color);
     outline: 1px solid var(--color-border-1);
     &:hover {
       cursor: ew-resize;
