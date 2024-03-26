@@ -52,7 +52,10 @@ const ImgColorPicker: React.FC<Props> = ({ }) => {
     }
   };
   const handleDeleteColor = (index: number) => {
-    setColorArr(colorArr.splice(index, 1));
+    setColorArr([
+      ...colorArr,
+
+    ]);
   };
   //提示信息
   const [toast, setToast] = useState<boolean>(false);
@@ -178,7 +181,6 @@ const ImgColorPicker: React.FC<Props> = ({ }) => {
           </StyleAddColorBtn>
         ) : null}
       </StyleColorList>
-      <ColorPicker />
       {colorArr && <canvas className="none" ref={canvasRef} />}
       <Message text={toastText} show={toast} />
     </div>

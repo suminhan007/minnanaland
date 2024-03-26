@@ -7,6 +7,7 @@ type Props = {
   prefix?: React.ReactNode;
   suffix?: React.ReactNode;
   onChange?: (val: string) => void;
+  className?: string;
   [key: string]: any;
 };
 const Input: React.FC<Props> = ({
@@ -15,10 +16,11 @@ const Input: React.FC<Props> = ({
   prefix,
   suffix,
   onChange,
+  className,
   ...restProps
 }) => {
   return (
-    <StyleInputWrap className="land-input">
+    <StyleInputWrap className={`land-input ${className}`}>
       {prefix}
       <input
         className="flex-1 height-100 fs-14 color-gray-1"
