@@ -19,6 +19,7 @@ function App() {
         <Route path="/ppt" element={<PPTEditor />} />
         <Route path="/component" element={<ComponentPicker />} />
         <Route path="/threshold-media" element={<ThresholdMedia />} />
+        <Route path="/colors" element={<Colors />} />
       </Routes>
     </>
   );
