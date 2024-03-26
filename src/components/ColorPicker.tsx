@@ -32,16 +32,21 @@ const StyledColorPicker = styled.input<{
 }>`
   position: relative;
   width: ${(props) => props.size};
-  width: ${(props) => props.size};
+  height: ${(props) => props.size};
   appearance: none;
   border: none;
   outline: none;
-  border-radius: 6px;
-  padding: 1px;
+  border-radius: 4px;
+  background: var(--color-bg-1);
   cursor: pointer;
-  line-height: 35px;
   vertical-align: top;
   cursor: pointer;
+  &:hover {
+    background: var(--color-bg-2);
+  }
+  &:active {
+    background: var(--color-bg-3);
+  }
 `;
 
 export default ColorPicker;

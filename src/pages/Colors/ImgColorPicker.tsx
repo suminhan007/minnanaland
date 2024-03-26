@@ -52,10 +52,9 @@ const ImgColorPicker: React.FC<Props> = ({ }) => {
     }
   };
   const handleDeleteColor = (index: number) => {
-    setColorArr([
-      ...colorArr,
-
-    ]);
+    console.log(colorArr);
+    
+    setColorArr(colorArr.filter((a:any) => a.id != index+1));
   };
   //提示信息
   const [toast, setToast] = useState<boolean>(false);
@@ -154,15 +153,22 @@ const ImgColorPicker: React.FC<Props> = ({ }) => {
           }`}
       >
         {colorArr?.map((item: any, index: number) => (
-          <div className="flex column justify-center gap-4">
-            <StyleColorItem className="relative hover-pop">
-              <ColorPicker value={item.value} />
-              <div className="absolute cursor-pointer close-icon" onClick={() => handleDeleteColor(index)}> <IconCloseCircle fill="var(--color-red-6)" /></div>
+          <div 
+            className="flex column relative justify-center gap-4 hover-pop"
+            onClick={() => handleShowToast(true, "已复制~")}
+          >
+            <StyleColorItem className="relative radius-4 cursor-pointer"  style={{background: item.value}}>
+              <div 
+                className="absolute cursor-pointer close-icon" 
+                onClick={() => handleDeleteColor(index)}
+              > 
+                <IconCloseCircle fill="var(--color-red-6)" />
+              </div>
             </StyleColorItem>
-            <Pop content="长按删除" />
+            <Pop content="点击复制" />
             <div
               className="fs-12 color-gray-2"
-              onClick={(e: any) =>
+              onClick={(e: any) => 
                 navigator.clipboard.writeText(e.target?.innerText)
               }
             >
@@ -208,6 +214,10 @@ const StyleColorList = styled.div`
 const StyleColorItem = styled.div`
   width: 40px;
   aspect-ratio: 1;
+  border: 8px solid var(--color-bg-2);
+  &:hover {
+    border-color: var(--color-bg-3);
+  }
   .close-icon {
     top: 0;
     right: 0;
