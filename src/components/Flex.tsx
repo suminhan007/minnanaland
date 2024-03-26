@@ -40,7 +40,7 @@ const Flex: React.FC<FlexProps> = ({
       width={w}
       height={h}
       direction={column ? "column" : "row"}
-      gap={gap}
+      gap={typeof gap === 'number' ? `${gap}px` : gap}
       wrap={wrap}
       justify={bothCenter ? "center" : justify}
       align={bothCenter ? "center" : align}
@@ -54,7 +54,7 @@ const StyledFlex = styled.div<{
   width?: string;
   height?: string;
   direction?: string;
-  gap?: string | number;
+  gap?: string;
   wrap?: boolean;
   justify?: string;
   align?: string;
