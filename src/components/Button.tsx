@@ -107,7 +107,9 @@ const Button: React.FC<ButtonProps> = ({
         <StyleButtonLink
           href={href}
           target={target}
-          className={`land-button ${pop ? "hover-pop" : ""} ${className}`}
+          className={`land-button ${type} ${status} ${iconOnly ? "iconOnly" : ""
+            } ${disabled ? "disabled" : ""} ${pop ? "hover-pop" : ""
+            } ${className}`}
           style={style}
           width={width}
           height={height}

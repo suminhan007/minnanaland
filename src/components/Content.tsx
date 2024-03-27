@@ -30,6 +30,7 @@ const StyledContent = styled.main<{
   minHeight?: number;
 }>`
   flex: 1;
+  padding-bottom: 24px;
   min-height: ${(props) => `calc(100vh - ${props.minHeight}px)`};
   background: var(--color-bg-white);
 `;

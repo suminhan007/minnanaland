@@ -5,6 +5,7 @@ import Pop from "../../components/Pop";
 import Message from "../../components/Message";
 import ColorPicker from "../../components/ColorPicker copy";
 import { IconCloseCircle, IconColorPicker } from "../../components/Icon";
+import Button from "../../components/Button";
 
 type Props = {};
 const ImgColorPicker: React.FC<Props> = ({ }) => {
@@ -41,12 +42,25 @@ const ImgColorPicker: React.FC<Props> = ({ }) => {
 
   const handlePick = (e: any) => {
     if (colorArr.length > 0) {
-      colorArr.length < 12
-        ? setColorArr([
-          ...colorArr,
-          { id: colorArr.length + 1, value: e.target.value },
-        ])
-        : handleShowToast(true, "已达上限～长按删除后重试");
+     if( colorArr.length < 10){
+      if (!window.EyeDropper) return;
+      let color:string = '';
+      const eyeDropper = new EyeDropper();
+        eyeDropper
+          .open()
+          .then((result) => {
+            color = result.sRGBHex;
+            setColorArr([
+              ...colorArr,
+              { id: colorArr.length + 1, value: color },
+            ])
+          })
+          .catch((e) => {
+            resultElement.textContent = e;
+          });
+     }else {
+      handleShowToast(true, "已达上限～长按删除后重试")
+    }
     } else {
       handleShowToast(true, "请先上传图片～");
     }
@@ -99,7 +113,7 @@ const ImgColorPicker: React.FC<Props> = ({ }) => {
     let sortedRgbCounts = Object.entries(rgbCounts).sort(
       (a: any, b: any) => b[1] - a[1]
     );
-    let topRgbValues = sortedRgbCounts.slice(0, 5);
+    let topRgbValues = sortedRgbCounts.slice(0, 6);
     // 输出或处理结果
     return topRgbValues;
   };
@@ -179,6 +193,39 @@ const ImgColorPicker: React.FC<Props> = ({ }) => {
       </StyleColorList>
       {colorArr && <canvas className="none" ref={canvasRef} />}
       <Message text={toastText} show={toast} />
+      {/* 色卡 */}
+      {colorArr.length !== 0 && <StyleCOlorCardList className="grid">
+        {[
+          {
+            id:1, 
+            data: colorArr, 
+            grid:"'1' '2' '3' '4'"
+          }
+          ,
+          {
+            id:3, 
+            data: colorArr, 
+            grid:"'1 1 1 1'"
+          },
+          {
+            id:3, 
+            data: colorArr, 
+            grid:"'1 1' '1 1'"
+          }
+        ].map((item) =>
+        <div key={item.id} className='p-24 bg-hover-gray cursor-pointer'>
+          {item.data.length !== 0 && 
+          <StyleColorCardListItem className='width-100 height-100 bg-white grid' style={{gridTemplateAreas: item.grid}}>
+            {item.data.map((itm:any) =>
+              <div style={{background: itm.value, minHeight:'36px',minWidth:'36px'}} className='flex both-center color-white fs-12'>
+                {itm.value}
+              </div>  
+            )}
+          </StyleColorCardListItem>}
+          <Button type="border" className="width-100" text="保存色卡"/>
+        </div>
+        )}
+      </StyleCOlorCardList>}
     </div>
   );
 };
@@ -221,4 +268,12 @@ const StyleAddColorBtn = styled.div`
   height: 48px;
   color: var(--color-text-3);
 `;
+
+const StyleCOlorCardList = styled.div`
+   gap: 8px;
+   grid-template-columns:repeat(4,200px);
+` 
+const StyleColorCardListItem = styled.div`
+  box-shadow: 0 2px 10px 0 rgba(0,0,0,.1);
+`
 export default ImgColorPicker;

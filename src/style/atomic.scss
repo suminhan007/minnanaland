@@ -532,3 +532,15 @@
     }
 }
 
+.bg-hover-gray {
+    background-color: var(--color-bg-1);
+    transition: background-color var(--transition-15) linear;
+    will-change: background-color;
+    &:hover {
+      background-color: var(--color-bg-2);
+    }
+    &:active {
+      background-color: var(--color-bg-3);
+    }
+}
+
