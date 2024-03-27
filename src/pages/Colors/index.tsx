@@ -7,6 +7,7 @@ import Title from "../../components/Title";
 import { ClickType } from "../../components/Menu";
 import Button from "../../components/Button";
 import ImgColorPicker from "./ImgColorPicker";
+import Flex from "../../components/Flex";
 
 type Props = {};
 
@@ -28,17 +29,17 @@ const Colors: React.FC<Props> = ({ }) => {
           handleChangeTab: (key, type) =>
             type === ClickType.SELF && setActivedNav(key),
         }}
-        rightComponent={
-          <>
-            <Button text="登录" />
-            <Button text="注册" type="background" status="primary" />
-          </>
-        }
+      // rightComponent={
+      //   <>
+      //     <Button text="登录" />
+      //     <Button text="注册" type="background" status="primary" />
+      //   </>
+      // }
       />
       <Layout>
         <Content>{activedNav === 1 && <ImgColorPicker />}</Content>
       </Layout>
-      <Footer>@suminhan</Footer>
+      <Footer><Flex bothCenter className="width-100 color-gray-4">@suminhan</Flex></Footer>
     </Layout>
   );
 };

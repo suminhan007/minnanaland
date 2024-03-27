@@ -76,7 +76,7 @@ const Header: React.FC<HeaderProps> = ({
       <StyledHeaderNav className="land-header-nav" align={align}>
         {menuProps && <Menu {...menuProps} />}
       </StyledHeaderNav>
-      <div className="land-header-btns">{rightComponent}</div>
+      {rightComponent && <div className="land-header-btns">{rightComponent}</div>}
     </StyledHeader>
   );
 };

@@ -1391,7 +1391,7 @@ export const IconApplication: React.FC<IconProps> = ({
 export const IconUpload: React.FC<IconProps> = ({
   size = 20,
   stroke = "currentColor",
-  strokeWidth = 2,
+  strokeWidth = 3,
 }) => {
   return (
     <svg
@@ -1460,6 +1460,18 @@ export const IconCloseCircle: React.FC<IconProps> = ({
       <path d="M18.3433 18.3432L29.657 29.6569"
         stroke={fill ? "white" : 'none'}
         strokeWidth={strokeWidth} stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+  )
+}
+
+export const IconColorPicker: React.FC<IconProps> = ({
+  fill = "currentColor",
+  size = 20,
+}) => {
+  return (
+    <svg width={size} height={size} viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+      <path d="M762.517333 121.194667a49.621333 49.621333 0 0 1 70.144 0L902.826667 191.36a49.6 49.6 0 0 1 0 70.101333l-140.309334 140.309334 70.144 70.122666a49.578667 49.578667 0 0 1-16.085333 80.896 49.578667 49.578667 0 0 1-54.058667-10.752l-43.818666-43.818666-319.893334 319.829333a353.706667 353.706667 0 0 1-175.424 95.637333l-8.661333 1.578667a95.637333 95.637333 0 0 1-105.557333-116.48 360.128 360.128 0 0 1 96.106666-172.928L525.866667 305.322667l-43.818667-43.861334a49.642667 49.642667 0 0 1 15.296-82.176 49.6 49.6 0 0 1 54.826667 12.074667l70.144 70.101333 140.266666-140.266666h-0.042666z m-184.106666 236.714666L257.877333 678.485333a285.738667 285.738667 0 0 0-72.597333 123.136l-3.669333 14.037334a21.205333 21.205333 0 0 0 25.152 25.514666l15.146666-3.669333a279.296 279.296 0 0 0 124.309334-72.021333l319.872-319.893334-87.637334-87.68z" fill={fill}>
+      </path>
     </svg>
   )
 }

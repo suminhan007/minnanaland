@@ -53,7 +53,6 @@ const Uploader: React.FC<Props> = ({
           handleChange(e, e.target.files[0]);
         }}
       />
-      {loading && <IconApplication />}
       {children ? (
         children
       ) : loading ? (

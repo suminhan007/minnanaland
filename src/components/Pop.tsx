@@ -54,12 +54,12 @@ const StyledBtnPop = styled.div`
     position: absolute;
     left: 50%;
     bottom: -50%;
-    transform: translate(-50%,-75%) rotate(45deg);
+    transform: translate(-50%,-80%) rotate(45deg);
     width: 12px;
     height: 12px;
     border-right: var(--border-1) solid var(--color-border-1);
     border-bottom: var(--border-1) solid var(--color-border-1);
-    border-radius: var(--radius-2);
+    border-bottom-right-radius: var(--radius-2);
     background-color: var(--color-bg-white);
   }
 `

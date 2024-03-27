@@ -3,8 +3,8 @@ import styled from "styled-components";
 import Uploader from "../../components/Uploader";
 import Pop from "../../components/Pop";
 import Message from "../../components/Message";
-import ColorPicker from "../../components/ColorPicker";
-import { IconCloseCircle } from "../../components/Icon";
+import ColorPicker from "../../components/ColorPicker copy";
+import { IconCloseCircle, IconColorPicker } from "../../components/Icon";
 
 type Props = {};
 const ImgColorPicker: React.FC<Props> = ({ }) => {
@@ -23,6 +23,7 @@ const ImgColorPicker: React.FC<Props> = ({ }) => {
     return hexColor;
   };
   const [colorArr, setColorArr] = useState<any>([]);
+
   useEffect(() => {
     if (colorArr.length === 0) {
       let arr: { id: number; value: string }[] = [];
@@ -34,12 +35,11 @@ const ImgColorPicker: React.FC<Props> = ({ }) => {
       });
       setColorArr(arr);
     }
+    console.log(colorArr);
+
   }, [colors]);
-  const handleChangeColor = (e: any, id: number) => {
-    colorArr.splice(id - 1, 1, { id: id, value: e.target.value });
-    setColorArr(colorArr);
-  };
-  const handleAddColor = (e: any) => {
+
+  const handlePick = (e: any) => {
     if (colorArr.length > 0) {
       colorArr.length < 12
         ? setColorArr([
@@ -48,13 +48,14 @@ const ImgColorPicker: React.FC<Props> = ({ }) => {
         ])
         : handleShowToast(true, "已达上限～长按删除后重试");
     } else {
-      handleShowToast(true, "请先上传图片并提取颜色～");
+      handleShowToast(true, "请先上传图片～");
     }
   };
-  const handleDeleteColor = (index: number) => {
-    console.log(colorArr);
-    
-    setColorArr(colorArr.filter((a:any) => a.id != index+1));
+  const handleDeleteColor = (id: number) => {
+    const newColorLost = colorArr.filter((itm: any) => itm.id != id);
+    console.log(newColorLost);
+
+    setColorArr(newColorLost);
   };
   //提示信息
   const [toast, setToast] = useState<boolean>(false);
@@ -149,41 +150,30 @@ const ImgColorPicker: React.FC<Props> = ({ }) => {
       </Uploader>
       {/* 颜色列表 */}
       <StyleColorList
-        className={`StyleColorList flex flex-wrap gap-12 p-24 ${colors.length ? "show" : "hide"
+        className={`StyleColorList flex items-center flex-wrap gap-12 p-24 ${colors.length ? "show" : "hide"
           }`}
       >
-        {colorArr?.map((item: any, index: number) => (
-          <div 
-            className="flex column relative justify-center gap-4 hover-pop"
+        {colorArr?.map((item: any) => (
+          <StyleColorItem
+            className="flex column relative justify-center gap-4"
             onClick={() => handleShowToast(true, "已复制~")}
           >
-            <StyleColorItem className="relative radius-4 cursor-pointer"  style={{background: item.value}}>
-              <div 
-                className="absolute cursor-pointer close-icon" 
-                onClick={() => handleDeleteColor(index)}
-              > 
-                <IconCloseCircle fill="var(--color-red-6)" />
-              </div>
-            </StyleColorItem>
-            <Pop content="点击复制" />
+            <ColorPicker value={item.value} showDrop={false} />
             <div
-              className="fs-12 color-gray-2"
-              onClick={(e: any) => 
-                navigator.clipboard.writeText(e.target?.innerText)
-              }
+              className="absolute cursor-pointer close-icon"
+              onClick={() => handleDeleteColor(item.id)}
             >
-              {item.value}
+              <IconCloseCircle fill="var(--color-red-6)" />
             </div>
-          </div>
+          </StyleColorItem>
         ))}
         {colors.length ? (
-          <StyleAddColorBtn className="StyleAddColorBtn flex both-center relative border radius-50 pointer">
-            <div className="absolute">+</div>
-            <input
-              type="color"
-              className="cursor-pointer opacity-0"
-              onChange={(e) => handleAddColor(e)}
-            />
+          <StyleAddColorBtn
+            className="StyleAddColorBtn relative flex both-center border radius-50 cursor-pointer hover-pop"
+            onClick={() => handlePick()}
+          >
+            <IconColorPicker />
+            <Pop content="点击吸取颜色" />
           </StyleAddColorBtn>
         ) : null}
       </StyleColorList>
@@ -212,16 +202,9 @@ const StyleColorList = styled.div`
   }
 `;
 const StyleColorItem = styled.div`
-  width: 40px;
-  aspect-ratio: 1;
-  border: 8px solid var(--color-bg-2);
-  &:hover {
-    border-color: var(--color-bg-3);
-  }
   .close-icon {
-    top: 0;
-    right: 0;
-    transform: translate(40%,-40%);
+    top: -6px;
+    right: -6px;
     opacity: 0;
     pointer-events: none;
     transition: opacity var(--transition-15) linear;
@@ -236,5 +219,6 @@ const StyleColorItem = styled.div`
 const StyleAddColorBtn = styled.div`
   width: 48px;
   height: 48px;
+  color: var(--color-text-3);
 `;
 export default ImgColorPicker;

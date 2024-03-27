@@ -1,4 +1,4 @@
-import React from "react";
+import React, { CSSProperties } from "react";
 import styled from "styled-components";
 
 type Props = {
@@ -8,6 +8,7 @@ type Props = {
   suffix?: React.ReactNode;
   onChange?: (val: string) => void;
   className?: string;
+  style?: CSSProperties;
   [key: string]: any;
 };
 const Input: React.FC<Props> = ({
@@ -17,13 +18,13 @@ const Input: React.FC<Props> = ({
   suffix,
   onChange,
   className,
+  style,
   ...restProps
 }) => {
   return (
-    <StyleInputWrap className={`land-input ${className}`}>
+    <StyleInputWrap className={`land-input ${className}`} style={style}>
       {prefix}
       <input
-        className="flex-1 height-100 fs-14 color-gray-1"
         placeholder={placeholder}
         type="text"
         value={value}
@@ -38,8 +39,8 @@ const Input: React.FC<Props> = ({
 const StyleInputWrap = styled.div`
   display: flex;
   align-items: center;
-  gap: var(--gap-8);
-  padding: 0 12px;
+  gap: var(--gap-4);
+  padding: 0 4px;
   border: var(--border-1) solid var(--color-border-1);
   border-radius: var(--radius-4);
   input {
