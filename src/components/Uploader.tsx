@@ -1,6 +1,6 @@
 import React, { CSSProperties, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import { IconApplication, IconUpload } from "./Icon";
+import { IconUpload } from "./Icon";
 
 type Props = {
   /**上传文件描述 */

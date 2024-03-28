@@ -16,7 +16,7 @@ const Content: React.FC<ContentProps> = ({ children, style, className }) => {
     if (!headerElem || !footerElem) return;
     setMinHeight(
       headerElem.getBoundingClientRect().height +
-        footerElem.getBoundingClientRect().height
+      footerElem.getBoundingClientRect().height
     );
   });
   return (

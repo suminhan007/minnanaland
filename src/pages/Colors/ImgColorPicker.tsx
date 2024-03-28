@@ -42,10 +42,10 @@ const ImgColorPicker: React.FC<Props> = ({ }) => {
 
   const handlePick = (e: any) => {
     if (colorArr.length > 0) {
-     if( colorArr.length < 10){
-      if (!window.EyeDropper) return;
-      let color:string = '';
-      const eyeDropper = new EyeDropper();
+      if (colorArr.length < 8) {
+        if (!window.EyeDropper) return;
+        let color: string = '';
+        const eyeDropper = new EyeDropper();
         eyeDropper
           .open()
           .then((result) => {
@@ -58,9 +58,9 @@ const ImgColorPicker: React.FC<Props> = ({ }) => {
           .catch((e) => {
             resultElement.textContent = e;
           });
-     }else {
-      handleShowToast(true, "已达上限～长按删除后重试")
-    }
+      } else {
+        handleShowToast(true, "已达上限～长按删除后重试")
+      }
     } else {
       handleShowToast(true, "请先上传图片～");
     }
@@ -194,38 +194,37 @@ const ImgColorPicker: React.FC<Props> = ({ }) => {
       {colorArr && <canvas className="none" ref={canvasRef} />}
       <Message text={toastText} show={toast} />
       {/* 色卡 */}
-      {colorArr.length !== 0 && <StyleCOlorCardList className="grid">
+      {colorArr.length !== 0 && <StyleColorCardWrap className="grid mx-32 gap-24">
         {[
           {
-            id:1, 
-            data: colorArr, 
-            grid:"'1' '2' '3' '4'"
+            id: 1,
+            data: colorArr,
           }
           ,
           {
-            id:3, 
-            data: colorArr, 
-            grid:"'1 1 1 1'"
+            id: 2,
+            data: colorArr,
           },
           {
-            id:3, 
-            data: colorArr, 
-            grid:"'1 1' '1 1'"
+            id: 3,
+            data: colorArr,
           }
         ].map((item) =>
-        <div key={item.id} className='p-24 bg-hover-gray cursor-pointer'>
-          {item.data.length !== 0 && 
-          <StyleColorCardListItem className='width-100 height-100 bg-white grid' style={{gridTemplateAreas: item.grid}}>
-            {item.data.map((itm:any) =>
-              <div style={{background: itm.value, minHeight:'36px',minWidth:'36px'}} className='flex both-center color-white fs-12'>
-                {itm.value}
-              </div>  
-            )}
-          </StyleColorCardListItem>}
-          <Button type="border" className="width-100" text="保存色卡"/>
-        </div>
+          <div className='flex column items-center gap-24'>
+            <StyleColorCardBox className={`border cursor-pointer p-24 width-100 card-${item.id}`}>
+              <div className="color-img"><img src={imgUrl} /></div>
+              <div className='color-list'>
+                {item.data.map((itm: any) =>
+                  <div key={itm.id} style={{ background: itm.value }} className='color-item flex both-center color-white'>
+                    <p>{itm.value}</p>
+                  </div>
+                )}
+              </div>
+            </StyleColorCardBox>
+            <Button type="background" className="width-100" text="保存色卡" />
+          </div>
         )}
-      </StyleCOlorCardList>}
+      </StyleColorCardWrap>}
     </div>
   );
 };
@@ -269,11 +268,72 @@ const StyleAddColorBtn = styled.div`
   color: var(--color-text-3);
 `;
 
-const StyleCOlorCardList = styled.div`
-   gap: 8px;
-   grid-template-columns:repeat(4,200px);
-` 
-const StyleColorCardListItem = styled.div`
-  box-shadow: 0 2px 10px 0 rgba(0,0,0,.1);
+const StyleColorCardWrap = styled.div`
+   width: 100%;
+   grid-template-columns: repeat(auto-fill,minmax(300px,1fr));
+`
+
+const StyleColorCardBox = styled.div`
+  box-sizing: border-box;
+  font-size: 8px;
+  p{
+     mix-blend-mode: difference;
+    }
+  img {
+    aspect-ratio: 1;
+    object-fit: contain;
+  }
+  &.card-1{
+    display: flex;
+    gap: 4px;
+    .color-img{
+      flex: 1;
+    }
+    img {
+      width: 100%;
+      object-fit: cover;
+    }
+    .color-list {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .color-item {
+    height: 36px;
+    width: 72px; 
+  }
+  }
+  &.card-2{
+    display: flex;
+    img{
+      width: 75%;
+    }
+    .color-list {
+      width: 25%;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding: 12px;
+      background-color: var(--color-bg-white);
+    }
+    .color-item {
+      border-radius: 6px;
+    }
+  }
+  &.card-3{
+    /* display: flex; */
+    img{
+      width: 100%;
+    }
+    .color-list {
+      width: 25%;
+      display: flex;
+      gap: 4px;
+    }
+    .color-item {
+      border-radius: 50%;
+      margin-top: -24px;
+    }
+  }
 `
 export default ImgColorPicker;
