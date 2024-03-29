@@ -40,8 +40,8 @@ const ImgColorPicker: React.FC<Props> = ({ }) => {
 
   }, [colors]);
 
-  const handlePick = (e: any) => {
-    if (colorArr.length > 0) {
+  const handlePick = () => {
+    if (colorArr.length >= 0) {
       if (colorArr.length < 8) {
         if (!window.EyeDropper) return;
         let color: string = '';
@@ -195,28 +195,21 @@ const ImgColorPicker: React.FC<Props> = ({ }) => {
       <Message text={toastText} show={toast} />
       {/* 色卡 */}
       {colorArr.length !== 0 && <StyleColorCardWrap className="grid mx-32 gap-24">
-        {[
-          {
-            id: 1,
-            data: colorArr,
-          }
-          ,
-          {
-            id: 2,
-            data: colorArr,
-          },
-          {
-            id: 3,
-            data: colorArr,
-          }
-        ].map((item) =>
-          <div className='flex column items-center gap-24'>
-            <StyleColorCardBox className={`border cursor-pointer p-24 width-100 card-${item.id}`}>
+        {Array.from({ length: 4 }).map((_itm, index) =>
+          <div className='flex column items-center gap-12'>
+            <StyleColorCardBox className={`border cursor-pointer p-24 width-100 card-${index}`}>
               <div className="color-img"><img src={imgUrl} /></div>
               <div className='color-list'>
-                {item.data.map((itm: any) =>
-                  <div key={itm.id} style={{ background: itm.value }} className='color-item flex both-center color-white'>
-                    <p>{itm.value}</p>
+                {colorArr.map((itm: any) =>
+                  <div key={itm.id} style={{
+                    background: itm.value, border: itm.value !== '#ffffff' ? 'none' : '1px solid var(--color-border-1)'
+                  }} className='color-item flex both-center'>
+                    <p
+                      style={{
+                        mixBlendMode: itm.value !== '#ffffff' ? 'soft-light' : 'unset',
+                        color: itm.value !== '#ffffff' ? 'var(--color-text-1)' : 'var(--color-border-2)',
+                      }}
+                    >{itm.value}</p>
                   </div>
                 )}
               </div>
@@ -274,16 +267,18 @@ const StyleColorCardWrap = styled.div`
 `
 
 const StyleColorCardBox = styled.div`
+    position: relative;
   box-sizing: border-box;
   font-size: 8px;
+  aspect-ratio: 1;
   p{
-     mix-blend-mode: difference;
+     mix-blend-mode: soft-light;
     }
   img {
     aspect-ratio: 1;
     object-fit: contain;
   }
-  &.card-1{
+  &.card-0{
     display: flex;
     gap: 4px;
     .color-img{
@@ -294,45 +289,80 @@ const StyleColorCardBox = styled.div`
       object-fit: cover;
     }
     .color-list {
-      display: flex;
-      flex-direction: column;
+      height: 100%;
+      display: grid;
       gap: 4px;
     }
     .color-item {
-    height: 36px;
     width: 72px; 
+  }
+  }
+  &.card-1{
+    display: flex;
+    gap: 4px;
+    .color-img{
+      flex: 1;
+    }
+    img {
+      width: 100%;
+      object-fit: cover;
+      border-radius: 4px;
+    }
+    .color-list {
+      height: 100%;
+      display: grid;
+      gap: 4px;
+    }
+    .color-item {
+    width: 72px; 
+    border-radius: 4px;
   }
   }
   &.card-2{
     display: flex;
     img{
-      width: 75%;
+      width: 100%;
+      object-fit: cover;
+      border-radius: 4px;
     }
     .color-list {
-      width: 25%;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      padding: 12px;
-      background-color: var(--color-bg-white);
+      height: 100%;
+      display: grid;
     }
     .color-item {
-      border-radius: 6px;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      outline: 4px solid var(--color-bg-white);
+      margin-left: -50%;
+      &:not(:first-child){
+        margin-top: -12px;
+      }
     }
   }
   &.card-3{
-    /* display: flex; */
+    display: flex;
+    flex-direction: column;
     img{
       width: 100%;
+      object-fit: cover;
+      border-radius: 4px;
     }
     .color-list {
-      width: 25%;
-      display: flex;
-      gap: 4px;
+      position: absolute;
+      bottom: 24px;
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(32px,1fr));
+      transform: translateX(40px);
     }
     .color-item {
+      aspect-ratio: 1;
       border-radius: 50%;
-      margin-top: -24px;
+      outline: 4px solid var(--color-bg-white);
+      margin-top: -50%;
+      &:not(:first-child){
+        margin-left: -12px;
+      }
     }
   }
 `

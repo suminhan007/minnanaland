@@ -79,18 +79,25 @@ const ColorPicker: React.FC<ColorProps> = ({
   const [currentColor, setCurrentColor] = useState<string>(
     !value ? '#9FDB1D' : value === 'transparent' ? 'transparent' : tinycolor(value).toString(),
   );
-  const [inputColor, setInputColor] = useState<string>(tinycolor(value).toHex());
+  const [inputColor, setInputColor] = useState<string>(currentColor.split('#')[1]);
   const [opacity, setOpacity] = useState<number>(100);
   const [h, setH] = useState<number>(0);
   const [s, setS] = useState<number>(0);
   const [v, setV] = useState<number>(0);
   useEffect(() => {
-    const { h, s, v } = tinycolor(value).toHsv();
-    setH(h);
-    setS(s);
-    setV(v);
-    setCurrentColor(value);
-  }, [value])
+    if (!value) return;
+    if (value === 'transparent') {
+      setCurrentColor('transparent');
+    } else {
+      const { h, s, v } = tinycolor(`#${value}`).toHsv();
+      setH(h);
+      !move && setS(s);
+      !move && setV(v);
+      const hex = tinycolor(value).toHex();
+      setCurrentColor(`#${hex}`);
+      setInputColor(hex)
+    }
+  }, [value, opacity]);
   // 获取 rgba 颜色值
   const getRgbaColor = useCallback((color: string, opacity = 1) => {
     if (color !== 'transparent') {
@@ -121,9 +128,9 @@ const ColorPicker: React.FC<ColorProps> = ({
   const handleSliderChange = (val: string) => {
     setH(Number(val));
     const hex = tinycolor(`hsv(${val},${s},${v})`).toHex();
-    const { r, g, b } = tinycolor(`hsv(${val},${s},${v})`).toRgb();
-    setCurrentColor(`rgba(${r},${g},${b},${opacity / 100})`);
     setInputColor(hex);
+    setCurrentColor(`#${hex}`)
+    onChange?.(getRgbaColor(currentColor, opacity))
   }
 
   // 透明度输入框改变
@@ -138,12 +145,15 @@ const ColorPicker: React.FC<ColorProps> = ({
     const panel = e.target.getBoundingClientRect();
     const diffX = e.clientX - panel.left;
     const diffY = e.clientY - panel.top;
-    setS(diffX / panel.width);
-    setV(1 - diffY / panel.height);
+    if (diffX == 0 || diffX == panel.width || diffY == 0 || diffY == panel.height) {
+      setMove(false)
+    }
+    setS(diffX / 230);
+    setV(1 - diffY / 84);
     const hex = tinycolor(`hsv(${h},${s},${v})`).toHex();
     setInputColor(hex);
-    const rgb = tinycolor(`hsv(${h},${s},${v})`).toRgb();
-    setCurrentColor(`rgba(${rgb.r},${rgb.g},${rgb.b},${opacity / 100})`);
+    setCurrentColor(`#${hex}`)
+    onChange?.(getRgbaColor(currentColor, opacity))
   }
   return (
     <StyledColorPicker
@@ -198,7 +208,7 @@ const ColorPicker: React.FC<ColorProps> = ({
                   max={100}
                   value={opacity}
                   className="opacity"
-                  currentColor={currentColor}
+                  currentColor={svColor}
                   onChange={(e: any) => handleOpacityChange(e.target.value)}
                 />
               </StyledOpacityWrap>
