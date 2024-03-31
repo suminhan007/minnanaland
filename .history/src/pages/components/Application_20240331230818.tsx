@@ -1,0 +1,14 @@
+import React from 'react'
+
+type Props = {
+
+}
+
+const Application: React.FC<Props> = ({
+    
+}) => {
+  return (
+    <div>Application</div>
+  )
+}
+export default Application;
