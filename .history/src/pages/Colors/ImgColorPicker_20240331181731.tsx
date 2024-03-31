@@ -53,7 +53,7 @@ const ImgColorPicker: React.FC<Props> = ({}) => {
     if (colorArr.length >= 0) {
       if (colorArr.length < 8) {
         let color: string = "";
-        // @ts-ignore
+        // @
         const eyeDropper = new EyeDropper();
         eyeDropper
           .open()

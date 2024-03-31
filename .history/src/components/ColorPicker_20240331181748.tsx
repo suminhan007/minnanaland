@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useCallback, useEffect } from "react";
 import styled from "styled-components";
 import Input from "./Input";
-// @ts-ignore
+//@ts-ignore
 import tinycolor from "tinycolor2";
 import Flex from "./Flex";
 

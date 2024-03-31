@@ -12,12 +12,12 @@ export type TaccSelectProps = {
 };
 
 const TaccNumberInput: React.FC<TaccSelectProps> = ({
-  // value,
+  value,
   background,
   prefix,
   className,
   style,
-  // ...restProps
+  ...restProps
 }) => (
   <StyledNumberInputWrap
     className={`radius-6 ${

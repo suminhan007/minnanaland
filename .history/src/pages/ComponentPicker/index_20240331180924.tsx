@@ -1,11 +1,16 @@
 import React, { useState } from 'react'
 import LandInput from "../../components/Input";
+import LandButton from "../../components/Button";
 import { IconClear } from "../../components/Icon";
 // import {/}
 type Props = {};
 const ComponentPicker: React.FC<Props> = ({}) => {
   const [inputValue, setInputValue] = useState<string>("");
-
+  const handleSubmit = (url: string) => {
+    // setSrc(url);
+    // const siteDom = WebsiteRef.current?.querySelector('.thumbplayer');
+    // console.log(siteDom);
+  };
   return (
     <div className="StyleWrap">
       <div className="StyleContentWrap flex column items-center">

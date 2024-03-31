@@ -7,7 +7,7 @@ const Home: React.FC<Props> = ({}) => {
   return (
     <StyleWrap>
       {/* 3D 场景 */}
-      Home
+      <House />
       {/* 主题模式切换 */}
     </StyleWrap>
   );

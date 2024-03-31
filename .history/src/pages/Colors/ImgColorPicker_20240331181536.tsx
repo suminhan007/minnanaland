@@ -10,7 +10,11 @@ import {
   IconDownload,
 } from "../../components/Icon";
 import Button from "../../components/Button";
-
+declare global {
+  interface Window {
+    EyeDropper?: any;
+  }
+}
 type Props = {};
 const ImgColorPicker: React.FC<Props> = ({}) => {
   const imgRef = useRef<HTMLImageElement>(null);
@@ -53,7 +57,6 @@ const ImgColorPicker: React.FC<Props> = ({}) => {
     if (colorArr.length >= 0) {
       if (colorArr.length < 8) {
         let color: string = "";
-        // @ts-ignore
         const eyeDropper = new EyeDropper();
         eyeDropper
           .open()

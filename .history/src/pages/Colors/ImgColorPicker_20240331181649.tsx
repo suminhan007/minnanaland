@@ -53,7 +53,10 @@ const ImgColorPicker: React.FC<Props> = ({}) => {
     if (colorArr.length >= 0) {
       if (colorArr.length < 8) {
         let color: string = "";
-        // @ts-ignore
+        if (!window.EyeDropper) {
+          resultElement.textContent = "你的浏览器不支持 EyeDropper API";
+          return;
+        }      
         const eyeDropper = new EyeDropper();
         eyeDropper
           .open()

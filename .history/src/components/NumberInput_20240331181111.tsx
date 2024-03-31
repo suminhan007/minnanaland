@@ -12,12 +12,12 @@ export type TaccSelectProps = {
 };
 
 const TaccNumberInput: React.FC<TaccSelectProps> = ({
-  // value,
+  value,
   background,
   prefix,
   className,
   style,
-  // ...restProps
+  ...restProps
 }) => (
   <StyledNumberInputWrap
     className={`radius-6 ${
@@ -31,12 +31,12 @@ const TaccNumberInput: React.FC<TaccSelectProps> = ({
         <Divider direction="column" margin={7} lang="16px" />
       </>
     )}
-    {/* <StyleNumberInput
+    <StyleNumberInput
       buttonPosition="right"
       min={0}
       value={value}
       {...restProps}
-    /> */}
+    />
   </StyledNumberInputWrap>
 );
 
@@ -54,37 +54,37 @@ const StyledNumberInputWrap = styled.div`
     }
 `
 
-// const StyleNumberInput = styled.input`
-//   input,
-//   button {
-//     border: none;
-//     background-color: transparent;
-//     cursor: pointer;
-//   }
-//   input {
-//     max-width: 66px;
-//     padding-right: 26px;
-//     cursor: text;
-//     &:active,
-//     &:hover,
-//     &:focus,
-//     &:focus-within,
-//     &:focus:hover {
-//       border: none;
-//       background-color: transparent;
-//     }
-//   }
-//   button {
-//     width: 16px;
-//     &:hover {
-//       background-color: transparent;
-//       svg {
-//         color: var(--od-gray-01);
-//       }
-//     }
-//     &:active {
-//       background-color: transparent;
-//     }
-//   }
-// `;
+const StyleNumberInput = styled.input`
+    input,
+    button {
+        border: none;
+        background-color: transparent;
+        cursor: pointer;
+    }
+    input {
+      max-width: 66px;
+      padding-right: 26px;
+      cursor: text;
+      &:active, 
+      &:hover, 
+      &:focus, 
+      &:focus-within, 
+      &:focus:hover{
+          border: none;
+          background-color: transparent;
+        }
+    }
+    button {
+      width: 16px;
+      &:hover {
+        background-color: transparent;
+        svg {
+          color: var(--od-gray-01);
+        }
+      }
+      &:active {
+        background-color: transparent;
+      }
+    }
+`;
 export default TaccNumberInput;

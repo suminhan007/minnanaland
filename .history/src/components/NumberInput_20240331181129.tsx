@@ -12,7 +12,7 @@ export type TaccSelectProps = {
 };
 
 const TaccNumberInput: React.FC<TaccSelectProps> = ({
-  // value,
+  value,
   background,
   prefix,
   className,

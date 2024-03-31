@@ -49,12 +49,12 @@ const ImgColorPicker: React.FC<Props> = ({}) => {
       setColorArr(arr);
     }
   }, [colors]);
+
   const handlePick = () => {
     if (colorArr.length >= 0) {
       if (colorArr.length < 8) {
         let color: string = "";
-        // @ts-ignore
-        const eyeDropper = new EyeDropper();
+        EyeDropper && const eyeDropper = new EyeDropper();
         eyeDropper
           .open()
           .then((result: any) => {
