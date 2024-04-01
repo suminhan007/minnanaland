@@ -81,29 +81,17 @@ const ColorPicker: React.FC<ColorProps> = ({
     !value
       ? "#ffffff"
       : value === "transparent"
-      ? "transparent"
-      : tinycolor(value).toString()
+        ? "transparent"
+        : value
   );
   const [inputColor, setInputColor] = useState<string>(
-    currentColor.split("#")[1]
+    value.split('#')[1]
   );
   const [opacity, setOpacity] = useState<number>(100);
   const [h, setH] = useState<number>(0);
   const [s, setS] = useState<number>(0);
   const [v, setV] = useState<number>(0);
-  useEffect(() => {
-    if (!value) return;
-    if (value === "transparent") {
-      setCurrentColor("transparent");
-    } else {
-      const { h, s, v } = tinycolor(`#${value}`).toHsv();
-      setH(h);
-      !move && setS(s);
-      !move && setV(v);
-      setCurrentColor(value);
-      setInputColor(`${value.split("#")[1]}`);
-    }
-  }, [value]);
+
   // 获取 rgba 颜色值
   const getRgbaColor = useCallback((color: string, opacity = 100) => {
     if (color !== "transparent") {
@@ -113,54 +101,65 @@ const ColorPicker: React.FC<ColorProps> = ({
     }
     return color;
   }, []);
-  const currentRgbColor = useMemo(() => {
-    return getRgbaColor(currentColor, opacity);
-  }, [currentColor, opacity]);
 
-  const handleHexInputChange = (val: string) => {
-    setInputColor(val);
-    // const rgb = tinycolor(`#${val}`).toRgb();
-    setCurrentColor(`#${val}`);
-    const hsv = tinycolor(`#${val}`).toHsv();
-    setH(hsv.h);
-    setS(hsv.s);
-    setV(hsv.v);
-  };
-  // 设置渐变面板 sv 背景颜色
+  useEffect(() => {
+    if (!value) return;
+    if (value === 'transparent') {
+      setCurrentColor('transparent');
+    } else {
+      const { h, s, v } = tinycolor(`#${value}`).toHsv();
+      setH(h);
+      !move && setS(s);
+      !move && setV(v);
+      const hex = tinycolor(value).toHex();
+      setCurrentColor(`#${hex}`);
+      setInputColor(hex);
+    }
+  }, [value]);
+
+  /* 色相值 */
   const svColor = useMemo(() => {
     const hex = tinycolor(`hsv(${h},${1},${1})`).toHex();
     return `#${hex}`;
   }, [h]);
-  // H 值 Slider改变
-  const handleSliderChange = (val: string) => {
-    setH(Number(val));
-    const hex = tinycolor(`hsv(${val},${s},${v})`).toHex();
-    setInputColor(hex);
-    setCurrentColor(`#${hex}`);
-    onChange?.(getRgbaColor(currentColor, opacity / 100));
-  };
+  /* 所有操作都更新 hsv  */
+  const handleHsvChange = (hexColor: string) => {
+    if (hexColor === 'transparent') {
+      setCurrentColor('transparent')
+    } else {
+      const hsv = tinycolor(hexColor).toHsv();
+      setH(hsv.h);
+      setS(hsv.s);
+      setV(hsv.v);
+    }
+  }
+  /* 根据 hsv 更新 inputColor 和 currentColor*/
+  const [isInput, setIsInput] = useState<boolean>(false);
+  useEffect(() => {
+    const hex = tinycolor(`hsv(${h},${s},${v})`).toHex();
+    !isInput && setInputColor(hex);
+    setCurrentColor(`#${hex}`)
+  }, [h, s, v])
 
   // 拖动选择颜色
+  const THUMB_SIZE = 12;
   const [move, setMove] = useState<Boolean>(false);
   const handleThumb = (e: any) => {
     const panel = e.target.getBoundingClientRect();
     const diffX = e.clientX - panel.left;
     const diffY = e.clientY - panel.top;
-    if (
-      diffX == 0 ||
-      diffX == panel.width ||
-      diffY == 0 ||
-      diffY == panel.height
-    ) {
-      setMove(false);
+    if (diffX >= THUMB_SIZE / 2 && diffX <= (panel.width - THUMB_SIZE)) {
+      setS((diffX - THUMB_SIZE / 2) / (panel.width - THUMB_SIZE));
+    } else {
+      diffX < THUMB_SIZE / 2 ? setS(0) : setS(1);
     }
-    setS(diffX / 180);
-    setV(1 - diffY / 86);
-    const hex = tinycolor(`hsv(${h},${s},${v})`).toHex();
-    setInputColor(hex);
-    setCurrentColor(`#${hex}`);
+    if (diffY >= THUMB_SIZE / 2 && diffY <= (panel.height - THUMB_SIZE)) {
+      setV(1 - (diffY - THUMB_SIZE / 2) / (panel.height - THUMB_SIZE));
+    } else {
+      diffY < THUMB_SIZE / 2 ? setV(1) : setV(0);
+    }
     onChange?.(getRgbaColor(currentColor, opacity));
-  };
+  }
   return (
     <StyledColorPicker
       className="land-color-picker"
@@ -170,14 +169,15 @@ const ColorPicker: React.FC<ColorProps> = ({
       <div className="land-color-trigger" onClick={() => setShow(!show)}>
         <div
           className="land-color-grid"
-          style={{ background: currentRgbColor }}
+          style={{ background: currentColor === 'transparent' ? 'transparent' : getRgbaColor(currentColor, opacity) }}
         ></div>
         <Input
           prefix="#"
           maxLength={6}
           value={inputColor}
-          onChange={(val) => handleHexInputChange(val)}
-          onBlur={() => onChange?.(currentRgbColor)}
+          onFocus={() => setIsInput(true)}
+          onChange={(val) => { setInputColor(val); handleHsvChange(`#${val}`) }}
+          onBlur={() => { onChange?.(getRgbaColor(`#${inputColor}`, opacity)); setIsInput(false) }}
           style={{
             height: 24,
             fontSize: "12px",
@@ -198,13 +198,12 @@ const ColorPicker: React.FC<ColorProps> = ({
               handleThumb(e);
               setMove(true);
             }}
-            onMouseUp={() => {
-              setMove(false);
-            }}
+            onMouseUp={() => setMove(false)}
+            onMouseLeave={() => setMove(false)}
           >
             <div
               className="color-thumb"
-              style={{ left: s * 180, top: 86 - v * 86 }}
+              style={{ left: THUMB_SIZE / 2 + s * (180 - THUMB_SIZE), top: THUMB_SIZE / 2 + (86 - THUMB_SIZE) - v * (86 - THUMB_SIZE) }}
             ></div>
           </StyledColorGrid>
           <Flex gap={8}>
@@ -214,7 +213,7 @@ const ColorPicker: React.FC<ColorProps> = ({
                 width: "40px",
                 aspectRatio: 1,
                 flexShrink: 0,
-                background: currentRgbColor,
+                background: currentColor === 'transparent' ? 'transparent' : getRgbaColor(currentColor, opacity),
               }}
             ></div>
             <Flex column gap={8}>
@@ -224,7 +223,7 @@ const ColorPicker: React.FC<ColorProps> = ({
                 value={h}
                 step={1}
                 currentColor={currentColor}
-                onChange={(e) => handleSliderChange(e.target.value)}
+                onChange={(e) => setH(Number(e.target.value))}
               />
               {true && (
                 <StyledOpacityWrap>
@@ -237,7 +236,7 @@ const ColorPicker: React.FC<ColorProps> = ({
                     currentColor={svColor}
                     onChange={(e: any) => {
                       setOpacity(e.target.value);
-                      onChange?.(currentRgbColor);
+                      onChange?.(getRgbaColor(currentColor, opacity));
                     }}
                   />
                 </StyledOpacityWrap>
@@ -250,8 +249,9 @@ const ColorPicker: React.FC<ColorProps> = ({
               prefix="#"
               maxLength={6}
               value={inputColor}
-              onChange={(val) => handleHexInputChange(val)}
-              onBlur={() => onChange?.(currentRgbColor)}
+              onFocus={() => setIsInput(true)}
+              onChange={(val) => { setInputColor(val); handleHsvChange(`#${val}`) }}
+              onBlur={() => { onChange?.(getRgbaColor(`#${inputColor}`, opacity)); setIsInput(false) }}
             />
             <Input
               className="flex-1"
@@ -260,7 +260,7 @@ const ColorPicker: React.FC<ColorProps> = ({
               value={String(opacity)}
               onChange={(val) => {
                 setOpacity(Number(val));
-                onChange?.(currentRgbColor);
+                onChange?.(getRgbaColor(currentColor, Number(v)));
               }}
             />
           </div>
@@ -270,9 +270,9 @@ const ColorPicker: React.FC<ColorProps> = ({
                 {list.map((item) => (
                   <StyleColorItem
                     onClick={() => {
-                      setCurrentColor(item.color);
-                      handleHexInputChange(`${item.color.split("#")[1]}`);
-                      onChange?.(currentRgbColor);
+                      const { h, s, v } = tinycolor(item.color).toHsv();
+                      setS(s); setH(h); setV(v);
+                      onChange?.(getRgbaColor(item.color, opacity));
                     }}
                     // @ts-ignore
                     style={{ "--tacc-color-item-bgColor": item.color }}
@@ -386,7 +386,7 @@ const StyledColorSlider = styled.input<{
   &.opacity {
     position: absolute;
     background: ${(props) =>
-      `linear-gradient(to right, rgba(0,0,0,0), ${props.currentColor})`};
+    `linear-gradient(to right, rgba(0,0,0,0), ${props.currentColor})`};
     &::-webkit-slider-thumb {
       background: transparent;
     }

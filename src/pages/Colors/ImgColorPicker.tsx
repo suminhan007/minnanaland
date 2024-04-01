@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useState, useRef } from "react";
 import styled from "styled-components";
 import Uploader from "../../components/Uploader";
 import Pop from "../../components/Pop";
@@ -14,9 +14,10 @@ import Button from "../../components/Button";
 import tinycolor from "tinycolor2";
 
 type Props = {};
-const ImgColorPicker: React.FC<Props> = ({}) => {
+const ImgColorPicker: React.FC<Props> = ({ }) => {
+  const imgRef = useRef<HTMLImageElement>(null);
   const [imgUrl, setImgUrl] = useState<string>("");
-  const [colorArr, setColorArr] = useState<{ id: number; value: string }[]>([]);
+  const [colorArr, setColorArr] = useState<{ id: string; value: string }[]>([]);
   // 吸管
   const handlePick = () => {
     if (colorArr.length >= 0) {
@@ -34,7 +35,7 @@ const ImgColorPicker: React.FC<Props> = ({}) => {
             color = result.sRGBHex;
             setColorArr([
               ...colorArr,
-              { id: colorArr.length + 1, value: color },
+              { id: `${color}` + 1, value: color },
             ]);
           })
           .catch(() => {
@@ -50,7 +51,7 @@ const ImgColorPicker: React.FC<Props> = ({}) => {
 
   // 删除颜色
   const handleDeleteColor = (id: number) => {
-    const newColorLost = colorArr.filter((itm: any) => itm.id != id);
+    const newColorLost = colorArr.filter((itm: any) => itm.id !== id);
     setColorArr(newColorLost);
   };
 
@@ -65,13 +66,6 @@ const ImgColorPicker: React.FC<Props> = ({}) => {
       clearTimeout(timer);
     }, 1000);
   };
-
-  function isVisuallySimilar(color1: any[], color2: any[], threshold = 10) {
-    const rDiff = color1[0] - color2[0];
-    const gDiff = color1[1] - color2[1];
-    const bDiff = color1[2] - color2[2];
-    return rDiff <= threshold && gDiff <= threshold && bDiff <= threshold;
-  }
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
   /** 分析图片数据 */
@@ -89,18 +83,18 @@ const ImgColorPicker: React.FC<Props> = ({}) => {
     let sortedRgbCounts = Object.entries(rgbCounts).sort(
       (a: any, b: any) => b[1] - a[1]
     );
-    let topRgbValues = sortedRgbCounts.slice(0, 30);
+    let topRgbValues = sortedRgbCounts.slice(0, 6);
     // 输出或处理结果
     return topRgbValues;
   };
 
   /* 将图片绘制在canvas上 */
-  useEffect(() => {
-    if (!canvasRef.current || !imgUrl) return;
+  const drawImg = (url: string) => {
+    if (!canvasRef.current || !url) return;
     const ctx = canvasRef.current.getContext("2d");
     const img = new Image(); // 加载图片
     img.crossOrigin = "anonymous"; // 处理跨域问题
-    img.src = imgUrl;
+    img.src = url;
     img.onload = () => {
       // 设置canvas尺寸与图片相同
       if (canvasRef.current) {
@@ -117,7 +111,7 @@ const ImgColorPicker: React.FC<Props> = ({}) => {
       setColorArr(
         colors?.map((item: any, index: number) => {
           return {
-            id: index + 1,
+            id: 'color' + index,
             value: `#${tinycolor(`rgb(${item[0]})`).toHex()}`,
           };
         })
@@ -125,26 +119,26 @@ const ImgColorPicker: React.FC<Props> = ({}) => {
     };
     // 图片加载失败时设置为空字符串
     img.onerror = () => setColorArr([]);
-  }, [imgUrl]);
+  }
   return (
     <div className="flex column items-center gap-12 px-24">
       {/* 上传框 */}
       <Uploader
         fileType="image/*"
         onUpload={(url) => {
+          drawImg(url);
           setImgUrl(url);
         }}
         desc="点击上传图片或将图片拖拽于此"
         className="radius-12 mt-32"
         style={{ height: "240px" }}
       >
-        {imgUrl && <img src={imgUrl} className="height-100 radius-8" />}
+        {imgUrl && <img ref={imgRef} src={imgUrl} className="height-100 radius-8" />}
       </Uploader>
       {/* 颜色列表 */}
       <StyleColorList
-        className={`StyleColorList flex items-center flex-wrap gap-12 p-24 ${
-          colorArr.length ? "show" : "hide"
-        }`}
+        className={`StyleColorList flex items-center flex-wrap gap-12 p-24 ${colorArr.length ? "show" : "hide"
+          }`}
       >
         {colorArr?.map((item: any, index: number) => (
           <StyleColorItem
@@ -176,13 +170,12 @@ const ImgColorPicker: React.FC<Props> = ({}) => {
       {/* 色卡 */}
       {colorArr.length !== 0 && (
         <StyleColorCardWrap className="grid mx-32 gap-24">
-          {Array.from({ length: 4 }).map((_itm, index) => (
+          {Array.from({ length: 5 }).map((_itm, index) => (
             <div className="flex column items-center gap-12">
               <StyleColorCardBox
                 className={`border cursor-pointer p-24 width-100 card-${index}`}
-                // width={size.w}
-                // height={size.h}
-                // dir={size.w > size.h ? "h" : size.w < size.h ? "v" : "s"}
+                width={imgRef.current?.getBoundingClientRect().width}
+                height={imgRef.current?.getBoundingClientRect().height}
               >
                 <div className="color-img">
                   <img src={imgUrl} />
@@ -276,11 +269,10 @@ const StyleColorCardWrap = styled.div`
 
 const StyleColorCardBox = styled.div<{
   width?: number;
-  heigh?: number;
-  dir?: string;
+  height?: number;
 }>`
   display: flex;
-  flex-direction: ${(props) => (props.dir === "h" ? "column" : "row")};
+  flex-direction: ${(props) => (Number(props.width) > Number(props.height) ? "column" : "row")};
   position: relative;
   box-sizing: border-box;
   font-size: 8px;
@@ -293,7 +285,8 @@ const StyleColorCardBox = styled.div<{
   &.card-0,
   &.card-1,
   &.card-2,
-  &.card-3 {
+  &.card-3,
+  &.card-4 {
     gap: 4px;
     .color-img {
       width: 100%;
@@ -305,10 +298,12 @@ const StyleColorCardBox = styled.div<{
     .color-list {
       display: grid;
       gap: 4px;
-      grid-auto-flow: column;
+      grid-auto-flow: ${(props) => (Number(props.width) > Number(props.height) ? "column" : "row")};
+      width: ${(props) => (Number(props.width) > Number(props.height) ? "auto" : "64px")};
+      flex-shrink: 0;
     }
-    .color-item {
-      height: 32px;
+    .color-item{
+      height: ${(props) => (Number(props.width) > Number(props.height) ? "32px" : "auto")};
     }
   }
   &.card-1 {
@@ -319,24 +314,57 @@ const StyleColorCardBox = styled.div<{
   }
   &.card-2 {
     .color-list {
+      padding-bottom: ${(props) => (Number(props.width) > Number(props.height) ? '20px' : 'auto')};
+    }
+    .color-item {
+      height: ${(props) => (Number(props.width) > Number(props.height) ? '12px' : 'auto')};
+      p {
+        transform: translateY(16px);
+        mix-blend-mode: unset !important;
+      }
+    }
+  }
+  &.card-3 {
+    flex-direction: column;
+    aspect-ratio: ${props => (props.width + 68) / props.height};
+    .color-img{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      img{
+      width: 50%;
+    }
+    }
+    .color-list {
       display: flex;
       justify-content: space-between;
+      flex-direction: ${(props) => (Number(props.width) > Number(props.height) ? "row" : "row")};
     }
     .color-item {
       border-radius: 50%;
       aspect-ratio: 1;
     }
   }
-  &.card-3 {
+  &.card-4 {
+    justify-content: center;
+    .color-img {
+      width: calc(100% - 68px);
+    }
     .color-list {
-      padding-bottom: 20px;
+      width: 100%;
+      position: absolute;
+      left: 0;
+      bottom: 60px;
+      display: flex;
+      justify-content: center;
+      flex-direction: row;
     }
     .color-item {
-      height: 12px;
-      p {
-        transform: translateY(16px);
-        mix-blend-mode: unset !important;
-      }
+      margin-left: -8px;
+      height: 48px;
+      border-radius: 50%;
+      aspect-ratio: 1;
+      outline: 2px solid var(--color-bg-white);
     }
   }
 `;
