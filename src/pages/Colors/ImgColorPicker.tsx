@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useMemo, useEffect } from "react";
 import styled from "styled-components";
 import Uploader from "../../components/Uploader";
 import Pop from "../../components/Pop";
@@ -12,12 +12,22 @@ import {
 import Button from "../../components/Button";
 // @ts-ignore
 import tinycolor from "tinycolor2";
+import { downloadHtmlAsImg } from "../../utils/downloadHtmlAsImg";
 
 type Props = {};
 const ImgColorPicker: React.FC<Props> = ({ }) => {
   const imgRef = useRef<HTMLImageElement>(null);
   const [imgUrl, setImgUrl] = useState<string>("");
   const [colorArr, setColorArr] = useState<{ id: string; value: string }[]>([]);
+  // 根据图片 size 处理色卡布局
+  const size = useMemo(() => {
+    let imgSize = { w: 200, h: 200, ratio: 1 };
+    if (imgRef.current) {
+      const img = imgRef.current.getBoundingClientRect();
+      imgSize = { w: img.width, h: img.height, ratio: img.width / img.height };
+    }
+    return imgSize;
+  }, [imgRef])
   // 吸管
   const handlePick = () => {
     if (colorArr.length >= 0) {
@@ -35,7 +45,7 @@ const ImgColorPicker: React.FC<Props> = ({ }) => {
             color = result.sRGBHex;
             setColorArr([
               ...colorArr,
-              { id: `${color}` + 1, value: color },
+              { id: `${color}`, value: color },
             ]);
           })
           .catch(() => {
@@ -58,6 +68,7 @@ const ImgColorPicker: React.FC<Props> = ({ }) => {
   //提示信息
   const [toast, setToast] = useState<boolean>(false);
   const [toastText, setToastText] = useState<string>("");
+
   const handleShowToast = (show: boolean, text: string) => {
     setToastText(text);
     setToast(show);
@@ -67,58 +78,66 @@ const ImgColorPicker: React.FC<Props> = ({ }) => {
     }, 1000);
   };
 
-  const canvasRef = useRef<HTMLCanvasElement>(null);
   /** 分析图片数据 */
-  const analyzeImageData = (imageData: any) => {
-    let data: [string | unknown][] = imageData;
-    let rgbCounts: any = {};
-    for (let i = 4; i < data.length; i += 4) {
-      let r = data[i];
-      let g = data[i + 1];
-      let b = data[i + 2];
-      let rgbKey = `${r},${g},${b}`;
-      rgbCounts[rgbKey] = (rgbCounts[rgbKey] || 0) + 1;
+  function areColorsSimilar(color1: any, color2: any, threshold = 32) {
+    const rDiff = color1[0] - color2[0];
+    const gDiff = color1[1] - color2[1];
+    const bDiff = color1[2] - color2[2];
+    return Math.sqrt(rDiff * rDiff + gDiff * gDiff + bDiff * bDiff) < threshold;
+  }
+  const getPixelData = (img: HTMLImageElement) => {
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = img.width;
+    canvas.height = img.height;
+    ctx?.drawImage(img, 0, 0, img.width, img.height);
+    return ctx?.getImageData(0, 0, img.width, img.height).data;
+  }
+  const getTopColors = (img: HTMLImageElement) => {
+    const pixelData: Uint8ClampedArray | undefined = getPixelData(img);
+    if (!pixelData) return;
+    const colorCountMap = new Map();
+    for (let i = 0; i < pixelData.length; i += 4) {
+      const color = [pixelData[i], pixelData[i + 1], pixelData[i + 2]];
+      const key = color.join(',');
+
+      if (colorCountMap.has(key)) {
+        colorCountMap.set(key, colorCountMap.get(key) + 1);
+      } else {
+        colorCountMap.set(key, 1);
+      }
     }
-    // 排序并获取出现次数最多的RGB值
-    let sortedRgbCounts = Object.entries(rgbCounts).sort(
-      (a: any, b: any) => b[1] - a[1]
-    );
-    let topRgbValues = sortedRgbCounts.slice(0, 6);
-    // 输出或处理结果
-    return topRgbValues;
+
+    let sortedColors = Array.from(colorCountMap.entries())
+      .sort((a, b) => b[1] - a[1])
+      .map((entry) => entry[0].split(',').map((x: string) => parseInt(x)));
+    const filteredColors: any[] = [];
+
+    for (const color of sortedColors) {
+      if (!filteredColors.some((filteredColor) => areColorsSimilar(color, filteredColor, 32))) {
+        filteredColors.push(color);
+      }
+      if (filteredColors.length >= 6) {
+        break;
+      }
+    }
+
+    return filteredColors;
   };
 
   /* 将图片绘制在canvas上 */
-  const drawImg = (url: string) => {
-    if (!canvasRef.current || !url) return;
-    const ctx = canvasRef.current.getContext("2d");
-    const img = new Image(); // 加载图片
-    img.crossOrigin = "anonymous"; // 处理跨域问题
+  const getImgColor = (url: string) => {
+    const img = new Image();
     img.src = url;
     img.onload = () => {
-      // 设置canvas尺寸与图片相同
-      if (canvasRef.current) {
-        canvasRef.current.width = img.width;
-        canvasRef.current.height = img.height;
-      }
-      // 将图片绘制到canvas上
-      ctx?.drawImage(img, 0, 0, img.width, img.height);
-
-      // 获取图片的像素数据
-      const imageData = ctx?.getImageData(0, 0, img.width, img.height).data;
-      // 处理像素数据
-      const colors = analyzeImageData(imageData);
-      setColorArr(
-        colors?.map((item: any, index: number) => {
-          return {
-            id: 'color' + index,
-            value: `#${tinycolor(`rgb(${item[0]})`).toHex()}`,
-          };
-        })
-      );
-    };
-    // 图片加载失败时设置为空字符串
-    img.onerror = () => setColorArr([]);
+      const mainColors = getTopColors(img)?.map(itm => {
+        return {
+          id: itm[0] + itm[1] + itm[2],
+          value: `#${tinycolor(`rgb(${itm[0]},${itm[1]},${itm[2]})`).toHex()}`
+        }
+      });
+      setColorArr(mainColors);
+    }
   }
   return (
     <div className="flex column items-center gap-12 px-24">
@@ -126,8 +145,8 @@ const ImgColorPicker: React.FC<Props> = ({ }) => {
       <Uploader
         fileType="image/*"
         onUpload={(url) => {
-          drawImg(url);
           setImgUrl(url);
+          getImgColor(url);
         }}
         desc="点击上传图片或将图片拖拽于此"
         className="radius-12 mt-32"
@@ -137,7 +156,7 @@ const ImgColorPicker: React.FC<Props> = ({ }) => {
       </Uploader>
       {/* 颜色列表 */}
       <StyleColorList
-        className={`StyleColorList flex items-center flex-wrap gap-12 p-24 ${colorArr.length ? "show" : "hide"
+        className={`StyleColorList flex items-center flex-wrap gap-12 p-24 ${colorArr.length !== 0 ? "show" : "hide"
           }`}
       >
         {colorArr?.map((item: any, index: number) => (
@@ -155,7 +174,7 @@ const ImgColorPicker: React.FC<Props> = ({ }) => {
             </div>
           </StyleColorItem>
         ))}
-        {colorArr.length ? (
+        {colorArr.length !== 0 ? (
           <StyleAddColorBtn
             className="StyleAddColorBtn relative flex both-center border radius-50 cursor-pointer hover-pop"
             onClick={() => handlePick()}
@@ -165,7 +184,6 @@ const ImgColorPicker: React.FC<Props> = ({ }) => {
           </StyleAddColorBtn>
         ) : null}
       </StyleColorList>
-      <canvas className="none" ref={canvasRef} />
       <Message text={toastText} show={toast} />
       {/* 色卡 */}
       {colorArr.length !== 0 && (
@@ -174,8 +192,9 @@ const ImgColorPicker: React.FC<Props> = ({ }) => {
             <div className="flex column items-center gap-12">
               <StyleColorCardBox
                 className={`border cursor-pointer p-24 width-100 card-${index}`}
-                width={imgRef.current?.getBoundingClientRect().width}
-                height={imgRef.current?.getBoundingClientRect().height}
+                width={size.w}
+                height={size.h}
+                ratio={size.ratio}
               >
                 <div className="color-img">
                   <img src={imgUrl} />
@@ -214,15 +233,38 @@ const ImgColorPicker: React.FC<Props> = ({ }) => {
                 className="width-100"
                 text="保存色卡"
                 icon={<IconDownload />}
+                onClick={(e: React.UIEvent) => downloadHtmlAsImg(e)}
               />
             </div>
           ))}
         </StyleColorCardWrap>
       )}
+      <StyleDrag className="container">
+        <div className="item" draggable="true">1</div>
+        <div className="item" draggable="true">2</div>
+        <div className="item" draggable="true">3</div>
+        <div className="item" draggable="true">4</div>
+        <div className="item" draggable="true">5</div>
+      </StyleDrag>
     </div>
   );
 };
 
+const StyleDrag = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  .item {
+            width: 100px;
+            height: 100px;
+            background-color: lightblue;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            margin: 10px;
+            cursor: move;
+        }
+`
 const StyleColorList = styled.div`
   width: fit-content;
   max-width: 100%;
@@ -268,11 +310,12 @@ const StyleColorCardWrap = styled.div`
 `;
 
 const StyleColorCardBox = styled.div<{
-  width?: number;
-  height?: number;
+  width: number;
+  height: number;
+  ratio: number;
 }>`
   display: flex;
-  flex-direction: ${(props) => (Number(props.width) > Number(props.height) ? "column" : "row")};
+  flex-direction: ${(props) => props.ratio > 1 ? "column" : "row"};
   position: relative;
   box-sizing: border-box;
   font-size: 8px;
@@ -298,12 +341,12 @@ const StyleColorCardBox = styled.div<{
     .color-list {
       display: grid;
       gap: 4px;
-      grid-auto-flow: ${(props) => (Number(props.width) > Number(props.height) ? "column" : "row")};
-      width: ${(props) => (Number(props.width) > Number(props.height) ? "auto" : "64px")};
+      grid-auto-flow: ${(props) => props.ratio > 1 ? "column" : "row"};
+      width: ${(props) => props.ratio > 1 ? "auto" : "64px"};
       flex-shrink: 0;
     }
     .color-item{
-      height: ${(props) => (Number(props.width) > Number(props.height) ? "32px" : "auto")};
+      height: ${(props) => props.ratio > 1 ? "32px" : "auto"};
     }
   }
   &.card-1 {
@@ -314,10 +357,10 @@ const StyleColorCardBox = styled.div<{
   }
   &.card-2 {
     .color-list {
-      padding-bottom: ${(props) => (Number(props.width) > Number(props.height) ? '20px' : 'auto')};
+      padding-bottom: ${(props) => props.ratio > 1 ? '20px' : 'auto'};
     }
     .color-item {
-      height: ${(props) => (Number(props.width) > Number(props.height) ? '12px' : 'auto')};
+      height: ${(props) => props.ratio > 1 ? '12px' : 'auto'};
       p {
         transform: translateY(16px);
         mix-blend-mode: unset !important;
@@ -338,7 +381,7 @@ const StyleColorCardBox = styled.div<{
     .color-list {
       display: flex;
       justify-content: space-between;
-      flex-direction: ${(props) => (Number(props.width) > Number(props.height) ? "row" : "row")};
+      flex-direction: ${(props) => props.ratio > 1 ? "row" : "row"};
     }
     .color-item {
       border-radius: 50%;
