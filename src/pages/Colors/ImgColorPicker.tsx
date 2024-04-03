@@ -15,7 +15,7 @@ import tinycolor from "tinycolor2";
 import { downloadHtmlAsImg } from "../../utils/downloadHtmlAsImg";
 
 type Props = {};
-const ImgColorPicker: React.FC<Props> = ({}) => {
+const ImgColorPicker: React.FC<Props> = ({ }) => {
   const imgRef = useRef<HTMLImageElement>(null);
   const [imgUrl, setImgUrl] = useState<string>("");
   const [colorArr, setColorArr] = useState<{ id: string; value: string }[]>([]);
@@ -27,7 +27,7 @@ const ImgColorPicker: React.FC<Props> = ({}) => {
       imgSize = { w: img.width, h: img.height, ratio: img.width / img.height };
     }
     return imgSize;
-  }, [imgRef]);
+  }, [imgUrl]);
   // 吸管
   const handlePick = () => {
     if (colorArr.length >= 0) {
@@ -78,7 +78,7 @@ const ImgColorPicker: React.FC<Props> = ({}) => {
   /** 分析图片数据 */
   function areColorsSimilar(color1: any, color2: any, threshold = 32) {
     if (
-      color1[0] + color1[1] + color1[2] == 0 ||
+      color1[0] < 10 && color1[1] < 10 && color1[2] < 10 ||
       (color1[0] > 250 && color1[1] > 250 && color1[2] > 250)
     ) {
       return true;
@@ -165,9 +165,8 @@ const ImgColorPicker: React.FC<Props> = ({}) => {
       </Uploader>
       {/* 颜色列表 */}
       <StyleColorList
-        className={`StyleColorList flex items-center flex-wrap gap-12 p-24 ${
-          colorArr.length !== 0 ? "show" : "hide"
-        }`}
+        className={`StyleColorList flex items-center flex-wrap gap-12 p-24 ${colorArr.length !== 0 ? "show" : "hide"
+          }`}
       >
         {colorArr.length !== 0 &&
           colorArr?.map((item: any, index: number) => (

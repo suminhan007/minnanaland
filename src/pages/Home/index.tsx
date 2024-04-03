@@ -1,5 +1,5 @@
 import React from 'react'
-import Scene from './scene/Scene'
+import Model from './scene/Model'
 type Props = {
 
 }
@@ -8,7 +8,7 @@ const Home: React.FC<Props> = ({
 }) => {
   return (
     <div>
-      <Scene />
+      <Model />
     </div>
   )
 }
