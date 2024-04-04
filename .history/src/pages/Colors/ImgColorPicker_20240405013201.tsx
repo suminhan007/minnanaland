@@ -202,7 +202,7 @@ const ImgColorPicker: React.FC<Props> = ({}) => {
         <Flex column gap={8}>
           <Title title="Step 01: 上传图片" type="h3" />
           <Title
-            title="点击或拖拽来上传图片，以像素为单位对颜色计"
+            title="以像素为单位对颜色计数"
             type="p"
             className="color-gray-4"
           />
