@@ -1,5 +1,5 @@
 import React from 'react'
-import Model from './scene/Model'
+import Banner from './scene/Banner'
 type Props = {
 
 }
@@ -7,8 +7,8 @@ const Home: React.FC<Props> = ({
 
 }) => {
   return (
-    <div>
-      <Model />
+    <div style={{ height: '600px' }}>
+      <Banner />
     </div>
   )
 }
