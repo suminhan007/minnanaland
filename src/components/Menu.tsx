@@ -64,11 +64,9 @@ const Menu: React.FC<MenuProps> = ({
     >
       {data?.map((item) => (
         <div
-          className={`land-nav-item ${
-            item.clickType === ClickType.SIMPLE ? "simple" : ""
-          } ${item.clickType === ClickType.DISABLED ? "disabled" : ""} ${
-            actived === item.key ? "actived" : ""
-          } ${theme}`}
+          className={`land-nav-item ${item.clickType === ClickType.SIMPLE ? "simple" : ""
+            } ${item.clickType === ClickType.DISABLED ? "disabled" : ""} ${actived === item.key ? "actived" : ""
+            } ${theme}`}
         >
           <a
             role="button"
@@ -132,9 +130,9 @@ const StyledMenu = styled.div<{
       width: 12px;
       height: 2px;
       transform: ${(props) =>
-        props.direction === "row"
-          ? `translateX(50%)`
-          : "translateY(50%) rotate(90deg)"};
+    props.direction === "row"
+      ? `translateX(50%)`
+      : "translateY(50%) rotate(90deg)"};
       transform-origin: center center;
       border-radius: 1px;
       background-color: var(--color-text-1);
@@ -173,7 +171,7 @@ const StyledMenu = styled.div<{
         &::after {
           background-color: var(--color-primary-6);
           width: ${(props) =>
-            props.direction === "row" ? "calc(100% - 32px)" : "12px"};
+    props.direction === "row" ? "calc(100% - 32px)" : "12px"};
         }
       }
     }
@@ -186,7 +184,7 @@ const StyledMenu = styled.div<{
     }
   }
   .land-nav-link {
-    padding: var(--padding-medium);
+    padding: var(--padding-medium-xy);
     display: flex;
     width: 100%;
     font-size: var(--font-content-large);

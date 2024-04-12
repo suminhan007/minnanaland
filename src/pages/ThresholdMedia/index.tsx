@@ -16,7 +16,7 @@ const ThresholdMedia: React.FC = () => {
       </mesh>
     );
   };
-  useFrame(() => {});
+  useFrame(() => { });
   return (
     <StyleCanvasWrap className="StyleCanvasWrap">
       <Canvas

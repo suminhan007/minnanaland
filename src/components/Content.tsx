@@ -16,7 +16,7 @@ const Content: React.FC<ContentProps> = ({ children, style, className }) => {
     if (!headerElem || !footerElem) return;
     setMinHeight(
       headerElem.getBoundingClientRect().height +
-        footerElem.getBoundingClientRect().height
+      footerElem.getBoundingClientRect().height
     );
   }, [children]);
   return (
@@ -30,7 +30,6 @@ const StyledContent = styled.main<{
   minHeight?: number;
 }>`
   flex: 1;
-  padding-bottom: 24px;
   min-height: ${(props) => `calc(100vh - ${props.minHeight}px)`};
   background: var(--color-bg-white);
 `;

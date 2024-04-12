@@ -408,6 +408,19 @@
 .border-white {
     border-color: var(--color-bg-white);
 }
+.border-top{
+    border-right: 1px solid var(--color-border-1);
+}
+.border-right{
+    border-right: 1px solid var(--color-border-1);
+}
+.border-bottom{
+    border-right: 1px solid var(--color-border-1);
+}
+.border-left{
+    border-right: 1px solid var(--color-border-1);
+}
+
 .border-2 {
     border-width: 2px;
 }

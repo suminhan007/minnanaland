@@ -1,13 +1,13 @@
 import React from 'react'
-import { useGLTF } from '@react-three/drei'
+// import { useGLTF } from '@react-three/drei'
 import { Canvas } from '@react-three/fiber'
+// import { Base, Geometry } from '@react-three/csg'
 type Props = {
 
 }
 const Banner: React.FC<Props> = ({
 
 }) => {
-    const { scene } = useGLTF('banner.glb')
     return (
         <Canvas
             shadows
@@ -16,7 +16,6 @@ const Banner: React.FC<Props> = ({
         >
             <color attach="background" args={['#BBBFE7']} />
             <ambientLight intensity={1} />
-            <primitive object={scene} />
         </Canvas >
     )
 }
