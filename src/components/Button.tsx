@@ -236,8 +236,12 @@ const StyledButton = styled.div<{
     height: 36px;
   }
   &.disabled {
-    opacity: var(--opacity-68);
+    background-color: ${(props) => `${props.color}3)`};
     cursor: default;
+    &:hover,
+    &:active{
+      background-color: ${(props) => `${props.color}3)`};
+    }
   }
 `;
 

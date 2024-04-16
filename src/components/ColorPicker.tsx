@@ -74,6 +74,8 @@ type ColorProps = {
   value?: string;
   size?: string | number;
   showDrop?: boolean;
+  showList?:boolean;
+  showOpacity?:boolean;
   input?: string | boolean;
   pop?: string | React.ReactNode;
   active?: boolean;
@@ -86,6 +88,8 @@ const ColorPicker: React.FC<ColorProps> = ({
   value = "#ffffff",
   size = 48,
   showDrop = true,
+  showList=true,
+  showOpacity=true,
   input = true,
   pop,
   active = false,
@@ -272,9 +276,9 @@ const ColorPicker: React.FC<ColorProps> = ({
                 value={h}
                 step={1}
                 currentColor={currentColor}
-                onChange={(e) => setH(Number(e.target.value))}
+                onChange={(e:any) => setH(Number(e.target.value))}
               />
-              {true && (
+              {showOpacity && (
                 <StyledOpacityWrap>
                   <StyledColorSlider
                     type="range"
@@ -308,7 +312,7 @@ const ColorPicker: React.FC<ColorProps> = ({
                 setIsInput(false);
               }}
             />
-            <Input
+            {showOpacity && <Input
               className="flex-1"
               max={100}
               min={0}
@@ -317,9 +321,9 @@ const ColorPicker: React.FC<ColorProps> = ({
                 setOpacity(Number(val));
                 onChange?.(getRgbaColor(currentColor, Number(v)));
               }}
-            />
+            />}
           </div>
-          <div className="width-100 flex" style={{ gap: 2 }}>
+          {showList && <div className="width-100 flex" style={{ gap: 2 }}>
             {COLOR_DATA?.map((list, idx) => (
               <div className="flex column" key={idx} style={{ gap: 2 }}>
                 {list.map((item) => (
@@ -338,7 +342,7 @@ const ColorPicker: React.FC<ColorProps> = ({
                 ))}
               </div>
             ))}
-          </div>
+          </div>}
         </StyledColorPanel>
       )}
     </StyledColorPicker>
