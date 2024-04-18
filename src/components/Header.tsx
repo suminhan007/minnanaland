@@ -1,8 +1,9 @@
-import React, { CSSProperties } from "react";
+import React, { CSSProperties, useEffect, useState } from "react";
 import styled from "styled-components";
 import Divider from "./Divider";
 import Menu, { MenuItemType, MenuProps } from "./Menu";
-import { IconApplication } from "./Icon";
+import { IconApplication, IconMoreLine } from "./Icon";
+import Button from "./Button";
 
 export type HeaderProps = {
   /* Header 高度 */
@@ -51,6 +52,11 @@ const Header: React.FC<HeaderProps> = ({
   style,
   className = "",
 }) => {
+  const [showMobileNav, setShowMobileNav] = useState<boolean>(false);
+  useEffect(() => {
+    window.onscroll = () => setShowMobileNav(false);
+    window.onresize = () => setShowMobileNav(false)
+  })
   return (
     <StyledHeader
       className={`land-header ${fixed ? "fixed" : ""} ${className}`}
@@ -74,12 +80,14 @@ const Header: React.FC<HeaderProps> = ({
         {logo && divider && <Divider direction="column" lang="24px" />}
         {typeof name === "string" ? <img src={name} /> : name}
       </div>
-      <StyledHeaderNav className="land-header-nav" align={align}>
+      <StyledHeaderNav className="land-header-nav" align={align} showMobileNav={showMobileNav}>
         {menuProps && <Menu border={false} {...menuProps} />}
       </StyledHeaderNav>
       {rightComponent && (
         <div className="land-header-btns">{rightComponent}</div>
       )}
+      {/* 移动端展开按钮 */}
+      <Button icon={<IconMoreLine />} type="text" onClick={() => setShowMobileNav(!showMobileNav)} />
     </StyledHeader>
   );
 };
@@ -151,10 +159,19 @@ const StyledHeader = styled.header<{
     align-items: center;
     gap: var(--gap-12);
   }
+  .land-button{
+    display: none;
+  }
+  @media screen and (max-width: 800px){
+    .land-button{
+      display: flex;
+    }
+  }
 `;
 
 const StyledHeaderNav = styled.div<{
   align?: string;
+  showMobileNav?: boolean;
 }>`
   display: flex;
   flex: 1;
@@ -166,13 +183,16 @@ const StyledHeaderNav = styled.div<{
     width: 48px;
     .land-menu {
       flex-direction: column;
-      position: absolute;
-      top: 100%;
-      padding: var(--padding-small);
+      position: fixed;
+      top: 64px;
+      right: 0px;
+      padding: 12px 4px;
       background: #fff;
       height: fit-content;
       border: 1px solid var(--color-border-1);
-      right: -24px;
+      transition: opacity 0.2 linear;
+      opacity: ${props => props.showMobileNav ? '1' : '0'};
+      pointer-events: ${props => props.showMobileNav ? 'all' : 'none'};
     }
   }
 `;

@@ -3,7 +3,7 @@ import React, { useEffect, useRef } from "react";
 import * as THREE from "three";
 
 type Props = {};
-const Model: React.FC<Props> = ({}) => {
+const Model: React.FC<Props> = ({ }) => {
   const containerRef = useRef();
 
   useEffect(() => {
@@ -60,15 +60,6 @@ const Model: React.FC<Props> = ({}) => {
     const light1 = new THREE.DirectionalLight(0xffffff, 2, [-6, 0, 10]);
     scene.add(light1);
 
-    // const centralBoxGeometry = new THREE.BoxGeometry(5, 5, 5);
-    // const centralBoxMaterial = new THREE.MeshPhongMaterial({
-    //   color: "blue",
-    //   opacity: 0,
-    //   transparent: true,
-    // });
-    // const centralBox = new THREE.Mesh(centralBoxGeometry, centralBoxMaterial);
-    // scene.add(centralBox);
-
     const ambientLight = new THREE.AmbientLight();
     scene.add(ambientLight);
 
@@ -89,7 +80,6 @@ const Model: React.FC<Props> = ({}) => {
     }
 
     animate();
-
     return () => {
       containerRef.current.removeChild(renderer.domElement);
     };

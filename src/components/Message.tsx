@@ -1,4 +1,4 @@
-import React, { CSSProperties, useMemo } from "react";
+import React, { CSSProperties, useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 
 type Props = {
@@ -15,6 +15,18 @@ const Message: React.FC<Props> = ({
   style,
   className = "",
 }) => {
+  const [newShow, setNewShow] = useState<boolean>(show);
+  useEffect(() => {
+    setNewShow(show)
+  }, [show])
+  useEffect(() => {
+    if (newShow) {
+      const timer = setTimeout(() => {
+        setNewShow(false);
+      }, 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [newShow])
   const toastType = useMemo(() => {
     switch (type) {
       case "default":
@@ -23,9 +35,8 @@ const Message: React.FC<Props> = ({
   }, [type]);
   return (
     <StyleToastContainer
-      className={`StyleToastContainer fixed radius-6 px-12 py-4 transition ${
-        show ? "show" : "close"
-      } ${className}`}
+      className={`StyleToastContainer fixed radius-6 px-12 py-4 fs-14 ${newShow ? "show" : "close"
+        } ${className}`}
       style={{
         color: toastType?.color,
         backgroundColor: toastType?.background,
@@ -38,6 +49,10 @@ const Message: React.FC<Props> = ({
 };
 
 const StyleToastContainer = styled.div`
+  z-index: var(--zIndex-5);
+  left: 50%;
+  transform: translateX(-50%);
+  transition: opacity var(--transition-2) linear, top var(--transition-2) linear;
   &.show {
     top: 24px;
     opacity: 0.9;

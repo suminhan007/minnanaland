@@ -3,7 +3,6 @@ import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import Uploader from "../../components/Uploader";
 import Pop from "../../components/Pop";
-import Message from "../../components/Message";
 import ColorPicker from "../../components/ColorPicker";
 import Title from "../../components/Title";
 import {
@@ -19,7 +18,8 @@ import Flex from "../../components/Flex";
 import Check from "../../components/Check";
 import Input from "../../components/Input";
 import Select from "../../components/Select";
-import Ratio from "../../components/Ratio";
+import AutoMedia from "../../components/AutoMedia";
+import Message from "../../components/Message";
 // import { MY_COLOR_CARDS } from "./mock";
 
 const unitImg = "colorcard.jpeg";
@@ -33,34 +33,19 @@ const unitColorArr = [
 ];
 
 type Props = {};
-const ImgColorPicker: React.FC<Props> = ({}) => {
-  const imgRef = useRef<HTMLImageElement>(null);
-  const uploaderRef = useRef<HTMLDivElement>(null);
+const ImgColorPicker: React.FC<Props> = ({ }) => {
   const [imgUrl, setImgUrl] = useState<string>("");
   const [colorArr, setColorArr] = useState<{ id: string; value: string }[]>([]);
   // 根据图片 size 处理色卡布局
   const [size, setSize] = useState<any>();
-  const [uploaderCheck, setUploaderCheck] = useState<any>();
   useEffect(() => {
     let imgSize = { w: 200, h: 200, ratio: 1 };
-    if (imgRef.current) {
-      const img = imgRef.current.getBoundingClientRect();
-      imgSize = { w: img.width, h: img.height, ratio: img.width / img.height };
-    }
+    let img = new Image()
+    img.src = imgUrl
+    imgSize = { w: img.width, h: img.height, ratio: img.width / img.height };
     setSize(imgSize);
   }, [imgUrl]);
 
-  useEffect(() => {
-    const callback: ResizeObserverCallback = (entries) => {
-      entries.forEach((entry) => {
-        const { width, height } = entry.contentRect;
-        setUploaderCheck(width / height);
-      });
-    };
-    const observer = new ResizeObserver(callback);
-    observer.observe(uploaderRef.current);
-    return () => observer.disconnect();
-  }, [uploaderRef]);
   // 吸管
   const handlePick = () => {
     if (colorArr.length >= 0) {
@@ -209,13 +194,12 @@ const ImgColorPicker: React.FC<Props> = ({}) => {
         <Flex column gap={8}>
           <Title title="Step 01: 上传图片" type="h3" />
           <Title
-            title="点击或拖拽来上传图片，以像素为单位对颜色计"
+            title="点击或拖拽来上传图片，以像素为单位对颜色计数"
             type="p"
             className="color-gray-4"
           />
         </Flex>
         <div
-          ref={uploaderRef}
           className="width-100"
           style={{ height: "240px" }}
         >
@@ -229,19 +213,12 @@ const ImgColorPicker: React.FC<Props> = ({}) => {
             className="radius-12"
           >
             {imgUrl && (
-              <img
-                ref={imgRef}
-                src={imgUrl}
-                className={`radius-8 ${
-                  uploaderCheck > size.ratio ? "height-100" : "width-100"
-                }`}
-              />
+              <AutoMedia url={imgUrl} />
             )}
           </Uploader>
         </div>
       </Flex>
       {/* 颜色 */}
-      {/* <Flex column gap={24} wrap> */}
 
       <div className="flex flex-wrap width-100">
         {/* 取色配置 */}
@@ -314,42 +291,42 @@ const ImgColorPicker: React.FC<Props> = ({}) => {
           )}
           {colorArr.length === 0
             ? unitColorArr?.map((item0: any, index0: number) => (
-                <StyleColorItem
-                  key={index0}
-                  className="flex column relative justify-center gap-4 disabled"
-                >
-                  <ColorPicker value={item0.value} showDrop={false} />
-                </StyleColorItem>
-              ))
+              <StyleColorItem
+                key={index0}
+                className="flex column relative justify-center gap-4 disabled"
+              >
+                <ColorPicker value={item0.value} showDrop={false} />
+              </StyleColorItem>
+            ))
             : colorArr?.map((item: any, index: number) => (
-                <StyleColorItem
-                  key={index}
-                  className="flex column relative justify-center gap-4"
+              <StyleColorItem
+                key={index}
+                className="flex column relative justify-center gap-4"
+              >
+                <ColorPicker
+                  value={item.value}
+                  showDrop={false}
+                  onChange={(color) => {
+                    const newColorArr = colorArr.map((itm) => {
+                      return {
+                        id: itm.id,
+                        value:
+                          itm.id == item.id
+                            ? `#${tinycolor(color).toHex()}`
+                            : itm.value,
+                      };
+                    });
+                    setColorArr(newColorArr);
+                  }}
+                />
+                <div
+                  className="absolute cursor-pointer close-icon"
+                  onClick={() => handleDeleteColor(item.id)}
                 >
-                  <ColorPicker
-                    value={item.value}
-                    showDrop={false}
-                    onChange={(color) => {
-                      const newColorArr = colorArr.map((itm) => {
-                        return {
-                          id: itm.id,
-                          value:
-                            itm.id == item.id
-                              ? `#${tinycolor(color).toHex()}`
-                              : itm.value,
-                        };
-                      });
-                      setColorArr(newColorArr);
-                    }}
-                  />
-                  <div
-                    className="absolute cursor-pointer close-icon"
-                    onClick={() => handleDeleteColor(item.id)}
-                  >
-                    <IconCloseCircle fill="var(--color-red-6)" />
-                  </div>
-                </StyleColorItem>
-              ))}
+                  <IconCloseCircle fill="var(--color-red-6)" />
+                </div>
+              </StyleColorItem>
+            ))}
           {colorArr.length !== 0 && colorArr.length < 8 && (
             <StyleAddColorBtn
               className="StyleAddColorBtn relative flex both-center border radius-50 cursor-pointer hover-pop"
@@ -389,29 +366,29 @@ const ImgColorPicker: React.FC<Props> = ({}) => {
                 <div className="color-list grid gap-4">
                   {colorArr?.length === 0
                     ? unitColorArr.map((itm0: any) => (
-                        <div className="color-item flex column items-center gap-4">
-                          <div
-                            key={itm0.id}
-                            style={{
-                              background: itm0.value,
-                            }}
-                            className="width-100 flex-1"
-                          ></div>
-                          <p>{itm0.value}</p>
-                        </div>
-                      ))
+                      <div className="color-item flex column items-center gap-4">
+                        <div
+                          key={itm0.id}
+                          style={{
+                            background: itm0.value,
+                          }}
+                          className="width-100 flex-1"
+                        ></div>
+                        <p>{itm0.value}</p>
+                      </div>
+                    ))
                     : colorArr.map((itm: any) => (
-                        <div className="color-item flex column items-center gap-4">
-                          <div
-                            key={itm.id}
-                            style={{
-                              background: itm.value,
-                            }}
-                            className="width-100 flex-1"
-                          ></div>
-                          <p>{itm.value}</p>
-                        </div>
-                      ))}
+                      <div className="color-item flex column items-center gap-4">
+                        <div
+                          key={itm.id}
+                          style={{
+                            background: itm.value,
+                          }}
+                          className="width-100 flex-1"
+                        ></div>
+                        <p>{itm.value}</p>
+                      </div>
+                    ))}
                 </div>
               </StyleColorCardBox>
               <Button
@@ -431,9 +408,8 @@ const ImgColorPicker: React.FC<Props> = ({}) => {
           {Array.from({ length: 6 }).map((_itm, index) => (
             <div className="flex column items-center gap-12">
               <StyleColorCardBox
-                className={`relative p-24 flex gap-4 width-100 border color-card card-${index} ${
-                  size.ratio > 1 ? "column" : ""
-                }`}
+                className={`relative p-24 flex gap-4 width-100 border color-card card-${index} ${size.ratio > 1 ? "column" : ""
+                  }`}
                 width={size.w}
                 height={size.h}
                 ratio={size.ratio}
@@ -493,6 +469,7 @@ const ImgColorPicker: React.FC<Props> = ({}) => {
         }
 
       </StyleMyColorCardWrap> */}
+      <Message show={toast} text={toastText} />
     </div>
   );
 };
@@ -587,7 +564,7 @@ const StyleColorCardBox = styled.div<{
       border-radius: var(--radius-4);
       background-color: var(--color-bg-white);
       transform: ${(props) =>
-        props.ratio >= 1 ? "translateX(-50%)" : "translateY(-50%)"};
+    props.ratio >= 1 ? "translateX(-50%)" : "translateY(-50%)"};
     }
     .color-item div {
       border-radius: 4px;
@@ -630,7 +607,7 @@ const StyleColorCardBox = styled.div<{
       height: 40px;
       width: ${(props) => (props.ratio >= 1 ? "calc(100% - 48px)" : "48px")};
       transform: ${(props) =>
-        props.ratio > 1 ? "translateX(4px)" : "translate(-50%,50%)"};
+    props.ratio > 1 ? "translateX(4px)" : "translate(-50%,50%)"};
     }
     .color-item div {
       border-radius: 50%;

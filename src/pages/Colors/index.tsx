@@ -6,11 +6,13 @@ import Title from "../../components/Title";
 import { ClickType } from "../../components/Menu";
 import ImgColorPicker from "./ImgColorPicker";
 import ColorMatch from "./ColorMatch";
+import ColorLib from "./ColorLib";
+import ColorChange from "./ColorChange";
 // import Application from "../components/Application";
 
 type Props = {};
 
-const Colors: React.FC<Props> = ({}) => {
+const Colors: React.FC<Props> = ({ }) => {
   const [activedNav, setActivedNav] = useState<number>(2);
   return (
     <Layout>
@@ -35,6 +37,8 @@ const Colors: React.FC<Props> = ({}) => {
         <Content>
           {activedNav === 1 && <ImgColorPicker />}
           {activedNav === 2 && <ColorMatch />}
+          {activedNav === 3 && <ColorChange />}
+          {activedNav === 4 && <ColorLib />}
         </Content>
       </Layout>
     </Layout>

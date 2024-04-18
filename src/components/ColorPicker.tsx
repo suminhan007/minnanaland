@@ -11,6 +11,8 @@ import Input from "./Input";
 import tinycolor from "tinycolor2";
 import Flex from "./Flex";
 import Pop from "./Pop";
+import { IconCopy } from "./Icon";
+import Message from "./Message";
 
 const COLOR_DATA = [
   [
@@ -74,8 +76,8 @@ type ColorProps = {
   value?: string;
   size?: string | number;
   showDrop?: boolean;
-  showList?:boolean;
-  showOpacity?:boolean;
+  showList?: boolean;
+  showOpacity?: boolean;
   input?: string | boolean;
   pop?: string | React.ReactNode;
   active?: boolean;
@@ -88,8 +90,8 @@ const ColorPicker: React.FC<ColorProps> = ({
   value = "#ffffff",
   size = 48,
   showDrop = true,
-  showList=true,
-  showOpacity=true,
+  showList = true,
+  showOpacity = true,
   input = true,
   pop,
   active = false,
@@ -176,6 +178,12 @@ const ColorPicker: React.FC<ColorProps> = ({
     }
     onChange?.(getRgbaColor(currentColor, opacity));
   };
+  // 复制颜色
+  const [showCopyMsg, setShowCopyMsg] = useState<string>('');
+  const handleColorItemClick = (color: string) => {
+    navigator.clipboard.writeText(color);
+    setShowCopyMsg(`已复制～${color}`);
+  }
   return (
     <StyledColorPicker
       className={`land-color-picker ${className}`}
@@ -183,6 +191,7 @@ const ColorPicker: React.FC<ColorProps> = ({
       color={value}
       size={typeof size === "string" ? size : `${size}px`}
     >
+      <Message show={Boolean(showCopyMsg)} text={showCopyMsg} />
       <div className="land-color-trigger" onClick={() => setShow(!show)}>
         {children ? (
           children
@@ -200,7 +209,7 @@ const ColorPicker: React.FC<ColorProps> = ({
               <Pop content={pop} theme="dark" />
             </div>
             {typeof input === "string" ? (
-              <p>{input}</p>
+              <div className="land-color-label copy flex items-center justify-center" onClick={() => handleColorItemClick?.(value)}>{input}<IconCopy size={12} stroke="var(--color-text-5)" /></div>
             ) : input ? (
               <Input
                 prefix="#"
@@ -229,7 +238,7 @@ const ColorPicker: React.FC<ColorProps> = ({
                 }}
               />
             ) : (
-              <p>#{inputColor}</p>
+              <p className="land-color-label">#{inputColor}</p>
             )}
           </>
         )}
@@ -276,7 +285,7 @@ const ColorPicker: React.FC<ColorProps> = ({
                 value={h}
                 step={1}
                 currentColor={currentColor}
-                onChange={(e:any) => setH(Number(e.target.value))}
+                onChange={(e: any) => setH(Number(e.target.value))}
               />
               {showOpacity && (
                 <StyledOpacityWrap>
@@ -361,17 +370,29 @@ const StyledColorPicker = styled.div<{
     flex-direction: column;
     gap: 4px;
     width: 100%;
-    p {
-      font-size: 10px;
+    .land-color-label {
+      font-size: 12px;
       color: var(--color-text-3);
       text-align: center;
+      &.copy{
+        .IconCopy{
+          width: 0;
+          overflow: hidden;
+          transition: width 0.2s ease;
+        }
+        &:hover{
+          .IconCopy{
+            width: 12px;
+          }
+        }
+      }
     }
   }
   .land-color-grid {
     width: 100%;
     aspect-ratio: 1;
     background-color: ${(props) => props.color};
-    border: 8px solid var(--color-bg-1);
+    border: 8px solid var(--color-bg-3);
     border-radius: 4px;
     transition: border-color var(--transition-15) linear;
     will-change: border-color;
@@ -456,7 +477,7 @@ const StyledColorSlider = styled.input<{
   &.opacity {
     position: absolute;
     background: ${(props) =>
-      `linear-gradient(to right, rgba(0,0,0,0), ${props.currentColor})`};
+    `linear-gradient(to right, rgba(0,0,0,0), ${props.currentColor})`};
     &::-webkit-slider-thumb {
       background: transparent;
     }
