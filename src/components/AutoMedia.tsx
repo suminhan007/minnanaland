@@ -28,14 +28,12 @@ const AutoMedia: React.FC<AutoMediaProps> = ({
         } else {
           setRatio('s')
         }
-        console.log(width / height);
-
       });
     };
     const observer = new ResizeObserver(callback);
     observer.observe(wrapRef.current);
     return () => observer.disconnect();
-  }, [wrapRef])
+  })
   return (
     <div ref={wrapRef} className='flex items-center justify-center width-100 height-100'>
       <img ref={imgRef} src={url} className={`radius-8 ${ratio === 'h' ? 'height-100' : 'width-100'}`} />
