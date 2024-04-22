@@ -1,9 +1,11 @@
-import React, { Fragment, useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import Flex from '../../components/Flex'
 import Title from '../../components/Title'
 import Uploader from '../../components/Uploader'
-import AutoMedia from '../../components/AutoMedia'
+import Button from '../../components/Button'
+import { downloadHtmlAsImg } from '../../utils/downloadHtmlAsImg'
+import Select from '../../components/Select'
 
 type Props = {
 
@@ -11,15 +13,51 @@ type Props = {
 const ColorChange: React.FC<Props> = ({
 
 }) => {
+  const colorChangeCanvasRef = useRef<HTMLCanvasElement>(null);
   const maskRef = useRef<HTMLDivElement>(null);
   const [imgUrl, setImgUrl] = useState<string>("");
-  const [percentage, setPercentage] = useState<number>(100);
+  /** 处理滑条事件 */
+  const [percentage, setPercentage] = useState<number>(50);
   const [move, setMove] = useState<boolean>(false);
   const handleThumbMove = (e: any) => {
-    if (!maskRef.current) return;
+    if (!maskRef.current || !move) return;
     const mask = maskRef.current.getBoundingClientRect();
     const diffX = e.clientX - mask.left;
+    setPercentage(Math.round(diffX / mask.width * 100))
   }
+  /** 换色类型 */
+  const [type, setType] = useState<string>('1');
+  /** 换色 */
+  useEffect(() => {
+    if (!colorChangeCanvasRef.current) return;
+    const newCanvas = colorChangeCanvasRef?.current;
+    var image = new Image();
+    image.crossOrigin = "Anonymous";
+    image.onload = function () {
+      image.src = imgUrl;
+      newCanvas.width = image.width;
+      newCanvas.height = image.height;
+      newCanvas.getContext("2d")?.drawImage(image, 0, 0, image.width, image.height);
+    }
+    var ctx = newCanvas.getContext("2d");
+    if (ctx) {
+      var imageData = ctx.getImageData(0, 0, newCanvas.width, newCanvas.width);
+      var px = imageData.data;
+      for (var i = 0; i < px.length; i += 4) {
+        // 改变每个像素
+        if (type === '1') {
+          px[i] = 255 - px[i]; //r
+          px[i + 1] = 255 - px[i + 1]; //g
+          px[i + 2] = 255 - px[i + 2]; //b 
+        } else if (type === '2') {
+
+        } else {
+
+        }
+      }
+      ctx.putImageData(imageData, 0, 0);
+    }
+  }, [imgUrl])
   return (
     <div className="flex column items-start gap-32 px-24 pt-32 mb-24">
       {/* 上传框 */}
@@ -46,36 +84,77 @@ const ColorChange: React.FC<Props> = ({
           />
         </div>
       </Flex>
-      <StyleImgContainer className='relative flex-1 border-dash'>
-        <div className='width-100 height-100'>
-          {imgUrl && (
-            <AutoMedia url={imgUrl} />
-          )}
-        </div>
-        <div className='mask-img absolute height-100' style={{ width: `${percentage}%` }}>
-          {imgUrl && (
-            <AutoMedia url={imgUrl} />
-          )}
-        </div>
+      <Select
+        title="类型"
+        info="类型"
+        placeholder="请选择"
+        data={[
+          { id: "1", value: "反色" },
+          { id: "2", value: "换色" },
+          { id: "3", value: "8" },
+        ]}
+        selected={type}
+        onChange={(item) => {
+          setType(item.id);
+        }}
+        className="flex-1"
+      />
+      <StyleImgContainer
+        ref={maskRef}
+        className='StyleImgContainer relative border-dash'
+        onMouseUp={() => setMove(false)}
+        onMouseMove={(e) => handleThumbMove(e)}
+        style={{ backgroundImage: imgUrl ? `url(${imgUrl})` : "url('colorcard-contrast.png')", opacity: imgUrl ? 1 : 0.2 }}
+      >
+        {imgUrl && <div
+          className='mask-img-wrap height-100 absolute flex justify-start items-center overflow-hidden'
+          style={{
+            width: `${percentage}%`
+          }}
+        >
+          {/* <div className='mask-img height-100' style={{ backgroundImage: `url(${imgUrl})` }}></div> */}
+          <canvas height={600} ref={colorChangeCanvasRef} style={{ width: 'calc(100vw - 48px)' }}></canvas>
+        </div>}
         {imgUrl &&
           <div
-            ref={maskRef}
             className='mask-thumb absolute'
             style={{ left: `${percentage}%` }}
+            onMouseUp={() => setMove(false)}
             onMouseDown={() => setMove(true)}
-            onMouseMove={(e) => handleThumbMove(e)}
           ></div>
         }
       </StyleImgContainer>
+      <Flex gap={12} justify='center' className='width-100'>
+        <Button text='下载对比图' onClick={() => {
+          const contrastImg = document.querySelector(".StyleImgContainer");
+          downloadHtmlAsImg(contrastImg, 'img-contrast');
+        }} />
+        <Button text='下载转换图' type='background' onClick={() => {
+          const contrastedImg = document.querySelector(".mask-img");
+          downloadHtmlAsImg(contrastedImg, 'img-contrasted');
+        }} />
+      </Flex>
     </div>
   )
 }
 
 const StyleImgContainer = styled.div`
-  .mask-img{
+  width: calc(100vw  - 48px);
+  height: 600px;
+  max-height: calc(100vh - 317px);
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  .mask-img-wrap{
     top: 0;
     left: 0;
+  }
+  .mask-img{
+    width: calc(100vw  - 48px);
     mix-blend-mode: color-burn;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
   }
   .mask-thumb{
     top: -4px;
