@@ -1,11 +1,11 @@
 import React from 'react'
-import Texture from "./Texture";
+import Gradient from "./Gradient";
 import styled from 'styled-components';
 type Props = {};
 const R3Fmagic: React.FC<Props> = ({ }) => {
   return (
     <StyleR3FWrap>
-      <StyleCanvasWrap><Texture /></StyleCanvasWrap>
+      <StyleCanvasWrap><Gradient /></StyleCanvasWrap>
     </StyleR3FWrap>
   );
 };

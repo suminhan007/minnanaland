@@ -13,7 +13,7 @@ import ColorChange from "./ColorChange";
 type Props = {};
 
 const Colors: React.FC<Props> = ({ }) => {
-  const [activedNav, setActivedNav] = useState<number>(2);
+  const [activedNav, setActivedNav] = useState<number>(3);
   return (
     <Layout>
       <Header

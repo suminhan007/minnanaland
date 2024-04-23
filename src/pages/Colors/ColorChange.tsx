@@ -5,7 +5,8 @@ import Title from '../../components/Title'
 import Uploader from '../../components/Uploader'
 import Button from '../../components/Button'
 import { downloadHtmlAsImg } from '../../utils/downloadHtmlAsImg'
-import Select from '../../components/Select'
+import Radio from '../../components/Radio'
+import html2canvas from 'html2canvas'
 
 type Props = {
 
@@ -16,6 +17,7 @@ const ColorChange: React.FC<Props> = ({
   const colorChangeCanvasRef = useRef<HTMLCanvasElement>(null);
   const maskRef = useRef<HTMLDivElement>(null);
   const [imgUrl, setImgUrl] = useState<string>("");
+  const [resultImg, setResultImg] = useState<string>("");
   /** 处理滑条事件 */
   const [percentage, setPercentage] = useState<number>(50);
   const [move, setMove] = useState<boolean>(false);
@@ -26,15 +28,15 @@ const ColorChange: React.FC<Props> = ({
     setPercentage(Math.round(diffX / mask.width * 100))
   }
   /** 换色类型 */
-  const [type, setType] = useState<string>('1');
+  const [type, setType] = useState<number>(1);
   /** 换色 */
   useEffect(() => {
     if (!colorChangeCanvasRef.current) return;
     const newCanvas = colorChangeCanvasRef?.current;
     var image = new Image();
+    image.src = imgUrl;
     image.crossOrigin = "Anonymous";
     image.onload = function () {
-      image.src = imgUrl;
       newCanvas.width = image.width;
       newCanvas.height = image.height;
       newCanvas.getContext("2d")?.drawImage(image, 0, 0, image.width, image.height);
@@ -45,17 +47,16 @@ const ColorChange: React.FC<Props> = ({
       var px = imageData.data;
       for (var i = 0; i < px.length; i += 4) {
         // 改变每个像素
-        if (type === '1') {
-          px[i] = 255 - px[i]; //r
-          px[i + 1] = 255 - px[i + 1]; //g
-          px[i + 2] = 255 - px[i + 2]; //b 
-        } else if (type === '2') {
-
-        } else {
-
-        }
+        px[i] = 255 - px[i]; //r
+        px[i + 1] = 255 - px[i + 1]; //g
+        px[i + 2] = 255 - px[i + 2]; //b 
       }
       ctx.putImageData(imageData, 0, 0);
+      html2canvas(colorChangeCanvasRef?.current).then(function (canvas) {
+        const image = canvas.toDataURL('image/png');
+        setResultImg(image.src);
+      })
+      console.log(image.src);
     }
   }, [imgUrl])
   return (
@@ -84,20 +85,20 @@ const ColorChange: React.FC<Props> = ({
           />
         </div>
       </Flex>
-      <Select
-        title="类型"
-        info="类型"
-        placeholder="请选择"
+
+      <Radio
+        checked={type}
         data={[
-          { id: "1", value: "反色" },
-          { id: "2", value: "换色" },
-          { id: "3", value: "8" },
+          { value: 1, label: "反色" },
+          { value: 2, label: "换色" },
+          { value: 3, label: "滤色" },
         ]}
-        selected={type}
-        onChange={(item) => {
-          setType(item.id);
+        onChange={val => setType(val.value)}
+        titleProps={{
+          title: '类型',
+          type: 'p',
+          info: 'ooo'
         }}
-        className="flex-1"
       />
       <StyleImgContainer
         ref={maskRef}
@@ -107,13 +108,13 @@ const ColorChange: React.FC<Props> = ({
         style={{ backgroundImage: imgUrl ? `url(${imgUrl})` : "url('colorcard-contrast.png')", opacity: imgUrl ? 1 : 0.2 }}
       >
         {imgUrl && <div
-          className='mask-img-wrap height-100 absolute flex justify-start items-center overflow-hidden'
+          className='mask-img-wrap width-100 height-100 absolute flex justify-start items-center overflow-hidden'
           style={{
             width: `${percentage}%`
           }}
         >
-          {/* <div className='mask-img height-100' style={{ backgroundImage: `url(${imgUrl})` }}></div> */}
-          <canvas height={600} ref={colorChangeCanvasRef} style={{ width: 'calc(100vw - 48px)' }}></canvas>
+          <div className='mask-img height-100' style={{ backgroundImage: `url(${resultImg})` }}></div>
+          <canvas ref={colorChangeCanvasRef} className='mask-canvas opacity-0'></canvas>
         </div>}
         {imgUrl &&
           <div
@@ -149,16 +150,16 @@ const StyleImgContainer = styled.div`
     top: 0;
     left: 0;
   }
-  .mask-img{
+  /* .mask-img{
     width: calc(100vw  - 48px);
     mix-blend-mode: color-burn;
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
-  }
+  } */
   .mask-thumb{
     top: -4px;
-    width: 4px;
+    width: 2px;
     height: calc(100% + 8px);
     border-radius: 2px;
     background-color: var(--color-primary-6);

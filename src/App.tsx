@@ -13,7 +13,7 @@ function App() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<R3Fmagic />} />
+        <Route path="/" element={<Home />} />
         <Route path="/home" element={<Home />} />
         <Route path="/md" element={<MDEditor />} />
         <Route path="/ppt" element={<PPTEditor />} />
