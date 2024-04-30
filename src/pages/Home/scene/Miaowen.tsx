@@ -8,7 +8,7 @@ import {
 } from "@react-three/drei";
 import { Gradient, LayerMaterial } from 'lamina';
 type Props = {};
-const Banner: React.FC<Props> = ({ }) => {
+const Miaowen: React.FC<Props> = ({ }) => {
 
     return (
         <Canvas
@@ -104,4 +104,4 @@ const Miaowen = () => {
         </group>
     )
 }
-export default Banner;
+export default Miaowen;

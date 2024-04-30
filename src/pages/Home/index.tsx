@@ -1,10 +1,10 @@
 import React from 'react'
-import Banner from "./scene/Banner";
+import Model from "./scene/Model";
 type Props = {};
 const Home: React.FC<Props> = ({ }) => {
   return (
     <div>
-      <Banner />
+      <Model />
     </div>
   );
 };

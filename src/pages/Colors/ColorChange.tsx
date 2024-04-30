@@ -52,11 +52,11 @@ const ColorChange: React.FC<Props> = ({
         px[i + 2] = 255 - px[i + 2]; //b 
       }
       ctx.putImageData(imageData, 0, 0);
-      html2canvas(colorChangeCanvasRef?.current).then(function (canvas) {
-        const image = canvas.toDataURL('image/png');
-        setResultImg(image.src);
-      })
-      console.log(image.src);
+      // html2canvas(colorChangeCanvasRef?.current).then(function (canvas) {
+      //   const image = canvas.toDataURL('image/png');
+      //   setResultImg(image.src);
+      // })
+      // console.log(image.src);
     }
   }, [imgUrl])
   return (
@@ -113,8 +113,8 @@ const ColorChange: React.FC<Props> = ({
             width: `${percentage}%`
           }}
         >
-          <div className='mask-img height-100' style={{ backgroundImage: `url(${resultImg})` }}></div>
-          <canvas ref={colorChangeCanvasRef} className='mask-canvas opacity-0'></canvas>
+          {/* <div className='mask-img height-100' style={{ backgroundImage: `url(${resultImg})` }}></div> */}
+          <canvas ref={colorChangeCanvasRef} height='100%' className='mask-canvas opacity-0'></canvas>
         </div>}
         {imgUrl &&
           <div
