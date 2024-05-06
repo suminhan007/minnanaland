@@ -551,7 +551,7 @@ const StyleColorCardBox = styled.div<{
       border-radius: var(--radius-4);
       background-color: var(--color-bg-white);
       transform: ${(props) =>
-        props.ratio >= 1 ? "translateX(-50%)" : "translateY(-50%)"};
+    props.ratio >= 1 ? "translateX(-50%)" : "translateY(-50%)"};
     }
     .color-item div {
       border-radius: 4px;
@@ -594,7 +594,7 @@ const StyleColorCardBox = styled.div<{
       height: 40px;
       width: ${(props) => (props.ratio >= 1 ? "calc(100% - 48px)" : "48px")};
       transform: ${(props) =>
-        props.ratio >= 1 ? "translateX(4px)" : "translate(-50%,50%)"};
+    props.ratio > 1 ? "translateX(4px)" : "translate(-50%,50%)"};
     }
     .color-item div {
       border-radius: 50%;

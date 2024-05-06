@@ -511,9 +511,9 @@ const StyleColorCardBox = styled.div<{
       height: 100%;
     }
     .color-list {
-      grid-auto-flow: ${(props) => (props.ratio >= 1 ? "column" : "row")};
-      width: ${(props) => (props.ratio >= 1 ? "auto" : "64px")};
-      height: ${(props) => (props.ratio >= 1 ? "32px" : "auto")};
+      grid-auto-flow: ${(props) => (props.ratio > 1 ? "column" : "row")};
+      width: ${(props) => (props.ratio > 1 ? "auto" : "64px")};
+      height: ${(props) => (props.ratio > 1 ? "32px" : "auto")};
       flex-shrink: 0;
     }
     .color-item {
@@ -531,27 +531,27 @@ const StyleColorCardBox = styled.div<{
       height: 80%;
     }
     .color-item {
-      height: ${(props) => (props.ratio >= 1 ? "20px" : "auto")};
+      height: ${(props) => (props.ratio > 1 ? "20px" : "auto")};
     }
   }
   &.card-3 {
-    padding-bottom: ${(props) => (props.ratio >= 1 ? "60px" : "24px")};
+    padding-bottom: ${(props) => (props.ratio > 1 ? "60px" : "24px")};
     .color-img {
-      width: ${(props) => (props.ratio >= 1 ? "100%" : "calc(100% - 68px)")};
+      width: ${(props) => (props.ratio > 1 ? "100%" : "calc(100% - 68px)")};
     }
     .color-list {
       position: absolute;
-      left: ${(props) => (props.ratio >= 1 ? "50%" : "")};
-      bottom: ${(props) => (props.ratio >= 1 ? "12px" : "")};
-      right: ${(props) => (props.ratio >= 1 ? "" : "12px")};
-      top: ${(props) => (props.ratio >= 1 ? "" : "50%")};
+      left: ${(props) => (props.ratio > 1 ? "50%" : "")};
+      bottom: ${(props) => (props.ratio > 1 ? "12px" : "")};
+      right: ${(props) => (props.ratio > 1 ? "" : "12px")};
+      top: ${(props) => (props.ratio > 1 ? "" : "50%")};
       padding: 12px;
-      width: ${(props) => (props.ratio >= 1 ? "60%" : "120px")};
-      height: ${(props) => (props.ratio >= 1 ? "84px" : "60%")};
+      width: ${(props) => (props.ratio > 1 ? "60%" : "120px")};
+      height: ${(props) => (props.ratio > 1 ? "84px" : "60%")};
       border-radius: var(--radius-4);
       background-color: var(--color-bg-white);
       transform: ${(props) =>
-        props.ratio >= 1 ? "translateX(-50%)" : "translateY(-50%)"};
+        props.ratio > 1 ? "translateX(-50%)" : "translateY(-50%)"};
     }
     .color-item div {
       border-radius: 4px;
@@ -563,7 +563,7 @@ const StyleColorCardBox = styled.div<{
       position: absolute;
       left: 4px;
       top: 0;
-      transform: ${(props) => (props.ratio >= 1 ? "rotate(90deg)" : "")};
+      transform: ${(props) => (props.ratio > 1 ? "rotate(90deg)" : "")};
       transform-origin: left bottom;
       color: var(--color-text-light);
     }
@@ -579,22 +579,22 @@ const StyleColorCardBox = styled.div<{
   }
   &.card-5 {
     justify-content: center;
-    padding: ${(props) => (props.ratio >= 1 ? "42px 24px" : "24px 36px")};
+    padding: ${(props) => (props.ratio > 1 ? "42px 24px" : "24px 36px")};
     .color-img {
-      width: ${(props) => (props.ratio >= 1 ? "100%" : "calc(100% - 44px)")};
+      width: ${(props) => (props.ratio > 1 ? "100%" : "calc(100% - 44px)")};
     }
     .color-list {
       display: flex;
       justify-content: center;
-      flex-direction: ${(props) => (props.ratio >= 1 ? "row" : "column")};
+      flex-direction: ${(props) => (props.ratio > 1 ? "row" : "column")};
       gap: 0;
       position: absolute;
-      left: ${(props) => (props.ratio >= 1 ? "" : "50%")};
-      bottom: ${(props) => (props.ratio >= 1 ? "64px" : "50%")};
+      left: ${(props) => (props.ratio > 1 ? "" : "50%")};
+      bottom: ${(props) => (props.ratio > 1 ? "64px" : "50%")};
       height: 40px;
-      width: ${(props) => (props.ratio >= 1 ? "calc(100% - 48px)" : "48px")};
+      width: ${(props) => (props.ratio > 1 ? "calc(100% - 48px)" : "48px")};
       transform: ${(props) =>
-        props.ratio >= 1 ? "translateX(4px)" : "translate(-50%,50%)"};
+        props.ratio > 1 ? "translateX(4px)" : "translate(-50%,50%)"};
     }
     .color-item div {
       border-radius: 50%;

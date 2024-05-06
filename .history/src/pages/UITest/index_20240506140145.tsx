@@ -5,13 +5,12 @@ import Content from "../../components/Content";
 import Title from "../../components/Title";
 import { ClickType } from "../../components/Menu";
 import ColorContrast from "./ColorContrast";
-import AnimateTest from "./AnimateTest";
 // import Application from "../components/Application";
 
 type Props = {};
 
 const UITest: React.FC<Props> = ({}) => {
-  const [activedNav, setActivedNav] = useState<number>(2);
+  const [activedNav, setActivedNav] = useState<number>(1);
   return (
     <Layout>
       <Header
@@ -23,6 +22,8 @@ const UITest: React.FC<Props> = ({}) => {
           data: [
             { key: 1, title: "可用性测试", clickType: ClickType.SELF },
             { key: 2, title: "动画文件测试", clickType: ClickType.SELF },
+            { key: 3, title: "3", clickType: ClickType.SELF },
+            { key: 4, title: "4", clickType: ClickType.SELF },
           ],
           actived: activedNav,
           handleChangeTab: (key, type) =>
@@ -30,10 +31,7 @@ const UITest: React.FC<Props> = ({}) => {
         }}
       />
       <Layout>
-        <Content>
-          {activedNav === 1 && <ColorContrast />}
-          {activedNav === 2 && <AnimateTest />}
-        </Content>
+        <Content>{activedNav === 1 && <ColorContrast />}</Content>
       </Layout>
     </Layout>
   );

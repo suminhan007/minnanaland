@@ -187,7 +187,7 @@ const ImgColorPicker: React.FC<Props> = ({}) => {
     };
   };
   //  自定义色卡名称
-  const [cardName, setCardName] = useState<string[]>(["", "", "", "", "", ""]);
+  const [cardName, setCardName] = useState<string>("");
   return (
     <div className="flex column items-start gap-32 px-24 pt-32 mb-24">
       {/* 上传框 */}
@@ -295,7 +295,7 @@ const ImgColorPicker: React.FC<Props> = ({}) => {
                 </StyleColorItem>
               ))
             : colorArr?.map((item: any, index: number) => (
-                <HoverCardIcon onClick={() => handleDeleteColor(item.id)}>
+                <HoverCardIcon onClick={() => }>
                   <StyleColorItem
                     key={index}
                     className="flex column relative justify-center gap-4"
@@ -401,7 +401,7 @@ const ImgColorPicker: React.FC<Props> = ({}) => {
             <div className="flex column items-center gap-12">
               <StyleColorCardBox
                 className={`relative p-24 flex gap-4 width-100 border color-card card-${index} ${
-                  size.ratio < 1 ? "" : "column"
+                  size.ratio > 1 ? "column" : ""
                 }`}
                 width={size.w}
                 height={size.h}
@@ -428,17 +428,8 @@ const ImgColorPicker: React.FC<Props> = ({}) => {
               <div className="width-100 flex gap-12">
                 <Input
                   placeholder="自定义色卡名称"
-                  value={cardName[index]}
-                  onChange={(val) => {
-                    const newArr = cardName.map((n, i) => {
-                      if (i === index) {
-                        return val;
-                      } else {
-                        return n;
-                      }
-                    });
-                    setCardName(newArr);
-                  }}
+                  value={cardName}
+                  onChange={(val) => setCardName(val)}
                   className="flex-1"
                 />
                 <Button
@@ -448,7 +439,7 @@ const ImgColorPicker: React.FC<Props> = ({}) => {
                   icon={<IconDownload />}
                   onClick={() => {
                     const card = document.querySelectorAll(".color-card");
-                    downloadHtmlAsImg(card[index], cardName[index]);
+                    downloadHtmlAsImg(card[index], cardName);
                   }}
                 />
               </div>
@@ -456,6 +447,21 @@ const ImgColorPicker: React.FC<Props> = ({}) => {
           ))}
         </StyleColorCardWrap>
       )}
+      {/* 我的色卡 */}
+      {/* <Flex column gap={8}>
+        <Title title="我的色卡" type="h3" />
+      </Flex> */}
+      {/* <StyleMyColorCardWrap
+        className="flex flex-wrap mx-32 gap-24"
+        length={6}
+      >
+        {
+          MY_COLOR_CARDS.map(item =>
+            <img src={item.url} width="400" alt="" />
+          )
+        }
+
+      </StyleMyColorCardWrap> */}
       <Message show={toast} text={toastText} />
     </div>
   );
@@ -551,7 +557,7 @@ const StyleColorCardBox = styled.div<{
       border-radius: var(--radius-4);
       background-color: var(--color-bg-white);
       transform: ${(props) =>
-        props.ratio >= 1 ? "translateX(-50%)" : "translateY(-50%)"};
+    props.ratio >= 1 ? "translateX(-50%)" : "translateY(-50%)"};
     }
     .color-item div {
       border-radius: 4px;
@@ -594,7 +600,7 @@ const StyleColorCardBox = styled.div<{
       height: 40px;
       width: ${(props) => (props.ratio >= 1 ? "calc(100% - 48px)" : "48px")};
       transform: ${(props) =>
-        props.ratio >= 1 ? "translateX(4px)" : "translate(-50%,50%)"};
+    props.ratio > 1 ? "translateX(4px)" : "translate(-50%,50%)"};
     }
     .color-item div {
       border-radius: 50%;

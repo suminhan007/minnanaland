@@ -11,7 +11,7 @@ import AnimateTest from "./AnimateTest";
 type Props = {};
 
 const UITest: React.FC<Props> = ({}) => {
-  const [activedNav, setActivedNav] = useState<number>(2);
+  const [activedNav, setActivedNav] = useState<number>(1);
   return (
     <Layout>
       <Header
@@ -32,7 +32,7 @@ const UITest: React.FC<Props> = ({}) => {
       <Layout>
         <Content>
           {activedNav === 1 && <ColorContrast />}
-          {activedNav === 2 && <AnimateTest />}
+          {activedNav === 2 && <AnimateTest}
         </Content>
       </Layout>
     </Layout>

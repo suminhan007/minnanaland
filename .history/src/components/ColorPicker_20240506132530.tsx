@@ -206,16 +206,10 @@ const ColorPicker: React.FC<ColorProps> = ({
                     : getRgbaColor(currentColor, opacity),
               }}
             >
-              {pop && <Pop content={pop} theme="dark" />}
+              {<Pop content={pop} theme="dark" />}
             </div>
             {typeof input === "string" ? (
-              <div
-                className="land-color-label copy flex items-center justify-center"
-                onClick={() => handleColorItemClick?.(value)}
-              >
-                {input}
-                <IconCopy size={12} stroke="var(--color-text-5)" />
-              </div>
+              <div className="land-color-label copy flex items-center justify-center" onClick={() => handleColorItemClick?.(value)}>{input}<IconCopy size={12} stroke="var(--color-text-5)" /></div>
             ) : input ? (
               <Input
                 prefix="#"
@@ -327,41 +321,37 @@ const ColorPicker: React.FC<ColorProps> = ({
                 setIsInput(false);
               }}
             />
-            {showOpacity && (
-              <Input
-                className="flex-1"
-                max={100}
-                min={0}
-                value={String(opacity)}
-                onChange={(val) => {
-                  setOpacity(Number(val));
-                  onChange?.(getRgbaColor(currentColor, Number(v)));
-                }}
-              />
-            )}
+            {showOpacity && <Input
+              className="flex-1"
+              max={100}
+              min={0}
+              value={String(opacity)}
+              onChange={(val) => {
+                setOpacity(Number(val));
+                onChange?.(getRgbaColor(currentColor, Number(v)));
+              }}
+            />}
           </div>
-          {showList && (
-            <div className="width-100 flex" style={{ gap: 2 }}>
-              {COLOR_DATA?.map((list, idx) => (
-                <div className="flex column" key={idx} style={{ gap: 2 }}>
-                  {list.map((item) => (
-                    <StyleColorItem
-                      onClick={() => {
-                        const { h, s, v } = tinycolor(item.color).toHsv();
-                        setS(s);
-                        setH(h);
-                        setV(v);
-                        onChange?.(getRgbaColor(item.color, opacity));
-                      }}
-                      // @ts-ignore
-                      style={{ "--tacc-color-item-bgColor": item.color }}
-                      key={item.id}
-                    />
-                  ))}
-                </div>
-              ))}
-            </div>
-          )}
+          {showList && <div className="width-100 flex" style={{ gap: 2 }}>
+            {COLOR_DATA?.map((list, idx) => (
+              <div className="flex column" key={idx} style={{ gap: 2 }}>
+                {list.map((item) => (
+                  <StyleColorItem
+                    onClick={() => {
+                      const { h, s, v } = tinycolor(item.color).toHsv();
+                      setS(s);
+                      setH(h);
+                      setV(v);
+                      onChange?.(getRgbaColor(item.color, opacity));
+                    }}
+                    // @ts-ignore
+                    style={{ "--tacc-color-item-bgColor": item.color }}
+                    key={item.id}
+                  />
+                ))}
+              </div>
+            ))}
+          </div>}
         </StyledColorPanel>
       )}
     </StyledColorPicker>

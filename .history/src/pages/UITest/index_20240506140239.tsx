@@ -5,13 +5,12 @@ import Content from "../../components/Content";
 import Title from "../../components/Title";
 import { ClickType } from "../../components/Menu";
 import ColorContrast from "./ColorContrast";
-import AnimateTest from "./AnimateTest";
 // import Application from "../components/Application";
 
 type Props = {};
 
 const UITest: React.FC<Props> = ({}) => {
-  const [activedNav, setActivedNav] = useState<number>(2);
+  const [activedNav, setActivedNav] = useState<number>(1);
   return (
     <Layout>
       <Header
@@ -32,7 +31,6 @@ const UITest: React.FC<Props> = ({}) => {
       <Layout>
         <Content>
           {activedNav === 1 && <ColorContrast />}
-          {activedNav === 2 && <AnimateTest />}
         </Content>
       </Layout>
     </Layout>

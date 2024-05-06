@@ -11,7 +11,7 @@ import AnimateTest from "./AnimateTest";
 type Props = {};
 
 const UITest: React.FC<Props> = ({}) => {
-  const [activedNav, setActivedNav] = useState<number>(2);
+  const [activedNav, setActivedNav] = useState<number>(1);
   return (
     <Layout>
       <Header
