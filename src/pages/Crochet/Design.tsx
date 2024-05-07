@@ -1,8 +1,9 @@
+//@ts-nocheck
 import React, { useState } from "react";
 import styled from "styled-components";
 
 type Props = {};
-const Design: React.FC<Props> = ({}) => {
+const Design: React.FC<Props> = ({ }) => {
   const [x, setX] = useState<number>(20);
   const [y, setY] = useState<number>(20);
   const [pixelArr, setPixelArr] = useState<string[]>(
@@ -14,9 +15,8 @@ const Design: React.FC<Props> = ({}) => {
       <StyleDesignGrid className="relative grid" x={x} y={y}>
         {pixelArr?.map((item, index) => (
           <StyleDesignGridPixel
-            className={`${index < x ? "" : "-mt-1"} ${
-              index % 32 ? "-ml-1" : ""
-            }`}
+            className={`${index < x ? "" : "-mt-1"} ${index % 32 ? "-ml-1" : ""
+              }`}
             style={{ backgroundColor: item }}
           ></StyleDesignGridPixel>
         ))}

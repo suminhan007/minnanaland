@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import Flex from '../../components/Flex'
@@ -6,7 +7,6 @@ import Uploader from '../../components/Uploader'
 import Button from '../../components/Button'
 import { downloadHtmlAsImg } from '../../utils/downloadHtmlAsImg'
 import Radio from '../../components/Radio'
-import html2canvas from 'html2canvas'
 
 type Props = {
 
@@ -17,7 +17,6 @@ const ColorChange: React.FC<Props> = ({
   const colorChangeCanvasRef = useRef<HTMLCanvasElement>(null);
   const maskRef = useRef<HTMLDivElement>(null);
   const [imgUrl, setImgUrl] = useState<string>("");
-  const [resultImg, setResultImg] = useState<string>("");
   /** 处理滑条事件 */
   const [percentage, setPercentage] = useState<number>(50);
   const [move, setMove] = useState<boolean>(false);

@@ -1,3 +1,4 @@
+//@ts-nocheck
 import React, { useEffect, useRef } from 'react'
 import { Canvas } from '@react-three/fiber'
 import {
@@ -66,17 +67,18 @@ const Miaowen: React.FC<Props> = ({ }) => {
                     <Gradient colorA="#BA1DFF" colorB="#2440EB" axes={'y'} contrast={0.8} start={0.5} end={0.1} />
                 </LayerMaterial>
             </mesh>
+            <MiaowenModel />
             <OrbitControls makeDefault />
         </Canvas>
     );
 };
 
-const Miaowen = () => {
+const MiaowenModel = () => {
     const group = useRef()
-    const { scene, nodes, animations } = useGLTF('miaowen-animation.glb');
+    const { nodes, animations } = useGLTF('miaowen-animation.glb');
     const { actions } = useAnimations(animations, group);
     useEffect(() => {
-        actions["eyesAction"].play();
+        // actions["eyesAction"].play();
     }, [actions]);
     return (
         <group >
@@ -84,7 +86,7 @@ const Miaowen = () => {
                 <>{item.type == 'Mesh' &&
                     item.name == 'eyes' ?
                     <group>
-                        <mesh ref={group} geometry={item.geometry} material={item.material} scale={item.scale} position={item.position} rotation={item.rotation}>
+                        <mesh geometry={item.geometry} material={item.material} scale={item.scale} position={item.position} rotation={item.rotation}>
                         </mesh>
                     </group>
                     :
