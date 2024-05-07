@@ -1,0 +1,16 @@
+import React from "react";
+
+type HoverCardIconProps = {
+  children?: React.ReactNode;
+};
+const HoverCardIcon: React.FC<HoverCardIconProps> = ({ children }) => {
+    return <div>{children}
+    <div
+                  className="absolute cursor-pointer close-icon"
+                  onClick={() => handleDeleteColor(item.id)}
+                >
+                  <IconCloseCircle fill="var(--color-red-6)" />
+                </div></div>;
+};
+
+export default HoverCardIcon;
