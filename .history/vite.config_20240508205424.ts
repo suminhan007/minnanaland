@@ -1,18 +1,11 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import { resolve } from "path";
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
-    react(),
-    typescript({
-      target: 'es5',
-      rootDir: resolve('src/'),
-      declaration: true,
-      declarationDir: resolve('dist'),
-      exclude: resolve('node_modules/**'),
-      allowSyntheticDefaultImports: true,
-    }),],
+    react()],
   build: {
     outDir: 'dist',
     rollupOptions: {
@@ -24,7 +17,12 @@ export default defineConfig({
     }
   },
   optimizeDeps: {
-    include:['react', 'react-dom']
+    include: ['react', 'react-dom']
   },
-
+  resolve: {
+    alias: {
+      "@": resolve(__dirname, "src"),
+    }
+  },
+  base: "./",
 })
