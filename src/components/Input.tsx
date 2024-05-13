@@ -3,14 +3,14 @@ import styled from "styled-components";
 
 type Props = {
   type?: string;
-  value?: string;
+  value?: string | number;
   placeholder?: string;
   prefix?: React.ReactNode;
   suffix?: React.ReactNode;
   w?: number | string;
   max?: number;
   min?: number;
-  onChange?: (val: string) => void;
+  onChange?: (val: string | number) => void;
   className?: string;
   style?: CSSProperties;
   [key: string]: any;
@@ -34,7 +34,7 @@ const Input: React.FC<Props> = ({
       className={`land-input ${className}`}
       style={{ width: typeof w === "number" ? `${w}px` : w, ...wrapStyle }}
     >
-      {prefix}
+      {prefix && <p className="input-prefix">{prefix}</p>}
       <input
         placeholder={placeholder}
         type={type}
@@ -54,7 +54,7 @@ const StyleInputWrap = styled.div`
   align-items: center;
   gap: var(--gap-4);
   padding: 0 4px;
-  border: var(--border-1) solid var(--color-border-1);
+  border: var(--border-1) solid var(--color-border-3);
   border-radius: var(--radius-4);
   input {
     width: 100%;

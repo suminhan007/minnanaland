@@ -1,22 +1,36 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Flex from "../../components/Flex";
 import styled from "styled-components";
 import Uploader from "../../components/Uploader";
 import { PageTitle } from "../components/PageTitle";
+import Input from "../../components/Input";
+import ColorPicker from "../../components/ColorPicker";
+import Title from "../../components/Title";
+import Check from "../../components/Check";
+import AutoMedia from "../../components/AutoMedia";
+import Select from "../../components/Select";
 
 type Props = {};
 
-const AnimateTest: React.FC<Props> = ({}) => {
+const AnimateTest: React.FC<Props> = ({ }) => {
   const [mediaUrl, setMediaUrl] = useState<string>("");
   const [file, setFile] = useState<any>();
-  const media = () => {
-    if (file?.type.includes("image")) {
-      return <img src={mediaUrl} />;
-    } else if (file?.type.indexOf("video")) {
-      return <video src={mediaUrl} />;
+  const [fileType, setFileType] = useState<string>("gif");
+  useEffect(() => {
+    if (file?.type === "") {
+      setFileType('pag')
+    } else if (file?.type.includes("png") || file?.type.includes("jpg") || file?.type.includes("jpeg")) {
+      setFileType('png')
+    } else if (file?.type.includes("gif")) {
+      setFileType('gif')
+    } else if (file?.type.includes("video")) {
+      setFileType('video')
     }
-    return <img src={mediaUrl} />;
-  };
+  }, [file])
+
+  const [backgorund, setBackground] = useState<string>('#eee');
+  const [removeVideoBg, setRemoveVideoBg] = useState<boolean>(false);
+  const [radius, setRadius] = useState<number>(0);
   return (
     <StyleAnimateTestWrap column className="width-100 height-100 p-24" gap={24}>
       {/* 上传框 */}
@@ -27,7 +41,7 @@ const AnimateTest: React.FC<Props> = ({}) => {
         />
         <div className="width-100" style={{ height: "240px" }}>
           <Uploader
-            fileType="video/*,image/*"
+            fileType="all"
             onUpload={(url, file) => {
               setMediaUrl(url);
               setFile(file);
@@ -44,18 +58,50 @@ const AnimateTest: React.FC<Props> = ({}) => {
           mainTitle="Step 02: 预览&调整"
           subTitle="调整并查看动画文件的呈现效果"
         />
-        <Flex>
-          {" "}
+        <Flex gap={24} className="width-100">
+          <div className="flex column gap-24">
+            <div>
+              <Title type="p" title="背景色" className="mb-8" />
+              <ColorPicker
+                value={backgorund}
+                input={false}
+                onChange={(val) => setBackground(val)}
+              /></div>
+            <div>
+              <Title type="p" title="圆角" className="mb-8" />
+              <Input
+                type="number"
+                min={0}
+                step={1}
+                value={radius}
+                onChange={(val) => setRadius(Number(val))}
+              />
+            </div>
+            <Check text="去除动画背景" checked={removeVideoBg} onChange={() => setRemoveVideoBg(!removeVideoBg)} />
+          </div>
           <StyleAnimationDisplay
             align="center"
             justify="center"
-            className="flex-1"
+            className="StyleAnimationDisplay border"
+            style={{
+              flex: mediaUrl ? "" : "1",
+              background: backgorund,
+              aspectRatio: 5 / 3
+            }}
           >
-            {media()}
+            {fileType === 'pag' && <></>}
+            {(fileType === 'gif' || fileType === 'video') && <AutoMedia type={fileType === 'video' ? 'video' : 'img'} url={mediaUrl}
+              style={{
+                borderRadius: `${radius}px`,
+                mixBlendMode: removeVideoBg ? 'screen' : '',
+
+              }}
+              wrapClassName="p-16"
+            />}
           </StyleAnimationDisplay>
         </Flex>
       </Flex>
-    </StyleAnimateTestWrap>
+    </StyleAnimateTestWrap >
   );
 };
 
@@ -66,6 +112,7 @@ const StyleAnimateTestWrap = styled(Flex)`
 `;
 
 const StyleAnimationDisplay = styled(Flex)`
-  /* resize: */
-`;
+  max-width: 100vw;
+
+`
 export default AnimateTest;
