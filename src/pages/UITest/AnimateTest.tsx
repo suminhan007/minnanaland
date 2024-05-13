@@ -8,7 +8,6 @@ import ColorPicker from "../../components/ColorPicker";
 import Title from "../../components/Title";
 import Check from "../../components/Check";
 import AutoMedia from "../../components/AutoMedia";
-import Select from "../../components/Select";
 
 type Props = {};
 
@@ -68,7 +67,7 @@ const AnimateTest: React.FC<Props> = ({ }) => {
                 onChange={(val) => setBackground(val)}
               /></div>
             <div>
-              <Title type="p" title="圆角" className="mb-8" />
+              <Title type="p" title="圆角" className="mb-8" info="" />
               <Input
                 type="number"
                 min={0}
@@ -93,6 +92,7 @@ const AnimateTest: React.FC<Props> = ({ }) => {
             {(fileType === 'gif' || fileType === 'video') && <AutoMedia type={fileType === 'video' ? 'video' : 'img'} url={mediaUrl}
               style={{
                 borderRadius: `${radius}px`,
+                //@ts-ignore
                 mixBlendMode: removeVideoBg ? 'screen' : '',
 
               }}
