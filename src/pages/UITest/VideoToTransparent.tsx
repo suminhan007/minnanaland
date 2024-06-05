@@ -1,3 +1,4 @@
+//@ts-nocheck
 import React, { useEffect, useRef, useState } from 'react'
 import Flex from '../../components/Flex';
 import { PageTitle } from '../components/PageTitle';
@@ -7,7 +8,6 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import AutoMedia from '../../components/AutoMedia';
 import Title from '../../components/Title';
 import ColorPicker from '../../components/ColorPicker';
-import Input from '../../components/Input';
 import Check from '../../components/Check';
 
 const vertexShaderSource = `
@@ -35,21 +35,27 @@ type Props = {
 const VideoToTransparent: React.FC<Props> = ({
 
 }) => {
-  const containerRef = useRef<HTMLDivElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
   const [colorUrl, setColorUrl] = useState<string>("");
   const [alphaUrl, setAlphaUrl] = useState<string>("");
+
+  const [width, setWidth] = useState<number>(900);
+  const [height, setHeight] = useState<number>(600);
+  const [background, setBackground] = useState<string>('#fafafb');
+  const [removeVideoBg, setRemoveVideoBg] = useState<boolean>(false);
+  const [bgUrl, setBgUrl] = useState<string>('');
+
   useEffect(() => {
-    if (containerRef.current && colorUrl && alphaUrl) {
-      const container = containerRef.current;
-      const width = container.clientWidth;
-      const height = container.clientHeight;
+    if (canvasRef.current && colorUrl && alphaUrl) {
+      const canvas = canvasRef.current;
+      const width = canvas.clientWidth;
+      const height = canvas.clientHeight;
 
       const scene = new THREE.Scene();
       const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
-      const renderer = new THREE.WebGLRenderer();
+      const renderer = new THREE.WebGLRenderer({ canvas });
       renderer.setSize(width, height);
-      container.appendChild(renderer.domElement);
-
+      renderer.setClearColor(background);
       const controls = new OrbitControls(camera, renderer.domElement);
       camera.position.z = 2;
 
@@ -93,9 +99,16 @@ const VideoToTransparent: React.FC<Props> = ({
       animate();
     }
   }, [colorUrl, alphaUrl]);
-
-  const [background, setBackground] = useState<string>('#000');
-  const [removeVideoBg, setRemoveVideoBg] = useState<boolean>(false);
+  useEffect(() => {
+    if (canvasRef.current) {
+      canvasRef.current.style.background = removeVideoBg ? background : '#fafafb'
+    }
+  }, [background, removeVideoBg])
+  useEffect(() => {
+    if (canvasRef.current) {
+      canvasRef.current.style.backgroundImage = bgUrl ? bgUrl : 'none';
+    }
+  }, [bgUrl])
   return (
     <Flex column className="width-100 height-100 p-24" gap={24}>
       {/* 上传框 */}
@@ -110,7 +123,7 @@ const VideoToTransparent: React.FC<Props> = ({
             onUpload={(url) => {
               setColorUrl(url);
             }}
-            desc="点击或拖拽来上传动画文件"
+            desc="上传原视频"
             className="radius-12"
           >
             {colorUrl && <AutoMedia url={colorUrl} type='video' />}
@@ -120,7 +133,7 @@ const VideoToTransparent: React.FC<Props> = ({
             onUpload={(url) => {
               setAlphaUrl(url);
             }}
-            desc="点击或拖拽来上传动画文件"
+            desc="上传黑白蒙版视频"
             className="radius-12"
           >
             {alphaUrl && <AutoMedia url={alphaUrl} type='video' />}
@@ -132,23 +145,28 @@ const VideoToTransparent: React.FC<Props> = ({
           mainTitle="Step 02: 预览&调整"
           subTitle="调整并查看动画文件的呈现效果"
         />
-        <Flex gap={24} className="width-100">
-          <div className="flex column gap-24">
-            <div>
-              <Title type="p" title="背景色" className="mb-8" />
-              <ColorPicker
+        <Flex gap={24} className='width-100'>
+          <div className="flex column gap-24" style={{ width: '200px' }}>
+            <div className='flex column gap-8'>
+              <Check text="背景色" checked={removeVideoBg} onChange={() => setRemoveVideoBg(!removeVideoBg)} />
+              {removeVideoBg && <ColorPicker
                 value={background}
                 input={false}
                 onChange={(val) => setBackground(val)}
-              />
-              <Check text="去除动画背景" checked={removeVideoBg} onChange={() => setRemoveVideoBg(!removeVideoBg)} />
+              />}
             </div>
-            <div>
-              <Title type="p" title="圆角" className="mb-8" info="" />
-
+            <div className='flex column gap-8'>
+              <Title type="p" title="背景图" className="mb-8" info="" />
+              <Uploader
+                className="radius-6"
+                innerClassName='fs-12 gap-12'
+                onUpload={(url) => setBgUrl(url)}
+              >
+                {bgUrl && <AutoMedia url={bgUrl} />}
+              </Uploader>
             </div>
           </div>
-          <div ref={containerRef} style={{ width: "900px", height: "600px", backgroundImage: 'url()' }} />
+          <canvas ref={canvasRef} style={{ width: `${width}px`, height: `${height}px`, backgroundSize: '100% 100%', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }} ></canvas>
         </Flex>
       </Flex>
     </Flex >

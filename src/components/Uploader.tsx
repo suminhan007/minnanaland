@@ -12,6 +12,7 @@ type Props = {
   children?: React.ReactNode;
   style?: CSSProperties;
   className?: string;
+  innerClassName?: string;
 };
 const Uploader: React.FC<Props> = ({
   desc,
@@ -20,6 +21,7 @@ const Uploader: React.FC<Props> = ({
   children,
   style,
   className = "",
+  innerClassName = ""
 }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [url, setUrl] = useState<string | ArrayBuffer | null>();
@@ -51,6 +53,7 @@ const Uploader: React.FC<Props> = ({
         ref={fileInputRef}
         type="file"
         accept={fileType}
+        className={innerClassName}
         onChange={(e: any) => {
           handleChange(e, e.target.files[0]);
         }}
@@ -64,7 +67,7 @@ const Uploader: React.FC<Props> = ({
           <div className="land-uploader-icon">
             <IconUpload />
           </div>
-          <div className="land-uploader-desc">{desc}</div>
+          {desc && <div className="land-uploader-desc">{desc}</div>}
         </>
       )}
     </StyleUploadForm>
