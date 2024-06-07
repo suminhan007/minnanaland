@@ -46,7 +46,7 @@ const AutoMedia: React.FC<AutoMediaProps> = ({
     const observer = new ResizeObserver(callback);
     observer.observe(wrapRef.current);
     return () => observer.disconnect();
-  });
+  }, [url]);
   return (
     <div ref={wrapRef} className={`flex items-center justify-center width-100 height-100 ${wrapClassName}`}>
       {type === 'img' ? <img ref={imgRef} src={url} className={`${ratio === 'h' ? 'height-100' : 'width-100'} ${className}`} style={style} />

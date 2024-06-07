@@ -228,7 +228,7 @@ const ColorPicker: React.FC<ColorProps> = ({
                 w={size}
                 onFocus={() => setIsInput(true)}
                 onChange={(val) => {
-                  setInputColor(val);
+                  setInputColor(String(val));
                   handleHsvChange(`#${val}`);
                 }}
                 onBlur={() => {
@@ -325,7 +325,7 @@ const ColorPicker: React.FC<ColorProps> = ({
               value={inputColor}
               onFocus={() => setIsInput(true)}
               onChange={(val) => {
-                setInputColor(val);
+                setInputColor(String(val));
                 handleHsvChange(`#${val}`);
               }}
               onBlur={() => {
