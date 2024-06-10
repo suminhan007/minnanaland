@@ -483,6 +483,7 @@ export const IconDownload: React.FC<IconProps> = ({
   strokeWidth = 3,
   style,
   className,
+  onClick,
 }) => {
   return (
     <svg
@@ -491,7 +492,8 @@ export const IconDownload: React.FC<IconProps> = ({
       viewBox="0 0 48 48"
       fill="none"
       style={style}
-      className={className}
+      className={`cursor-pointer ${className}`}
+      onClick={onClick}
     >
       <path
         d="M6 24.0083V42H42V24"

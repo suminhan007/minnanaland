@@ -83,6 +83,7 @@ type ColorProps = {
   active?: boolean;
   onChange?: (color: string) => void;
   onClick?: (color: string) => void;
+  onCardClick?: () => void;
   children?: React.ReactNode;
   className?: string;
   style?: CSSProperties;
@@ -98,6 +99,7 @@ const ColorPicker: React.FC<ColorProps> = ({
   active = false,
   onChange,
   onClick,
+  onCardClick,
   children,
   className,
   style,
@@ -194,7 +196,17 @@ const ColorPicker: React.FC<ColorProps> = ({
       size={typeof size === "string" ? size : `${size}px`}
     >
       <Message show={Boolean(showCopyMsg)} text={showCopyMsg} />
-      <div className="land-color-trigger" onClick={() => setShow(!show)}>
+      <div
+        className="land-color-trigger"
+        onClick={(e: React.UIEvent) => {
+          e.stopPropagation();
+          setShow(!show);
+          document.addEventListener("click", () => {
+            setShow(false);
+          });
+          onCardClick?.();
+        }}
+      >
         {children ? (
           children
         ) : (
@@ -253,7 +265,10 @@ const ColorPicker: React.FC<ColorProps> = ({
         )}
       </div>
       {showDrop && (
-        <StyledColorPanel className={`land-color-drop ${show ? "show" : ""}`}>
+        <StyledColorPanel
+          className={`land-color-drop ${show ? "show" : ""}`}
+          onClick={(e: React.UIEvent) => e.stopPropagation()}
+        >
           <StyledColorGrid
             className="StyledColorGrid"
             svColor={svColor}

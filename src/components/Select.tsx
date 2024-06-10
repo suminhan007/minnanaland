@@ -4,13 +4,14 @@ import { IconArrow } from "./Icon";
 import Title from "./Title";
 
 type SelectItemType = {
-  id: string;
-  value: string;
+  id: string | number;
+  value: string | number;
+  disabled?: boolean;
 };
 type SelectProps = {
   data?: SelectItemType[];
   placeholder?: string;
-  selected?: string;
+  selected?: string | number;
   width?: number | string;
   title?: string;
   info?: string | React.ReactNode;
@@ -30,7 +31,7 @@ const Select: React.FC<SelectProps> = ({
   style,
 }) => {
   const [show, setShow] = useState<boolean>(false);
-  const [newSelected, setNewSelected] = useState<string>(selected);
+  const [newSelected, setNewSelected] = useState<string | number>(selected);
   return (
     <StyleSelectWrap
       style={{
@@ -63,7 +64,9 @@ const Select: React.FC<SelectProps> = ({
         <StyleSelectDrop>
           {data?.map((item) => (
             <StyleSelectDropItem
-              className={`${newSelected === item.id ? "selected" : ""}`}
+              className={`${newSelected === item.id ? "selected" : ""} ${
+                item.disabled ? "disabled" : ""
+              }`}
               key={item.id}
               onClick={() => {
                 setNewSelected(item.id);
@@ -156,6 +159,10 @@ const StyleSelectDropItem = styled.li`
   }
   &.selected {
     background-color: var(--color-bg-3);
+  }
+  &.disabled {
+    opacity: var(--opacity-04);
+    pointer-events: none;
   }
 `;
 export default Select;

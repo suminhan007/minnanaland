@@ -441,7 +441,7 @@ const ImgColorPicker: React.FC<Props> = ({}) => {
                   icon={<IconDownload />}
                   onClick={() => {
                     const card = document.querySelectorAll(".color-card");
-                    downloadHtmlAsImg(card[index], cardName[index]);
+                    downloadHtmlAsImg(card[index], cardName[index], 4);
                   }}
                 />
               </div>
@@ -465,6 +465,15 @@ export const StyleAddColorBtn = styled.div`
   width: 48px;
   height: 48px;
   color: var(--color-text-3);
+  transition: background-color 0.2s linear;
+  &:hover {
+    color: var(--color-text-2);
+    background-color: var(--color-bg-1);
+  }
+  &:active {
+    color: var(--color-text-1);
+    background-color: var(--color-bg-2);
+  }
 `;
 
 const StyleColorCardWrap = styled.div<{
