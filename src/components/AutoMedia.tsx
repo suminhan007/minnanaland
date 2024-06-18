@@ -38,7 +38,7 @@ const AutoMedia: React.FC<AutoMediaProps> = ({
       });
     }
     onChange?.(size.w, size.h);
-  }, [url]);
+  });
   const [ratio, setRatio] = useState<"h" | "v" | "s">("s");
   useEffect(() => {
     if (!wrapRef.current) return;
@@ -67,9 +67,8 @@ const AutoMedia: React.FC<AutoMediaProps> = ({
         <img
           ref={imgRef}
           src={url}
-          className={`${
-            ratio === "h" ? "height-100" : "width-100"
-          } ${className}`}
+          className={`${ratio === "h" ? "height-100" : "width-100"
+            } ${className}`}
           style={style}
         />
       ) : (
@@ -81,9 +80,8 @@ const AutoMedia: React.FC<AutoMediaProps> = ({
           autoPlay
           disablePictureInPicture
           x-webkit-airplay="deny"
-          className={`${
-            ratio === "h" ? "height-100" : "width-100"
-          } ${className}`}
+          className={`${ratio === "h" ? "height-100" : "width-100"
+            } ${className}`}
           style={style}
         />
       )}

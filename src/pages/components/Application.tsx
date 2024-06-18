@@ -36,7 +36,7 @@ const Application: React.FC<Props> = ({
       desc: "",
       path: "/ui-test",
       component: <UITest />,
-    },
+    }
   ],
 }) => {
   return (

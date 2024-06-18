@@ -84,11 +84,9 @@ const Button: React.FC<ButtonProps> = ({
     <>
       {!href ? (
         <StyledButton
-          className={`land-button ${type} ${status} ${
-            iconOnly ? "iconOnly" : ""
-          } ${disabled ? "disabled" : ""} ${
-            pop ? "hover-pop" : ""
-          } ${className}`}
+          className={`land-button ${type} ${status} ${iconOnly ? "iconOnly" : ""
+            } ${disabled ? "disabled" : ""} ${pop ? "hover-pop" : ""
+            } ${className}`}
           style={style}
           width={width}
           height={height}
@@ -109,11 +107,9 @@ const Button: React.FC<ButtonProps> = ({
         <StyleButtonLink
           href={href}
           target={target}
-          className={`land-button ${type} ${status} ${
-            iconOnly ? "iconOnly" : ""
-          } ${disabled ? "disabled" : ""} ${
-            pop ? "hover-pop" : ""
-          } ${className}`}
+          className={`land-button ${type} ${status} ${iconOnly ? "iconOnly" : ""
+            } ${disabled ? "disabled" : ""} ${pop ? "hover-pop" : ""
+            } ${className}`}
           style={style}
           width={width}
           height={height}
@@ -154,11 +150,11 @@ const StyledButton = styled.div<{
     props.color ? `${props.color}6)` : "var(--color-text-2)"};
   &:hover {
     color: ${(props) =>
-      props.color ? `${props.color}5)` : "var(--color-text-3)"};
+    props.color ? `${props.color}5)` : "var(--color-text-3)"};
   }
   &:active {
     color: ${(props) =>
-      props.color ? `${props.color}7)` : "var(--color-text-1)"};
+    props.color ? `${props.color}7)` : "var(--color-text-1)"};
   }
   font-size: var(--font-content-medium);
   border-radius: var(--radius-6);
@@ -173,6 +169,7 @@ const StyledButton = styled.div<{
 
   &.text,
   &.border.default {
+    background-color: var(--color-bg-white);
     &:hover {
       background-color: var(--color-bg-1);
     }

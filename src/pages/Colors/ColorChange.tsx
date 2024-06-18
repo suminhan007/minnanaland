@@ -9,7 +9,7 @@ import { downloadHtmlAsImg } from "../../utils/downloadHtmlAsImg";
 import Select from "../../components/Select";
 
 type Props = {};
-const ColorChange: React.FC<Props> = ({}) => {
+const ColorChange: React.FC<Props> = ({ }) => {
   const colorChangeCanvasRef = useRef<HTMLCanvasElement>(null);
   const maskRef = useRef<HTMLDivElement>(null);
   const [imgUrl, setImgUrl] = useState<string>("");
@@ -62,7 +62,7 @@ const ColorChange: React.FC<Props> = ({}) => {
         <Flex column gap={8}>
           <Title title="Step 01: 上传图片" type="h3" />
           <Title
-            title="点击或拖拽来上传图片，"
+            title="点击或拖拽来上传图片，上传后将自动识别照片主色"
             type="p"
             className="color-gray-4"
           />
@@ -77,77 +77,6 @@ const ColorChange: React.FC<Props> = ({}) => {
             className="radius-12"
           />
         </div>
-      </Flex>
-      <Select
-        title="类型"
-        info="类型"
-        placeholder="请选择"
-        data={[
-          { id: "1", value: "反色" },
-          { id: "2", value: "曝光" },
-        ]}
-        selected={type}
-        onChange={(item) => {
-          setType(item.id);
-        }}
-        className="flex-1"
-      />
-      <StyleImgContainer
-        ref={maskRef}
-        className="StyleImgContainer relative border-dash"
-        onMouseUp={() => setMove(false)}
-        onMouseMove={(e) => handleThumbMove(e)}
-        style={{
-          backgroundImage: imgUrl
-            ? `url(${imgUrl})`
-            : "url('colorcard-contrast.png')",
-          opacity: imgUrl ? 1 : 0.2,
-        }}
-      >
-        {imgUrl && (
-          <div
-            className="mask-img-wrap height-100 absolute flex justify-start items-center overflow-hidden"
-            style={{
-              width: `${percentage}%`,
-            }}
-          >
-            <div className="width-100 height-100">
-              <img
-                src={imgUrl}
-                className="mask-img width-100 height-100"
-                style={{
-                  mixBlendMode: type === "1" ? "difference" : "color-dodge",
-                  objectFit: "contain",
-                }}
-              />
-            </div>
-          </div>
-        )}
-        {imgUrl && (
-          <div
-            className="mask-thumb absolute"
-            style={{ left: `${percentage}%` }}
-            onMouseUp={() => setMove(false)}
-            onMouseDown={() => setMove(true)}
-          ></div>
-        )}
-      </StyleImgContainer>
-      <Flex gap={12} justify="center" className="width-100">
-        <Button
-          text="下载对比图"
-          onClick={() => {
-            const contrastImg = document.querySelector(".StyleImgContainer");
-            downloadHtmlAsImg(contrastImg, "img-contrast");
-          }}
-        />
-        <Button
-          text="下载转换图"
-          type="background"
-          onClick={() => {
-            const contrastedImg = document.querySelector(".mask-img");
-            downloadHtmlAsImg(contrastedImg, "img-contrasted");
-          }}
-        />
       </Flex>
     </div>
   );

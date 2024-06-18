@@ -27,7 +27,7 @@ const AnimateTest: React.FC<Props> = ({ }) => {
     }
   }, [file])
 
-  const [backgorund, setBackground] = useState<string>('#eee');
+  const [background, setBackground] = useState<string>('#fafafb');
   const [removeVideoBg, setRemoveVideoBg] = useState<boolean>(false);
   const [radius, setRadius] = useState<number>(0);
   return (
@@ -62,7 +62,7 @@ const AnimateTest: React.FC<Props> = ({ }) => {
             <div>
               <Title type="p" title="背景色" className="mb-8" />
               <ColorPicker
-                value={backgorund}
+                value={background}
                 input={false}
                 onChange={(val) => setBackground(val)}
               /></div>
@@ -81,10 +81,10 @@ const AnimateTest: React.FC<Props> = ({ }) => {
           <StyleAnimationDisplay
             align="center"
             justify="center"
-            className="StyleAnimationDisplay border"
+            className="StyleAnimationDisplay"
             style={{
               flex: mediaUrl ? "" : "1",
-              background: backgorund,
+              background: background,
               aspectRatio: 5 / 3
             }}
           >

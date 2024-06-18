@@ -53,7 +53,7 @@ const StyleInputWrap = styled.div`
   display: flex;
   align-items: center;
   gap: var(--gap-4);
-  padding: 0 4px;
+  padding: 0 12px;
   border: var(--border-1) solid var(--color-border-3);
   border-radius: var(--radius-4);
   input {
@@ -74,7 +74,7 @@ const StyleInputWrap = styled.div`
       background-color: transparent;
     }
     &::placeholder {
-      color: var(--color-text-3);
+      color: var(--color-text-5);
     }
     &::selection {
       background-color: var(--color-primary-2);

@@ -12,7 +12,7 @@ import Application from "../components/Application";
 
 type Props = {};
 
-const Colors: React.FC<Props> = ({}) => {
+const Colors: React.FC<Props> = ({ }) => {
   const [activedNav, setActivedNav] = useState<number>(1);
   return (
     <Layout>
@@ -25,7 +25,7 @@ const Colors: React.FC<Props> = ({}) => {
           data: [
             { key: 1, title: "图片取色", clickType: ClickType.SELF },
             { key: 2, title: "自动配色", clickType: ClickType.SELF },
-            { key: 3, title: "图片滤镜", clickType: ClickType.SELF },
+            { key: 3, title: "图片换色", clickType: ClickType.SELF },
             // { key: 4, title: "颜色库", clickType: ClickType.SELF },
           ],
           actived: activedNav,

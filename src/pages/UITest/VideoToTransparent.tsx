@@ -30,7 +30,7 @@ const fragmentShaderSource = `
 `;
 
 type Props = {};
-const VideoToTransparent: React.FC<Props> = ({}) => {
+const VideoToTransparent: React.FC<Props> = ({ }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [colorUrl, setColorUrl] = useState<string>("");
   const [alphaUrl, setAlphaUrl] = useState<string>("");
@@ -104,6 +104,44 @@ const VideoToTransparent: React.FC<Props> = ({}) => {
         : "#fafafb";
     }
   }, [background, removeVideoBg]);
+
+  /** 视频转黑白蒙版 */
+  // const whiteBlackCanvasRef = useRef<HTMLCanvasElement>(null);
+  // const convertAlphaVideo = (url: string) => {
+  //   const video = document.createElement("video");
+  //   video.src = url;
+  //   video.loop = true;
+  //   video.muted = true;
+  //   video.play();
+  //   const canvas = whiteBlackCanvasRef.current;
+  //   const width = canvas?.clientWidth;
+  //   const height = canvas?.clientHeight;
+  //   if (!video || !canvas) return;
+  //   const ctx = canvas.getContext('2d');
+  //   if (!ctx) return;
+
+  //   video.addEventListener('play', () => {
+  //     const draw = () => {
+  //       if (video.paused || video.ended) return;
+
+  //       ctx.drawImage(video, 0, 0, width, height);
+
+  //       const imageData = ctx.getImageData(0, 0, width, height);
+  //       const data = imageData.data;
+
+  //       for (let i = 0; i < data.length; i += 4) {
+  //         const avg = (data[i] + data[i + 1] + data[i + 2]) / 3;
+  //         data[i] = data[i + 1] = data[i + 2] = avg < 10 ? 0 : 255;
+  //       }
+
+  //       ctx.putImageData(imageData, 0, 0);
+
+  //       requestAnimationFrame(draw);
+  //     };
+
+  //     draw();
+  //   });
+  // }
   return (
     <Flex column className="width-100 height-100 p-24" gap={24}>
       {/* 上传框 */}
@@ -132,6 +170,7 @@ const VideoToTransparent: React.FC<Props> = ({}) => {
               />
             )}
           </Uploader>
+          {/* <Button text="convert" onClick={() => colorUrl && convertAlphaVideo(colorUrl)} /> */}
           <Uploader
             fileType="video/mp4"
             onUpload={(url) => {
@@ -141,6 +180,7 @@ const VideoToTransparent: React.FC<Props> = ({}) => {
             className="radius-12"
           >
             {alphaUrl && <AutoMedia url={alphaUrl} type="video" />}
+            {/* <canvas ref={whiteBlackCanvasRef} width={400} height={200} /> */}
           </Uploader>
         </div>
       </Flex>
@@ -197,7 +237,7 @@ const VideoToTransparent: React.FC<Props> = ({}) => {
             className="flex-1 flex both-center p-16 bg-gray radius-8"
             style={{
               aspectRatio: `1.5`,
-              minHeight: "200px",
+              minHeight: "226px",
               background:
                 bgUrl && useBg
                   ? `100% 100%/cover no-repeat url(${bgUrl})`
@@ -220,7 +260,7 @@ const VideoToTransparent: React.FC<Props> = ({}) => {
             className="flex-1 flex both-center p-16 bg-gray radius-8"
             style={{
               aspectRatio: `1.5`,
-              minHeight: "200px",
+              minHeight: "226px",
               background:
                 bgUrl && useBg
                   ? `100% 100%/cover no-repeat url(${bgUrl})`

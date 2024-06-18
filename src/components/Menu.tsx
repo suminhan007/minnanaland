@@ -31,6 +31,10 @@ export type MenuProps = {
   direction?: "row" | "column";
   /* 导航主题 */
   theme?: "dot" | "background" | "line";
+  /** 宽度 */
+  width?: string;
+  /** 高度 */
+  height?: string;
   border?: boolean;
   /* 一级导航选项对应的 style */
   itemStyle?: CSSProperties;
@@ -48,6 +52,8 @@ const Menu: React.FC<MenuProps> = ({
   data,
   direction = "row",
   theme = "dot",
+  width = '100%',
+  height = '100%',
   border = true,
   itemStyle,
   itemClassName,
@@ -60,6 +66,8 @@ const Menu: React.FC<MenuProps> = ({
       className={`land-menu ${className}`}
       style={style}
       direction={direction}
+      width={width}
+      height={height}
       border={border}
     >
       {data?.map((item) => (
@@ -98,13 +106,15 @@ const Menu: React.FC<MenuProps> = ({
 
 const StyledMenu = styled.div<{
   direction?: string;
+  width?: string;
+  height?: string;
   border?: boolean;
 }>`
   display: flex;
   flex-direction: ${(props) => props.direction};
   gap: var(--gap-4);
-  height: ${(props) => (props.direction === "row" ? "100%" : "")};
-  width: ${(props) => (props.direction === "column" ? "100%" : "fit-content")};
+  height: ${(props) => (props.direction === "row" ? props.height : "")};
+  width: ${(props) => (props.direction === "column" ? props.width : "fit-content")};
   border-bottom: ${(props) =>
     props.border && props.direction === "row"
       ? "var(--border-1) solid var(--color-border-1)"
@@ -195,20 +205,26 @@ const StyledMenu = styled.div<{
       position: relative;
       color: transparent;
       font-weight: 600;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
       &::before {
         content: attr(data-title);
+        display: block;
         position: absolute;
         left: 0;
         top: 0;
         display: flex;
         align-items: center;
-        justify-content: center;
+        justify-content: ${props => props.direction === 'row' ? 'center' : 'start'};
         height: 100%;
         width: 100%;
         color: var(--color-text-3);
         font-weight: 400;
-        text-align: center;
         line-height: 40px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
     }
 

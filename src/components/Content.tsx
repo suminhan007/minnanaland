@@ -13,12 +13,14 @@ const Content: React.FC<ContentProps> = ({ children, style, className }) => {
   const headerElem = document.querySelector(".land-header");
   const footerElem = document.querySelector(".land-footer");
   useEffect(() => {
-    if (!headerElem || !footerElem) return;
+    let headerHeight: number;
+    let footerHeight: number;
+    headerElem ? headerHeight = headerElem.getBoundingClientRect().height : headerHeight = 0;
+    footerElem ? footerHeight = footerElem.getBoundingClientRect().height : footerHeight = 0;
     setMinHeight(
-      headerElem.getBoundingClientRect().height +
-      footerElem.getBoundingClientRect().height
+      headerHeight + footerHeight
     );
-  }, [children]);
+  }, []);
   return (
     <StyledContent className={className} style={style} minHeight={minHeight}>
       {children}

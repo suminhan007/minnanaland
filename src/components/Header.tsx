@@ -87,7 +87,7 @@ const Header: React.FC<HeaderProps> = ({
         <div className="land-header-btns">{rightComponent}</div>
       )}
       {/* 移动端展开按钮 */}
-      <Button icon={<IconMoreLine />} type="text" onClick={() => setShowMobileNav(!showMobileNav)} />
+      {menuProps && <Button icon={<IconMoreLine />} type="text" onClick={() => setShowMobileNav(!showMobileNav)} />}
     </StyledHeader>
   );
 };
