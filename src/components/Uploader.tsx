@@ -10,6 +10,8 @@ type Props = {
   /**上传事件 */
   onUpload?: (url: any, file: string) => void;
   children?: React.ReactNode;
+  width?: string;
+  height?: string;
   style?: CSSProperties;
   className?: string;
   innerClassName?: string;
@@ -19,6 +21,8 @@ const Uploader: React.FC<Props> = ({
   fileType,
   onUpload,
   children,
+  width = '100%',
+  height = '100%',
   style,
   className = "",
   innerClassName = ""
@@ -42,12 +46,16 @@ const Uploader: React.FC<Props> = ({
   useEffect(() => {
     onUpload?.(url, file);
   }, [url]);
+  const [drag, setDrag] = useState<boolean>(false);
   return (
     <StyleUploadForm
-      className={className}
+      className={`${drag ? 'drag' : ''} ${className}`}
       style={style}
-      onDragOver={(e: any) => e.preventDefault()}
+      onDragOver={(e: any) => { setDrag(true); e.preventDefault() }}
       onDrop={(e: any) => handleChange(e, e.dataTransfer.files[0])}
+      onDragLeave={() => setDrag(false)}
+      width={width}
+      height={height}
     >
       <StyleFileInput
         ref={fileInputRef}
@@ -67,14 +75,17 @@ const Uploader: React.FC<Props> = ({
           <div className="land-uploader-icon">
             <IconUpload />
           </div>
-          {desc && <div className="land-uploader-desc">{desc}</div>}
+          {(desc || drag) && <div className="land-uploader-desc">{drag ? '释放即可上传' : desc}</div>}
         </>
       )}
     </StyleUploadForm>
   );
 };
 
-const StyleUploadForm = styled.label`
+const StyleUploadForm = styled.label<{
+  width?: string;
+  height?: string;
+}>`
   position: relative;
   display: flex;
   flex-direction: column;
@@ -82,12 +93,13 @@ const StyleUploadForm = styled.label`
   justify-content: center;
   gap: var(--gap-8);
   padding: 16px;
-  width: 100%;
-  height: 100%;
+  width: ${props => props.width};
+  height: ${props => props.height};
   background-color: var(--color-bg-1);
   border: 1px dashed var(--color-border-2);
   transition: background-color var(--transition-15) linear;
   cursor: pointer;
+  &.drag,
   &:hover {
     background-color: var(--color-bg-2);
   }
@@ -101,6 +113,7 @@ const StyleUploadForm = styled.label`
   .land-uploader-desc {
     font-size: var(---font-content-large);
     color: var(--color-text-5);
+    transition: all var(--transition-15) linear;
   }
 `;
 

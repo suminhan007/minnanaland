@@ -28,4 +28,4 @@ const CheckBar: React.FC<CheckBarProps> = ({
     </Flex>
   )
 }
-export default CheckBar
+export default CheckBar;

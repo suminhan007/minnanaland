@@ -7,6 +7,7 @@ import "./style/atomic.scss";
 import "./style/variable.scss";
 import UITest from "./pages/UITest";
 import Articles from "./pages/Articles";
+import UIAutoTool from "./pages/UIAutoTool";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/ui-test" element={<UITest />} />
         <Route path="/colors" element={<Colors />} />
         <Route path="/crochet" element={<Crochet />} />
+        <Route path="/ui-auto" element={<UIAutoTool />} />
         <Route path="/articles" element={<Articles />} />
       </Routes>
     </>

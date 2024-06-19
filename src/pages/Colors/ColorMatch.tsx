@@ -10,7 +10,7 @@ import Button from "../../components/Button";
 import tinycolor from "tinycolor2";
 import CheckedContainer from "../../components/CheckedContainer";
 import Select from "../../components/Select";
-const ColorMatch: React.FC<{}> = ({}) => {
+const ColorMatch: React.FC<{}> = ({ }) => {
   const [colorArr, setColorArr] = useState<{ id: string; value: string }[]>([]);
   const [showMoreColor, setShowMoreColor] = useState<boolean>(false);
   /* 类型 */
@@ -225,9 +225,8 @@ const ColorMatch: React.FC<{}> = ({}) => {
             {/* 颜色库 */}
             <div className="relative flex flex-column both-center gap-12 py-24 width-100 border radius-6">
               <StyleColorsLib
-                className={`width-100 overflow-auto px-12 ${
-                  showMoreColor ? "show" : ""
-                }`}
+                className={`width-100 overflow-auto px-12 ${showMoreColor ? "show" : ""
+                  }`}
               >
                 {MY_COLORS.map((item: any) => (
                   <Fragment key={item.id}>
@@ -337,7 +336,7 @@ const ColorMatch: React.FC<{}> = ({}) => {
         className="flex-1 pl-32 pr-24 height-100 py-32 border-left overflow-auto"
         style={{ flexShrink: 0 }}
       >
-        <div
+        {(mapColors && mapColors.length > 0) ? <div
           className="grid gap-12 width-100"
           style={{
             gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))",
@@ -382,7 +381,7 @@ const ColorMatch: React.FC<{}> = ({}) => {
               </Flex>
             )
           )}
-        </div>
+        </div> : <Flex bothCenter className="height-100 fs-32 color-gray-4">...</Flex>}
       </StyleRightBox>
     </StyleColorContainer>
   );

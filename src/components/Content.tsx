@@ -20,7 +20,7 @@ const Content: React.FC<ContentProps> = ({ children, style, className }) => {
     setMinHeight(
       headerHeight + footerHeight
     );
-  }, []);
+  });
   return (
     <StyledContent className={className} style={style} minHeight={minHeight}>
       {children}

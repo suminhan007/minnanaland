@@ -30,7 +30,7 @@ const unitColorArr = [
 ];
 
 type Props = {};
-const ImgColorPicker: React.FC<Props> = ({}) => {
+const ImgColorPicker: React.FC<Props> = ({ }) => {
   const [imgUrl, setImgUrl] = useState<string>("");
   const [colorArr, setColorArr] = useState<{ id: string; value: string }[]>([]);
   // 根据图片 size 处理色卡布局
@@ -192,19 +192,18 @@ const ImgColorPicker: React.FC<Props> = ({}) => {
           mainTitle="Step 01: 上传文件"
           subTitle="点击或拖拽来上传图片，以像素为单位对颜色计数"
         />
-        <div className="width-100" style={{ height: "240px" }}>
-          <Uploader
-            fileType="image/*"
-            onUpload={(url) => {
-              setImgUrl(url);
-              setColorArr([]);
-            }}
-            desc="点击上传图片或将图片拖拽于此"
-            className="radius-12"
-          >
-            {imgUrl && <AutoMedia url={imgUrl} />}
-          </Uploader>
-        </div>
+        <Uploader
+          height="240px"
+          fileType="image/*"
+          onUpload={(url) => {
+            setImgUrl(url);
+            setColorArr([]);
+          }}
+          desc="点击上传图片或将图片拖拽于此"
+          className="radius-12"
+        >
+          {imgUrl && <AutoMedia url={imgUrl} />}
+        </Uploader>
       </Flex>
       {/* 颜色 */}
 
@@ -280,38 +279,38 @@ const ImgColorPicker: React.FC<Props> = ({}) => {
           )}
           {colorArr.length === 0
             ? unitColorArr?.map((item0: any, index0: number) => (
-                <StyleColorItem
-                  key={index0}
-                  className="flex column relative justify-center gap-4 disabled"
-                >
-                  <ColorPicker value={item0.value} showDrop={false} />
-                </StyleColorItem>
-              ))
+              <StyleColorItem
+                key={index0}
+                className="flex column relative justify-center gap-4 disabled"
+              >
+                <ColorPicker value={item0.value} showDrop={false} />
+              </StyleColorItem>
+            ))
             : colorArr?.map((item: any, index: number) => (
-                <HoverCardIcon onClick={() => handleDeleteColor(item.id)}>
-                  <StyleColorItem
-                    key={index}
-                    className="flex column relative justify-center gap-4"
-                  >
-                    <ColorPicker
-                      value={item.value}
-                      showDrop={false}
-                      onChange={(color) => {
-                        const newColorArr = colorArr.map((itm) => {
-                          return {
-                            id: itm.id,
-                            value:
-                              itm.id == item.id
-                                ? `#${tinycolor(color).toHex()}`
-                                : itm.value,
-                          };
-                        });
-                        setColorArr(newColorArr);
-                      }}
-                    />
-                  </StyleColorItem>
-                </HoverCardIcon>
-              ))}
+              <HoverCardIcon onClick={() => handleDeleteColor(item.id)}>
+                <StyleColorItem
+                  key={index}
+                  className="flex column relative justify-center gap-4"
+                >
+                  <ColorPicker
+                    value={item.value}
+                    showDrop={false}
+                    onChange={(color) => {
+                      const newColorArr = colorArr.map((itm) => {
+                        return {
+                          id: itm.id,
+                          value:
+                            itm.id == item.id
+                              ? `#${tinycolor(color).toHex()}`
+                              : itm.value,
+                        };
+                      });
+                      setColorArr(newColorArr);
+                    }}
+                  />
+                </StyleColorItem>
+              </HoverCardIcon>
+            ))}
           {colorArr.length !== 0 && colorArr.length < 8 && (
             <StyleAddColorBtn
               className="StyleAddColorBtn relative flex both-center border radius-50 cursor-pointer hover-pop"
@@ -351,29 +350,29 @@ const ImgColorPicker: React.FC<Props> = ({}) => {
                 <div className="color-list grid gap-4">
                   {colorArr?.length === 0
                     ? unitColorArr.map((itm0: any) => (
-                        <div className="color-item flex column items-center gap-4">
-                          <div
-                            key={itm0.id}
-                            style={{
-                              background: itm0.value,
-                            }}
-                            className="width-100 flex-1"
-                          ></div>
-                          <p>{itm0.value}</p>
-                        </div>
-                      ))
+                      <div className="color-item flex column items-center gap-4">
+                        <div
+                          key={itm0.id}
+                          style={{
+                            background: itm0.value,
+                          }}
+                          className="width-100 flex-1"
+                        ></div>
+                        <p>{itm0.value}</p>
+                      </div>
+                    ))
                     : colorArr.map((itm: any) => (
-                        <div className="color-item flex column items-center gap-4">
-                          <div
-                            key={itm.id}
-                            style={{
-                              background: itm.value,
-                            }}
-                            className="width-100 flex-1"
-                          ></div>
-                          <p>{itm.value}</p>
-                        </div>
-                      ))}
+                      <div className="color-item flex column items-center gap-4">
+                        <div
+                          key={itm.id}
+                          style={{
+                            background: itm.value,
+                          }}
+                          className="width-100 flex-1"
+                        ></div>
+                        <p>{itm.value}</p>
+                      </div>
+                    ))}
                 </div>
               </StyleColorCardBox>
               <Button
@@ -393,9 +392,8 @@ const ImgColorPicker: React.FC<Props> = ({}) => {
           {Array.from({ length: 6 }).map((_itm, index) => (
             <div className="flex column items-center gap-12">
               <StyleColorCardBox
-                className={`relative p-24 flex gap-4 width-100 border color-card card-${index} ${
-                  size.ratio < 1 ? "" : "column"
-                }`}
+                className={`relative p-24 flex gap-4 width-100 border color-card card-${index} ${size.ratio < 1 ? "" : "column"
+                  }`}
                 width={size.w}
                 height={size.h}
                 ratio={size.ratio}
@@ -553,7 +551,7 @@ const StyleColorCardBox = styled.div<{
       border-radius: var(--radius-4);
       background-color: var(--color-bg-white);
       transform: ${(props) =>
-        props.ratio >= 1 ? "translateX(-50%)" : "translateY(-50%)"};
+    props.ratio >= 1 ? "translateX(-50%)" : "translateY(-50%)"};
     }
     .color-item div {
       border-radius: 4px;
@@ -596,7 +594,7 @@ const StyleColorCardBox = styled.div<{
       height: 40px;
       width: ${(props) => (props.ratio >= 1 ? "calc(100% - 48px)" : "48px")};
       transform: ${(props) =>
-        props.ratio >= 1 ? "translateX(4px)" : "translate(-50%,50%)"};
+    props.ratio >= 1 ? "translateX(4px)" : "translate(-50%,50%)"};
     }
     .color-item div {
       border-radius: 50%;

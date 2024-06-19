@@ -5,6 +5,7 @@ import Colors from "../Colors";
 import { IconArrowLine } from "../../components/Icon";
 import Divider from "../../components/Divider";
 import UITest from "../UITest";
+import UIAutoTool from "../UIAutoTool";
 
 type Props = {
   data?: {
@@ -36,6 +37,13 @@ const Application: React.FC<Props> = ({
       desc: "",
       path: "/ui-test",
       component: <UITest />,
+    },
+    {
+      name: "UIAutoTool",
+      icon: <>🔧🔧</>,
+      desc: "",
+      path: "/ui-auto",
+      component: <UIAutoTool />,
     }
   ],
 }) => {
@@ -48,9 +56,9 @@ const Application: React.FC<Props> = ({
               <div className="icon flex both-center height-100">
                 {item.icon}
               </div>
-              <div className="flex column items-start">
+              <div className="flex column justify-center items-start">
                 <p className="fs-16 color-gray-2 fw-600">{item.name}</p>
-                <p className="fs-14 color-gray-4">{item.desc}</p>
+                {item.desc && < p className="fs-14 color-gray-4">{item.desc}</p>}
               </div>
             </div>
             {index === 0 && (
@@ -63,13 +71,14 @@ const Application: React.FC<Props> = ({
           </Link>
           {index === 0 && <Divider margin={8} />}
         </Fragment>
-      ))}
-    </StyleApplicationWrap>
+      ))
+      }
+    </StyleApplicationWrap >
   );
 };
 
 const StyleApplicationWrap = styled.div`
-  width: 240px;
+  width: 280px;
   a {
     padding: var(--padding-medium);
     display: flex;

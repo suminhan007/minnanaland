@@ -7,6 +7,7 @@ import Uploader from "../../components/Uploader";
 import Button from "../../components/Button";
 import { downloadHtmlAsImg } from "../../utils/downloadHtmlAsImg";
 import Select from "../../components/Select";
+import AutoMedia from "../../components/AutoMedia";
 
 type Props = {};
 const ColorChange: React.FC<Props> = ({ }) => {
@@ -62,21 +63,22 @@ const ColorChange: React.FC<Props> = ({ }) => {
         <Flex column gap={8}>
           <Title title="Step 01: 上传图片" type="h3" />
           <Title
-            title="点击或拖拽来上传图片，上传后将自动识别照片主色"
+            title="上传需要换色的图片，即可自动识别图片主体色，选择需要替换的颜色。"
             type="p"
             className="color-gray-4"
           />
         </Flex>
-        <div className="width-100" style={{ height: "120px" }}>
-          <Uploader
-            fileType="image/*"
-            onUpload={(url) => {
-              setImgUrl(url);
-            }}
-            desc="点击上传图片或将图片拖拽于此"
-            className="radius-12"
-          />
-        </div>
+        <Uploader
+          height="240px"
+          fileType="image/*"
+          onUpload={(url) => {
+            setImgUrl(url);
+          }}
+          desc="点击上传图片或将图片拖拽于此"
+          className="radius-12"
+        >
+          {imgUrl && <AutoMedia url={imgUrl} className="radius-6" />}
+        </Uploader>
       </Flex>
     </div>
   );
