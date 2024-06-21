@@ -1,0 +1,11 @@
+.la-slide-in {
+  animation: slideIn 300ms linear 0s 1 backwards;
+  @keyframes slideIn {
+    from {
+      transform: translateY(50px);
+    }
+    to {
+      transform: translateY(0px);
+    }
+  }
+}

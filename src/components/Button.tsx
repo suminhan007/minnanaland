@@ -191,10 +191,10 @@ const StyledButton = styled.div<{
       }
     }
     &:hover {
-      background-color: ${(props) => `${props.color}5)`};
+      background-color: ${(props) => `${props.color}7)`};
     }
     &:active {
-      background-color: ${(props) => `${props.color}7)`};
+      background-color: ${(props) => `${props.color}8)`};
     }
   }
 

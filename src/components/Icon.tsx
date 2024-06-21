@@ -482,7 +482,7 @@ export const IconDownload: React.FC<IconProps> = ({
   size = 16,
   strokeWidth = 3,
   style,
-  className,
+  className = '',
   onClick,
 }) => {
   return (
@@ -1456,6 +1456,7 @@ export const IconUpload: React.FC<IconProps> = ({
   size = 20,
   stroke = "currentcolor",
   strokeWidth = 3,
+  className = '',
 }) => {
   return (
     <svg
@@ -1463,6 +1464,7 @@ export const IconUpload: React.FC<IconProps> = ({
       height={size}
       viewBox="0 0 48 48"
       fill="none"
+      className={className}
       xmlns="http://www.w3.org/2000/svg"
     >
       <path

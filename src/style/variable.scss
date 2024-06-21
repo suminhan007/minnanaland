@@ -1,13 +1,23 @@
 :root{
     // 主题色
-    --color-primary-1: #FCFFE8; // 背景
-    --color-primary-2: #EDF8BB; // 文字禁用
-    --color-primary-3: #DCF190; // 禁用
-    --color-primary-4: #C9E968; // 特殊选中 & 边框
-    --color-primary-5: #B5E241; // 悬浮 :hover
-    --color-primary-6: #9FDB1D; // 常规
-    --color-primary-7: #7EB712; // 点击 :active
-    --color-primary-8: #5F940A; // 已点击
+    --color-primary-1: #EDFFE8; // 背景
+    --color-primary-2: #D4F3CC; // 文字禁用
+    --color-primary-3: #BBE7B2; // 禁用
+    --color-primary-4: #A2DA9A; // 特殊选中 & 边框
+    --color-primary-5: #8BCE83; // 悬浮 :hover
+    --color-primary-6: #73C26E; // 常规
+    --color-primary-7: #49A546; // 点击 :active
+    --color-primary-8: #268726; // 已点击
+
+    // 中性色
+    --color-gray-1: #FFFFFF; // 背景
+    --color-gray-2: #D2D2D2; // 文字禁用
+    --color-gray-3: #A6A6A6; // 禁用
+    --color-gray-4: #797979; // 特殊选中 & 边框
+    --color-gray-5: #4D4D4D; // 悬浮 :hover
+    --color-gray-6: #202020; // 常规
+    --color-gray-7: #181818; // 点击 :active
+    --color-gray-8: #020202; // 已点击
 
     // 状态色: success warnning error
     --color-red-1: #FFECE8;

@@ -57,7 +57,7 @@ const ColorChange: React.FC<Props> = ({ }) => {
     }
   }, [imgUrl]);
   return (
-    <div className="flex column items-start gap-32 px-24 pt-32 mb-24">
+    <div className="flex column items-start gap-32 px-24 pt-32 mb-24 la-slide-in">
       {/* 上传框 */}
       <Flex column gap={24}>
         <Flex column gap={8}>

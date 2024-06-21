@@ -214,7 +214,7 @@ const ColorPicker: React.FC<ColorProps> = ({
             <div
               className={`land-color-grid hover-pop ${active ? "active" : ""}`}
               style={{
-                background:
+                backgroundColor:
                   currentColor === "transparent"
                     ? "transparent"
                     : getRgbaColor(currentColor, opacity),
@@ -425,8 +425,8 @@ const StyledColorPicker = styled.div<{
     background-color: ${(props) => props.color};
     border: 8px solid var(--color-bg-3);
     border-radius: 4px;
-    transition: border-color var(--transition-15) linear;
-    will-change: border-color;
+    transition: border-color var(--transition-15) linear, background-color var(--transition-2) linear;
+    will-change: border-color, background-color;
     &:hover {
       border-color: var(--color-bg-2);
     }

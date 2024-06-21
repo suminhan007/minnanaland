@@ -5,6 +5,7 @@ import Crochet from "./pages/Crochet";
 import "./style/reset.scss";
 import "./style/atomic.scss";
 import "./style/variable.scss";
+import "./style/animation.scss";
 import UITest from "./pages/UITest";
 import Articles from "./pages/Articles";
 import UIAutoTool from "./pages/UIAutoTool";
