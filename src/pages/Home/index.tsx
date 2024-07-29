@@ -3,7 +3,7 @@ import styled from "styled-components";
 import House from "./scene/House";
 
 type Props = {};
-const Home: React.FC<Props> = ({}) => {
+const Home: React.FC<Props> = ({ }) => {
   return (
     <StyleHomeWrap className="relative" style={{ height: "100vh" }}>
       <StyleHomeCanvas className="absolute flex-1 top-0 left-0">
