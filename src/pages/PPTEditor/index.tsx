@@ -2,13 +2,13 @@ import React, { useState } from 'react'
 import Layout from "../../components/Layout";
 import Header from "../../components/Header";
 import { ClickType } from "../../components/Menu";
-import { Title } from "@suminhan/land-design";
 import Content from "../../components/Content";
 import Footer from "../../components/Footer";
 import Flex from "../../components/Flex";
+import Title from '../../components/Title';
 
 type Props = {};
-const PPTEditor: React.FC<Props> = ({}) => {
+const PPTEditor: React.FC<Props> = ({ }) => {
   const [activedNav, setActivedNav] = useState<number>(1);
   const [file, setFIle] = useState<any>();
   const handleFileChange = (e: any) => {
