@@ -1,22 +1,21 @@
 import React, { useState } from "react";
-import Layout from "../../components/Layout";
-import Header from "../../components/Header";
-import Content from "../../components/Content";
-import Title from "../../components/Title";
 import { ClickType } from "../../components/Menu";
 import ImgColorPicker from "./ImgColorPicker";
 import ColorMatch from "./ColorMatch";
 import ColorLib from "./ColorLib";
 import ColorChange from "./ColorChange";
 import Application from "../components/Application";
+import { LandHeader, LandLayout, Title } from "@suminhan/land-design";
+import Content from "../../components/Content";
 
 type Props = {};
 
 const Colors: React.FC<Props> = ({ }) => {
-  const [activedNav, setActivedNav] = useState<number>(1);
+  const [activedNav, setActivedNav] = useState<number
+    | string>(1);
   return (
-    <Layout>
-      <Header
+    <LandLayout>
+      <LandHeader
         logo={<p>❤️💛🩵💜</p>}
         name={<Title title="Colors" type="h2" />}
         align="end"
@@ -28,20 +27,19 @@ const Colors: React.FC<Props> = ({ }) => {
             { key: 3, title: "图片换色", clickType: ClickType.SELF },
             // { key: 4, title: "颜色库", clickType: ClickType.SELF },
           ],
-          actived: activedNav,
-          handleChangeTab: (key, type) =>
-            type === ClickType.SELF && setActivedNav(key),
+          active: activedNav,
+          onChange: (item) => setActivedNav(item.key)
         }}
       />
-      <Layout>
+      <LandLayout>
         <Content>
           {activedNav === 1 && <ImgColorPicker />}
           {activedNav === 2 && <ColorMatch />}
           {activedNav === 3 && <ColorChange />}
           {activedNav === 4 && <ColorLib />}
         </Content>
-      </Layout>
-    </Layout>
+      </LandLayout>
+    </LandLayout>
   );
 };
 

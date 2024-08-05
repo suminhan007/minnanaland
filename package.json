@@ -18,6 +18,7 @@
     "@react-three/drei": "^9.105.4",
     "@react-three/fiber": "^8.16.2",
     "@splinetool/loader": "^1.7.6",
+    "@suminhan/land-design": "^0.0.35",
     "@types/three": "^0.152.1",
     "html2canvas": "^1.4.1",
     "react": "^18.2.0",
