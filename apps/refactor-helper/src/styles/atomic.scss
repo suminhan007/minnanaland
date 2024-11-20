@@ -125,6 +125,9 @@
 .cursor-default {
     cursor: default;
 }
+.events-none{
+  pointer-events: none;
+}
 
 //边距
 .p-4 {
@@ -264,6 +267,9 @@
 }
 .pr-32 {
     padding-right: 32px;
+}
+.mx-auto{
+  margin-inline: auto;
 }
 .-mt-1 {
     margin-top: -1px;
@@ -472,6 +478,15 @@
 }
 .radius-50 {
     border-radius: 50%;
+}
+.shadow-small{
+  box-shadow: var(--boxshadow-small);
+}
+.shadow-medium{
+  box-shadow: var(--boxshadow-medium);
+}
+.shadow-large{
+  box-shadow: var(--boxshadow-large);
 }
 
 //字体
