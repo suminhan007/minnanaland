@@ -1,0 +1,11 @@
+{
+  "name": "minnanaland",
+  "version": "0.0.1",
+  "private": true,
+  "workspaces": [
+    "apps/*"
+  ],
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
