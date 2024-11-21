@@ -43,7 +43,7 @@ export default function Create() {
           style={{ width: index < step ? '120px' : step === index ? `calc(100vw - ${index * 120}px)` : '0px' }}
         >
           {item.element}
-          <div className={`absolute top-0 left-0 flex items-center justify-center width-100 height-100 bg-white color-gray-4 transition ${step === index ? 'opacity-0 events-none' : ''}`} onClick={() => setStep(index)}>{item.placeholder}</div>
+          <div className={`absolute top-0 left-0 flex items-center justify-center width-100 height-100 bg-white color-gray-4 cursor-pointer transition ${step === index ? 'opacity-0 events-none' : ''}`} onClick={() => setStep(index)}>{item.placeholder}</div>
         </div>)}
     </LandAffixContainer>
   )

@@ -2,7 +2,7 @@
   ······1. 简要描述
   ······2.
  */
-import { LandDivider, LandFlex, LandInput, LandRadio, LandSlider, LandTitle } from '@suminhan/land-design';
+import { LandButton, LandDivider, LandFlex, LandInput, LandRadio, LandSelect, LandSlider, LandTitle } from '@suminhan/land-design';
 import React, { useState } from 'react'
 
 type Props = {
@@ -14,7 +14,7 @@ const Prompt: React.FC<Props> = ({
   const [radio, setRadio] = useState<number | string>(0);
   const [similarity, setSimilarity] = useState<number>(5);
   return (
-    <div className='flex column both-center px-24 pt-32 pb-24 mx-auto width-100 height-100 border-box' style={{ maxWidth: '800px' }}>
+    <div className='flex column both-center px-24 pt-32 pb-24 mx-auto width-100 height-100 border-box' style={{ maxWidth: '960px' }}>
       <LandTitle title='step1: 原型图' type='h3' />
       <LandDivider margin={32} />
       <LandFlex column gap={24}>
@@ -44,7 +44,6 @@ const Prompt: React.FC<Props> = ({
                 placeholder='例如：田字格'
                 value={input}
                 onChange={val => setInput(val)}
-                onClear={() => setInput('')}
                 width='100%'
                 type='background'
               /></>
@@ -65,10 +64,22 @@ const Prompt: React.FC<Props> = ({
         </LandFlex>
 
         <LandFlex column gap={12}>
+          <LandTitle title='3. 生成配置' type='p' />
+          <LandSelect
+            data={[
+              { value: 1, label: '1' },
+              { value: 2, label: '2' },
+              { value: 3, label: '4' }
+            ]}
+          />
+        </LandFlex>
+
+        <LandFlex column gap={12}>
           <LandTitle title='5. 限制程度' type='p' info='限制程度越高' />
           <LandSlider min={0} max={10} value={similarity} onChange={val => setSimilarity(val)} />
         </LandFlex>
 
+        <LandDivider margin={32} />
       </LandFlex>
     </div>
   )
