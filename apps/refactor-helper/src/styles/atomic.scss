@@ -26,6 +26,12 @@
 .none {
     display: none;
 }
+.absolute-center {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
 
 //布局
 .flex {
@@ -271,6 +277,9 @@
 .mx-auto{
   margin-inline: auto;
 }
+.m-auto{
+    margin: auto;
+}
 .-mt-1 {
     margin-top: -1px;
 }
@@ -478,6 +487,9 @@
 }
 .radius-50 {
     border-radius: 50%;
+}
+.radius-100 {
+    border-radius: 100%;
 }
 .shadow-small{
   box-shadow: var(--boxshadow-small);
