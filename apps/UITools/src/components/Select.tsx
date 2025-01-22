@@ -35,7 +35,7 @@ const Select: React.FC<SelectProps> = ({
   return (
     <StyleSelectWrap
       style={{
-        width: typeof width === "number" ? `${width}px` : width,
+        width: width,
         ...style,
       }}
       className={className}
