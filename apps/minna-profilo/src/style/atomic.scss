@@ -128,6 +128,7 @@
     }
 }
 .scrollbar-none {
+    overflow: auto;
     &::-webkit-scrollbar {
         width: 0;
         display: none;
@@ -404,6 +405,9 @@
 }
 .mb-40 {
     margin-bottom: 40px;
+}
+.mx-auto {
+    margin-inline: auto;
 }
 .border-box{
   box-sizing: border-box;
