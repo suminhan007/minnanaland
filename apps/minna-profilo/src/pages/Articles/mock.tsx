@@ -1,38 +1,56 @@
 import getRandomRgbaColor from "../../hooks/getRandomRgba.ts";
+import {articles2025_1_20} from "./articles/articles2025_1_20.tsx";
 //测试数据
 // export const ROTARY_FOLDER_DATA = [
 //     ...Array.from({length:12}).map((_i, index) => ({
 //         id: `${index+1}`,
-//         name:`${index+1}月`,
-//         date:`${index+1}月`,
+//         name:`${index+1}`,
+//         date:`${index+1}`,
 //         bg: getRandomRgbaColor(0.1),
 //         color: getRandomRgbaColor(1),
 //         articles:[
 //             ...Array.from({length: Math.random()*20}).map((_i, idx) => ({
-//                 id: `${index+1}-${idx+1}`,
+//                 id: `${idx+1}`,
 //                 title: `${index+1}月第${idx+1}篇`,
 //                 desc:'1月第1篇的描述',
 //                 date:'1月2日',
+//                 data: articles2025_1_20,
+//                 tag: (idx === 3||idx === 8) ? ['tag']:[]
 //             }))
 //         ]
 //     })),
 // ]
-
 export const ROTARY_FOLDER_DATA = [
     {
-        id:'2025-1',
+        id:'1',
         name:'1月',
         date:'1月',
         bg: getRandomRgbaColor(0.1),
         color: getRandomRgbaColor(1),
         articles: [
             {
-                id:'2025-1-1',
+                id:'23',
                 title: '抽奖轮盘的实现方式',
                 desc:'',
                 date:'1月20日',
-                tag: ['css']
+                tag: ['组件'],
+                data: articles2025_1_20
+            },
+            {
+                id:'24',
+                title: '抽奖轮盘的实现方式',
+                desc:'',
+                date:'1月20日',
+                data: articles2025_1_20
             }
         ]
-    }
+    },
+    ...Array.from({length:11}).map((_i, index) => ({
+        id: `${index+1}`,
+        name:`${index+2}月`,
+        date:`${index+1}`,
+        bg: getRandomRgbaColor(0.1),
+        color: getRandomRgbaColor(1),
+        articles:[]
+    })),
 ]

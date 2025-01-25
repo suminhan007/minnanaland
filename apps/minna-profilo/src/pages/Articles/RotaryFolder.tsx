@@ -1,7 +1,7 @@
 import React, {Fragment} from "react";
 import styled from "styled-components";
 
-type RotaryFileDataType = {
+export type RotaryFileDataType = {
     id: string;
     title: string;
     desc: string;
@@ -9,7 +9,7 @@ type RotaryFileDataType = {
     date:string;
     tag?:string[];
 }
-type RotaryFolderDataType = {
+export type RotaryFolderDataType = {
     id: string;
     name: string;
     /** 月份 */
@@ -20,10 +20,12 @@ type RotaryFolderDataType = {
 }
 type Props = {
     data?: RotaryFolderDataType[];
+    onClick?: (item:RotaryFileDataType,parentItem:RotaryFolderDataType) => void;
 }
 
 const RotaryFolder:React.FC<Props> = ({
                                           data,
+                                          onClick
                                       }) => {
     const getRotaryAngle = (index:number,idx:number) => {
         let leafNodeCount = 0;
@@ -54,9 +56,15 @@ const RotaryFolder:React.FC<Props> = ({
     }
     return (
         <StyledRotaryFolderLayout className={'relative flex items-center shrink-0 overflow-auto'}>
-            {data?.map?.((item,index) => <Fragment key={item.id ?? index}>
-                    <div  className={'relative flex shrink-0'}
-                         style={{width: '67%', maxWidth:'1000px',aspectRatio: '2',transform: index%2 ? 'translateY(60%)':'translateY(-60%)',marginLeft: index>0 ? '-30%':''}}
+            {data?.map?.((item, index) => <Fragment key={item.id ?? index}>
+                    <div className={'relative flex shrink-0'}
+                         style={{
+                             width: '67%',
+                             maxWidth: '900px',
+                             minWidth: '600px',
+                             aspectRatio: '2',
+                             transform: index % 2 ? `translate(-${45 * index}%,60%)` : `translate(-${45 * index}%,-60%)`
+                         }}
                     >
                         {item.articles.map((itm, idx) =>
                             <StyledRotaryFile
@@ -65,17 +73,23 @@ const RotaryFolder:React.FC<Props> = ({
                                 style={{
                                     transform: index % 2 ? `translate(-50%,-50%) rotate(${getRotateAngle(index, idx, item)}deg)` : `translate(-50%,-50%) rotate(${getRotateAngle(index, idx, item)}deg)`,
                                 }}
+                                onClick={() => onClick?.(itm, item)}
                             >
                                 <div className={'content width-100'}
                                      style={{animationDelay: `${getRotaryAngle(index, idx) * 15}ms`}}>
                                     <div
-                                        className={`relative hover-content flex column ${index%2 ? 'items-end pb-16 ':'pt-16'} px-16 width-100 fs-12 color-gray-2 radius-4 cursor-pointer`}
-                                        style={{background:item.bg, color:item.color,border: `1px solid ${item.color}`}}
+                                        className={`relative hover-content flex column ${index % 2 ? 'items-end pb-16 ' : 'pt-16'} px-16 width-100 fs-12 color-gray-2 radius-4 cursor-pointer`}
+                                        style={{background: item.bg, color: item.color, border: `1px solid ${item.color}`}}
                                     >
                                         {itm.title}
                                         <div className={'fs-10 color-gray-4'}>{itm.date}</div>
-                                        <div className={'absolute top-8 right-0 flex gap-4 fs-10 color-white'}>
-                                            {itm.tag?.map((j,jdx) => <div key={jdx} className={'px-4'} style={{writingMode:'horizontal-tb',backgroundColor:item.color,borderTopLeftRadius:'4px',borderBottomLeftRadius:'4px'}}>{j}</div>)}
+                                        <div className={`absolute ${index%2?'bottom-8':'top-8'} right-0 flex gap-4 fs-10 color-white`}>
+                                            {itm.tag?.map((j, jdx) => <div key={jdx} className={'px-4'} style={{
+                                                writingMode: 'horizontal-tb',
+                                                backgroundColor: item.color,
+                                                borderTopLeftRadius: '4px',
+                                                borderBottomLeftRadius: '4px'
+                                            }}>{j}</div>)}
                                         </div>
                                     </div>
                                 </div>
@@ -83,20 +97,55 @@ const RotaryFolder:React.FC<Props> = ({
                         )}
                         {item.articles.length < 15 && <>
                             {Array.from({length: 15 - item.articles.length}).map((_itm, idx) => <StyledRotaryFile
-                                className={`absolute ${index % 2 ? 'double' : ''} ${index === 0 ? 'first' : ''} default`}
-                                style={{transform: index % 2 ? `translate(-50%,-50%) rotate(${getRotateAngle(index, item.articles.length+idx, item)}deg)` : `translate(-50%,-50%) rotate(${getRotateAngle(index, item.articles.length+idx, item)}deg)`}}
+                                key={idx}
+                                className={`absolute ${index % 2 ? 'double' : ''} ${index === 0 ? 'first' : ''} default events-none`}
+                                style={{transform: index % 2 ? `translate(-50%,-50%) rotate(${getRotateAngle(index, item.articles.length + idx, item)}deg)` : `translate(-50%,-50%) rotate(${getRotateAngle(index, item.articles.length + idx, item)}deg)`}}
                             >
                                 <div className={'content width-100'}
-                                     style={{animationDelay: `${(getRotaryAngle(index,idx) + item.articles.length) * 15}ms`}}>
+                                     style={{animationDelay: `${(getRotaryAngle(index, idx) + item.articles.length) * 15}ms`}}>
                                     <div
                                         className={'hover-content flex gap-12 pt-16 px-16 width-100 fs-12 radius-4 cursor-pointer'}
-                                        style={{background:item.bg, color:item.color,border: `1px solid ${item.color}`,opacity:0.3}}
+                                        style={{
+                                            background: item.bg,
+                                            color: item.color,
+                                            border: `1px solid ${item.color}`,
+                                            opacity: 0.3
+                                        }}
                                     >
                                     </div>
                                 </div>
                             </StyledRotaryFile>)}
                         </>}
-                        <div className={`absolute ${index%2 ? 'top-0 pt-32':'bottom-0'} fw-600`} style={{color:item.color,left:'50%',transform:index%2?'translate(-50%,-20%)':'translate(-50%,-20%)'}}>{item.name}</div>
+                        <div className={`absolute ${index % 2 ? 'top-0 pt-32' : 'bottom-0'} fw-600`} style={{
+                            color: item.color,
+                            left: '50%',
+                            transform: index % 2 ? 'translate(-50%,-20%)' : 'translate(-50%,-20%)'
+                        }}>{item.name}</div>
+                        {index===0&&<svg width="34%" viewBox="0 0 103 86" fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                              className={'absolute'} style={{top: '100%', left: '6%',transform:'translateY(20%)'}}>
+                            <path
+                                d="M102 0.5C102 28.3904 79.3904 51 51.5 51M51.5 51C23.6096 51 1 28.3904 1 0.5M51.5 51V77.5M51.5 77.5L39.5 85.5M51.5 77.5L61 85.5"
+                                stroke={data ? data[0].color : ''}
+                                strokeWidth={0.3}
+                            />
+                        </svg>}
+                        {index === data?.length - 1 && <svg width={'34%'} viewBox="0 0 85 100" fill="none" style={{bottom: '100%', right: '6%', transform: 'translateY(-20%)'}}>
+                            <path
+                                d="M35.4068 38.5778C28.0674 37.6863 13.3064 30.451 11.1166 19.6454C9.90718 13.6777 13.7646 7.85942 19.7323 6.65001C23.3869 5.90939 26.9854 7.06889 29.5037 9.44952C30.8964 6.27629 33.7596 3.80728 37.4142 3.06666C43.3819 1.85725 49.2002 5.71468 50.4096 11.6824C52.5994 22.488 41.8199 34.8992 35.4068 38.5778ZM35.4068 38.5778C39.8586 50.4269 40.8982 57.1118 41.5911 69.0938"
+                                stroke={data ? data[data?.length - 1].color : ''}
+                                strokeWidth={0.3}
+                                opacity={data[data?.length - 1].articles.length >= 15 ? 1 : 0.3}
+                                stroke-linecap="square" stroke-linejoin="round"
+                            />
+                            <path
+                                d="M84.29 99.5C78.0437 82.2838 61.6905 70 42.5002 70C23.3099 70 6.95677 82.2838 0.710449 99.5"
+                                stroke={data ? data[data?.length - 1].color : ''}
+                                strokeWidth={0.3}
+                                opacity={data[data?.length - 1].articles.length >= 15 ? 1 : 0.3}
+                            />
+                        </svg>
+                        }
                     </div>
                 </Fragment>
             )}
@@ -113,10 +162,12 @@ const StyledRotaryFile = styled.div`
     transform-origin: bottom center;
     user-select: none;
     padding-bottom: 20%;
+
     &.double {
         transform-origin: top center;
         padding-bottom: 0;
         padding-top: 20%;
+
         &:hover:not(.default) {
             .hover-content {
                 transform: translateY(20px);

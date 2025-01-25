@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import RotaryFolder from "./RotaryFolder.tsx";
 import {ROTARY_FOLDER_DATA} from "./mock.tsx";
-import {Fragment, useEffect, useState} from "react";
+import {Fragment, useEffect,  useState} from "react";
+import {useNavigate} from "react-router-dom";
 
 export function  Articles() {
     const [time,setTime] = useState('');
@@ -28,24 +29,27 @@ export function  Articles() {
             return () => clearInterval(intervalId);
     },[]);
     const sortData = ROTARY_FOLDER_DATA.map(itm => itm);
+
+    const navigate = useNavigate();
     return (
         <StyledArticlesLayout className={'relative flex justify-center width-100 height-100 overflow-hidden'} style={{backgroundColor:'white'}}>
-                <RotaryFolder data={ROTARY_FOLDER_DATA}/>
+                <RotaryFolder data={ROTARY_FOLDER_DATA} onClick={(item,parentItem) => navigate(`/articles/details/${parentItem.id}-${item.id}`)}/>
                 {/*标题*/}
-                <div className={'absolute top-8 left-8 fw-600 fs-18'}>minna's articles</div>
+                <div className={'absolute top-8 left-8 fw-600 fs-18 color-gray-3'}>Outputs of minna 2025</div>
 
                 <div className={'absolute flex column gap-8 fs-12 bottom-8 left-8'}>
                     <div className={'flex column gap-8'}>
                         <div><span className={'fw-600 fs-14'}>{date.year}</span> 年共计 <span
-                            className={'fw-600'}>{count}</span> 篇记录：
+                            className={'fw-600'}>{count}</span> 条记录：
                         </div>
                         <ul className={'flex gap-12 fs-12'}>
                             {sortData.sort((a, b) => b.articles.length - a.articles.length).map((item, index) =>
                                 <Fragment key={item.id ?? index}>{
-                                    item.articles.length > 0 ? <li className={'flex column'}
-                                                                   style={{color: index === 0 ? 'var(--color-primary-7)' : index === 1 ? 'var(--color-primary-4)' : index === 2 ? 'var(--color-primary-3)' : ''}}>
-                                        <div><span className={'fw-600'}>{item.articles.length}</span> 篇</div>
-                                        <div style={{width: '32px'}}>{item.date}</div>
+                                    item.articles.length > 0 ? <li className={'flex column gap-4 justify-end items-center'}
+                                                                   style={{color: index < 3 ? item.color : 'var(--color-text-5)'}}>
+                                        <div className={'fw-600'}>{item.articles.length}</div>
+                                        <div style={{width:'4px',height: 24*item.articles.length/sortData[0].articles.length,backgroundColor: index < 3 ? item.color:'var(--color-bg-3)'}}></div>
+                                        <div style={{width: '32px', color:'var(--color-text-2)'}} className={'fs-10'}>{item.date}</div>
                                     </li> : <></>
                                 }
                                 </Fragment>)}
@@ -53,7 +57,7 @@ export function  Articles() {
                     </div>
                 </div>
                 {/*时间*/}
-                <div className={'absolute fw-600 fs-14 top-8 right-8'}>{date.date} {time}</div>
+                <div className={'absolute fw-600 fs-14 top-8 right-8 color-gray-3'}>{date.date} {time}</div>
         </StyledArticlesLayout>
     )
 }

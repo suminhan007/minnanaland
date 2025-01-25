@@ -143,6 +143,9 @@
 .no-select{
     user-select: none;
 }
+.events-none{
+    pointer-events: none;
+}
 
 //边距
 .p-4 {
