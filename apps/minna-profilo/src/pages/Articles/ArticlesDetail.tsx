@@ -62,9 +62,9 @@ const ArticlesDetail:React.FC<Props> = ({
         if(href){
             const { nodeIndex,parentIndex } = findNodeAndParentIndex(newData,href[1],href[0]);
             if(nodeIndex === 0){
-                navigate(`/articles/details/${newData[parentIndex-1].id}-${newData[parentIndex-1].articles[newData[parentIndex-1].articles.length-1].id}`);
+                navigate(`/2025articles/details/${newData[parentIndex-1].id}-${newData[parentIndex-1].articles[newData[parentIndex-1].articles.length-1].id}`);
             }else{
-                navigate(`/articles/details/${newData[parentIndex].id}-${newData[parentIndex].articles[nodeIndex-1].id}`);
+                navigate(`/2025articles/details/${newData[parentIndex].id}-${newData[parentIndex].articles[nodeIndex-1].id}`);
             }
         }
     }
@@ -73,9 +73,9 @@ const ArticlesDetail:React.FC<Props> = ({
         if(href){
             const { nodeIndex,parentIndex } = findNodeAndParentIndex(newData,href[1],href[0]);
             if(nodeIndex === newData[parentIndex].articles.length-1){
-                navigate(`/articles/details/${newData[parentIndex+1].id}-${newData[parentIndex+1].articles[0].id}`);
+                navigate(`/2025articles/details/${newData[parentIndex+1].id}-${newData[parentIndex+1].articles[0].id}`);
             }else{
-                navigate(`/articles/details/${newData[parentIndex].id}-${newData[parentIndex].articles[nodeIndex+1].id}`);
+                navigate(`/2025articles/details/${newData[parentIndex].id}-${newData[parentIndex].articles[nodeIndex+1].id}`);
             }
         }
     }
@@ -109,7 +109,7 @@ const ArticlesDetail:React.FC<Props> = ({
                 </div>
 
                 <div className={'back absolute flex both-center radius-100 cursor-pointer'}
-                     style={{border: `1px solid ${activeParentItem?.color}`}} onClick={() => navigate('/articles')}>
+                     style={{border: `1px solid ${activeParentItem?.color}`}} onClick={() => navigate('/2025articles')}>
                     <svg width="20" height="20" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M5.79889 24H41.7989" stroke={activeParentItem?.color} strokeWidth="3"
                               strokeLinecap="round" strokeLinejoin="round"/>

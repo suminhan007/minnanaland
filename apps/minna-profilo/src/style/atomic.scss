@@ -147,6 +147,9 @@
 .events-none{
     pointer-events: none;
 }
+.shadow-light{
+    box-shadow: var(--boxshadow-small);
+}
 
 //边距
 .p-4 {

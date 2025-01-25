@@ -33,7 +33,7 @@ export function  Articles() {
     const navigate = useNavigate();
     return (
         <StyledArticlesLayout className={'relative flex justify-center width-100 height-100 overflow-hidden'} style={{backgroundColor:'white'}}>
-                <RotaryFolder data={ROTARY_FOLDER_DATA} onClick={(item,parentItem) => navigate(`/articles/details/${parentItem.id}-${item.id}`)}/>
+                <RotaryFolder data={ROTARY_FOLDER_DATA} onClick={(item,parentItem) => navigate(`/2025articles/details/${parentItem.id}-${item.id}`)}/>
                 {/*标题*/}
                 <div className={'absolute top-8 left-8 fw-600 fs-18 color-gray-3'}>Outputs of minna 2025</div>
 
