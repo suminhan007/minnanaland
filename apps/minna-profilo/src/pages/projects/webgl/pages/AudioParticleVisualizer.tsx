@@ -50,7 +50,7 @@ const AudioParticleVisualizer = () => {
 
         const particleSystem = new THREE.Points(particles, particleMaterial);
         scene.add(particleSystem);
-
+        if(!window.location.hash.includes('audioParticleVisualizer'))return;
         // 音频分析
         const audioContext = new (window.AudioContext || window.webkitAudioContext)();
         const analyser = audioContext.createAnalyser();
@@ -100,7 +100,7 @@ const AudioParticleVisualizer = () => {
             audioElement.pause();
             audioContext.close();
             renderer.dispose();
-            containerRef.current.removeChild(renderer.domElement);
+            containerRef.current&&containerRef.current.removeChild(renderer.domElement);
         };
     }, [audioUrl]);
 

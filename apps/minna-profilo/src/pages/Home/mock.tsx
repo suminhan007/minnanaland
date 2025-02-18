@@ -33,14 +33,14 @@ export const HomeData = [
                 title: '2025年度文章',
                 desc: '全栈·交互·扩展',
                 color: randomCoverColor[0].value,
-                href:'/2025articles',
+                href:'/#/2025articles',
                 details: '记录2025年输入的知识们。',
                 type:randomCoverColor[0].name,
             },
             {
                 id: '2025-4',
-                title: '做过的组件',
-                desc: '绕不开的组件',
+                title: '组件库',
+                desc: '持续更新、优化做过的组件',
                 details: '立志做一个日益完善、交互友好的组件库，收集在了一个专门的网站。',
                 href:'https://suminhan.cn/land-design',
                 target: '_blank',
@@ -51,19 +51,20 @@ export const HomeData = [
                 id: '2025-7',
                 title: '3D 案例实践',
                 desc: '每周实现一个three.js案例。',
-                href: '/webgl',
+                href: '/#/webgl',
                 details: <>从基础简单到3D效果入手，逐渐积累，熟悉three.js，丰富3D网页的想象，如粒子效果、书本翻页模拟等...</>,
                 color: randomCoverColor[3].value,
                 type: randomCoverColor[3].name
             },
-            {
-                id: '2025-6',
-                title: '项目合集',
-                desc: '把一些idea用代码记录下来。',
-                details: <>《织作时光》、《重构工具》、《电子手帐工具》...</>,
-                color: randomCoverColor[1].value,
-                type: randomCoverColor[1].name
-            },
+            // {
+            //     id: '2025-6',
+            //     title: '项目合集',
+            //     href: '/#/works',
+            //     desc: '把一些idea用代码记录下来。',
+            //     details: <></>,
+            //     color: randomCoverColor[1].value,
+            //     type: randomCoverColor[1].name
+            // },
             {
                 id: '2025-5',
                 title: '摄影集',
@@ -73,6 +74,15 @@ export const HomeData = [
                 target: '_blank',
                 color: randomCoverColor[4].value,
                 type: randomCoverColor[4].name
+            },
+            {
+                id: '2025-6',
+                title: '织作时光',
+                href: 'https://croknittime.com',
+                desc: '独立全栈打造的手工编织集合站',
+                details: <></>,
+                color: randomCoverColor[1].value,
+                type: randomCoverColor[1].name
             },
         ],
     },
@@ -87,7 +97,17 @@ export const HomeData = [
                 desc: '2024年度文章',
                 color: randomCoverColor[0].value,
                 type:randomCoverColor[0].name,
-            }
+            },
+            {
+                id: '2024-2',
+                title: '组件库（初建）',
+                desc: '持续更新、优化做过的组件',
+                details: '立志做一个日益完善、交互友好的组件库，收集在了一个专门的网站。',
+                href:'https://suminhan.cn/land-design',
+                target: '_blank',
+                color: randomCoverColor[2].value,
+                type: randomCoverColor[2].name
+            },
         ],
     },
     {

@@ -105,7 +105,8 @@ const ArticlesDetail:React.FC<Props> = ({
                         <div className={'fs-12 color-gray-3'}>2025年{activeItem?.date}</div>
                         <div className={'fs-12 color-gray-3'}>{activeItem?.desc}</div>
                     </div>
-                    <div className={'fs-14 color-gray-2'}>{activeItem?.data}</div>
+                    {activeItem?.data && <div className={'fs-14 color-gray-2'}>{activeItem?.data}</div>}
+                    {activeItem?.src && <iframe src={activeItem?.src} width={'100%'} height={'100%'} className={'overflow-auto'}/>}
                 </div>
 
                 <div className={'back absolute flex both-center radius-100 cursor-pointer'}

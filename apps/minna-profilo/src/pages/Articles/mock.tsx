@@ -1,5 +1,6 @@
 import getRandomRgbaColor from "../../hooks/getRandomRgba.ts";
 import {articles2025_1_20} from "./articles/articles2025_1_20.tsx";
+// import {articles2025_2_18} from "./articles/articles2025_2_18.tsx";
 //测试数据
 // export const ROTARY_FOLDER_DATA = [
 //     ...Array.from({length:12}).map((_i, index) => ({
@@ -33,7 +34,7 @@ export const ROTARY_FOLDER_DATA = [
                 title: '抽奖轮盘的实现方式',
                 desc:'',
                 date:'1月20日',
-                tag: ['组件'],
+                tag: ['总结'],
                 data: articles2025_1_20
             },
             {
@@ -41,7 +42,7 @@ export const ROTARY_FOLDER_DATA = [
                 title: '抽奖轮盘的实现方式',
                 desc:'',
                 date:'1月20日',
-                data: articles2025_1_20
+                src: ''
             }
         ]
     },

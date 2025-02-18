@@ -6,6 +6,7 @@ import {Articles} from "./pages/Articles";
 import ArticlesDetail from "./pages/Articles/ArticlesDetail.tsx";
 import WebglProjects from "./pages/projects/webgl";
 import AudioParticleVisualizer from "./pages/projects/webgl/pages/AudioParticleVisualizer.tsx";
+import Works from "./pages/projects/works/Works.tsx";
 
 function App() {
 
@@ -15,6 +16,8 @@ function App() {
         <Route path="/" element={<Home/>}></Route>
         <Route path="/2025articles" element={<Articles/>}></Route>
         <Route path="/2025articles/details/:id" element={<ArticlesDetail/>}></Route>
+
+        <Route path={'/works'} element={<Works/>}/>
 
         <Route path={'/webgl'} element={<WebglProjects/>}/>
         <Route path={'/webgl/audioParticleVisualizer'} element={<AudioParticleVisualizer/>}/>
