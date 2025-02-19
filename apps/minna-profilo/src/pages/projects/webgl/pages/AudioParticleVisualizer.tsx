@@ -108,8 +108,8 @@ const AudioParticleVisualizer = () => {
         <div className={'absolute top-0 left-0 width-100 height-100 cursor-pointer'}>
             <LandUploader onUpload={url => setAudioUrl(url)} style={{backgroundColor:'transparent',border:'none'}}  height={'100vh'}><></></LandUploader>
             <div className={'absolute top-8 flex items-center color-gray-3 fs-12 no-wrap'} style={{left:'50%',transform:'translateX(-50%)'}}>
-                点击屏幕任意位置 或 <LandInput type={'transparent'} className={'mx-8'} style={{fontSize:'12px'}} placeholder={'输入链接'} value={input} onChange={(val:string) => setInput(val)}/>
-                <div style={{height:'12px'}} onClick={() => input && input.includes('.mp3') && setAudioUrl(input)}><Icon name={'check'} strokeWidth={0} size={12}/></div> 来上传音频
+                点击屏幕任意位置 或 <LandInput type={'transparent'} className={'mx-8'} style={{fontSize:'12px',color:'var(--color-text-4)'}} placeholder={'输入链接'} value={input} onChange={(val:string) => setInput(val)}/>
+                <div style={{height:'12px'}} className={'mr-8'} onClick={() => input && input.includes('.mp3') && setAudioUrl(input)}><Icon name={'check'} strokeWidth={0} size={12}/></div> 来上传音频
             </div>
         </div>
         <div ref={containerRef} className={'width-100 height-100'}/>
