@@ -5,5 +5,12 @@ export const WEBGL_PROJECT_DATA = [
         desc: '音频波动分析、粒子动力学、粒子系统',
         date: '2025-02-18',
         src:'audioParticleVisualizer'
+    },
+    {
+        id:'2',
+        title: '地球仪',
+        desc: '音频波动分析、粒子动力学、粒子系统',
+        date: '2025-02-124',
+        src:'earth'
     }
 ]

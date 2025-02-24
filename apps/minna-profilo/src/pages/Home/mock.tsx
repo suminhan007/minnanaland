@@ -29,7 +29,7 @@ export const HomeData = [
         desc: '健康·技术·成熟·丰富',
         cards: [
             {
-                id: '2025-2',
+                id: '2025-1',
                 title: '2025年度文章',
                 desc: '全栈·交互·扩展',
                 color: randomCoverColor[0].value,
@@ -38,7 +38,7 @@ export const HomeData = [
                 type:randomCoverColor[0].name,
             },
             {
-                id: '2025-4',
+                id: '2025-2',
                 title: '组件库',
                 desc: '持续更新、优化做过的组件',
                 details: '立志做一个日益完善、交互友好的组件库，收集在了一个专门的网站。',
@@ -48,7 +48,7 @@ export const HomeData = [
                 type: randomCoverColor[2].name
             },
             {
-                id: '2025-7',
+                id: '2025-3',
                 title: '3D 案例实践',
                 desc: '每周实现一个three.js案例。',
                 href: '/#/webgl',
@@ -65,6 +65,15 @@ export const HomeData = [
             //     color: randomCoverColor[1].value,
             //     type: randomCoverColor[1].name
             // },
+            {
+                id: '2025-4',
+                title: '图片处理技巧',
+                desc: 'js、css处理图片。',
+                href: '/#/imgEffect',
+                details: <>从基础到高级，积累PS图片处理功能的实现方法。</>,
+                color: randomCoverColor[3].value,
+                type: randomCoverColor[3].name
+            },
             {
                 id: '2025-5',
                 title: '摄影集',

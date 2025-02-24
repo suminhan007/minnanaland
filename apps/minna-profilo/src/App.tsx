@@ -7,6 +7,10 @@ import ArticlesDetail from "./pages/Articles/ArticlesDetail.tsx";
 import WebglProjects from "./pages/projects/webgl";
 import AudioParticleVisualizer from "./pages/projects/webgl/pages/AudioParticleVisualizer.tsx";
 import Works from "./pages/projects/works/Works.tsx";
+import Earth from "./pages/projects/webgl/pages/Earth.tsx";
+import ImgEffect from "./pages/projects/ImgEffect";
+import PickMainColors from "./pages/projects/ImgEffect/pages/PickMainColors.tsx";
+import ImgPixel from "./pages/projects/ImgEffect/pages/ImgPixel.tsx";
 
 function App() {
 
@@ -21,6 +25,11 @@ function App() {
 
         <Route path={'/webgl'} element={<WebglProjects/>}/>
         <Route path={'/webgl/audioParticleVisualizer'} element={<AudioParticleVisualizer/>}/>
+        <Route path={'/webgl/earth'} element={<Earth/>}/>
+
+        <Route path={'/imgEffect'} element={<ImgEffect/>}/>
+        <Route path={'/imgEffect/pickMainColors'} element={<PickMainColors/>}/>
+        <Route path={'/imgEffect/imgPixel'} element={<ImgPixel/>}/>
     </Routes>
 </>
   )
