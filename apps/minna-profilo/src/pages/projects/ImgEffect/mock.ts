@@ -12,5 +12,12 @@ export const IMG_EFFECT_PROJECT_DATA = [
         desc: '获取图片像素数据，将若干像素合并成区域主色，输出新的图片',
         date: '2025-02-24',
         src:'imgPixel'
-    }
+    },
+    // {
+    //     id:'3',
+    //     title: '图片水印',
+    //     desc: '在图片上添加水印或移除水印',
+    //     date: '2025-02-24',
+    //     src:'imgWaterMark'
+    // }
 ]

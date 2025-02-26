@@ -6,7 +6,7 @@ import getPixelData from "../../../../hooks/getPixelData.ts";
 
 
 const PickMainColors = () => {
-    const [imgUrl,setImgUrl] = useState<string>();
+    const [imgUrl,setImgUrl] = useState<string>("");
     const [colors,setColors] = useState<string[]>([]);
     const [colorCount, setColorCount] = useState(10);
     const [loading, setLoading] = useState(false);
@@ -44,7 +44,7 @@ const PickMainColors = () => {
             }
         }
 
-        let sortedColors = Array.from(colorCountMap.entries())
+        const sortedColors = Array.from(colorCountMap.entries())
             .sort((a, b) => b[1] - a[1])
             .map((entry) => entry[0].split(",").map((x: string) => parseInt(x)));
         const filteredColors: any[] = [];
@@ -92,8 +92,8 @@ const PickMainColors = () => {
                                                                                                      onChange={setFilter}
                                                                                                      min={0} max={50}/>
                 </div>
-                <LandButton width={'120px'} type={'background'} status={'primary'} className={'mx-auto'} onClick={handleClick} disabled={loading}>{picking ?
-                    <LandLoading size={16}/> : 'pick'}</LandButton>
+                <LandButton width={'120px'} type={'background'} status={'primary'} className={'mx-auto'} onClick={handleClick} disabled={loading}>{loading ?
+                    <LandLoading size={16}/> : '确定'}</LandButton>
             </LandFlex>
             <div className={'grid gap-32 justify-center mt-24 width-100'} style={{gridTemplateColumns:'repeat(auto-fit, minmax(24px, 36px))'}}>
                 {colors?.map(item => <div key={item} className={'flex column gap-8'}>
