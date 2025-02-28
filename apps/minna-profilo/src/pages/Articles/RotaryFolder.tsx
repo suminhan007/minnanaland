@@ -44,10 +44,10 @@ const RotaryFolder:React.FC<Props> = ({
 
         return found ? leafNodeCount : 0; // 如果未找到指定节点，返回 -1
     }
-
+    const minCount = 8;
     const getRotateAngle = (index:number,idx:number,item:RotaryFolderDataType) => {
         const double = index%2 === 1;
-        const angle = item.articles.length > 15 ? 180/(item.articles.length-1) : 180/14;
+        const angle = item.articles.length > minCount ? 180/(item.articles.length-1) : 180/(minCount-1);
         if(!double){
             return -90 + idx*angle
         }else{
@@ -76,7 +76,7 @@ const RotaryFolder:React.FC<Props> = ({
                                 onClick={() => onClick?.(itm, item)}
                             >
                                 <div className={'content width-100'}
-                                     style={{animationDelay: `${getRotaryAngle(index, idx) * 15}ms`}}>
+                                     style={{animationDelay: `${getRotaryAngle(index, idx) * minCount}ms`}}>
                                     <div
                                         className={`relative hover-content flex column ${index % 2 ? 'items-end pb-16 ' : 'pt-16'} px-16 width-100 fs-12 color-gray-2 radius-4 cursor-pointer`}
                                         style={{background: item.bg, color: item.color, border: `1px solid ${item.color}`}}
@@ -95,14 +95,14 @@ const RotaryFolder:React.FC<Props> = ({
                                 </div>
                             </StyledRotaryFile>
                         )}
-                        {item.articles.length < 15 && <>
-                            {Array.from({length: 15 - item.articles.length}).map((_itm, idx) => <StyledRotaryFile
+                        {item.articles.length < minCount && <>
+                            {Array.from({length: minCount - item.articles.length}).map((_itm, idx) => <StyledRotaryFile
                                 key={idx}
                                 className={`absolute ${index % 2 ? 'double' : ''} ${index === 0 ? 'first' : ''} default events-none`}
                                 style={{transform: index % 2 ? `translate(-50%,-50%) rotate(${getRotateAngle(index, item.articles.length + idx, item)}deg)` : `translate(-50%,-50%) rotate(${getRotateAngle(index, item.articles.length + idx, item)}deg)`}}
                             >
                                 <div className={'content width-100'}
-                                     style={{animationDelay: `${(getRotaryAngle(index, idx) + item.articles.length) * 15}ms`}}>
+                                     style={{animationDelay: `${(getRotaryAngle(index, idx) + item.articles.length) * minCount}ms`}}>
                                     <div
                                         className={'hover-content flex gap-12 pt-16 px-16 width-100 fs-12 radius-4 cursor-pointer'}
                                         style={{
@@ -135,14 +135,14 @@ const RotaryFolder:React.FC<Props> = ({
                                 d="M35.4068 38.5778C28.0674 37.6863 13.3064 30.451 11.1166 19.6454C9.90718 13.6777 13.7646 7.85942 19.7323 6.65001C23.3869 5.90939 26.9854 7.06889 29.5037 9.44952C30.8964 6.27629 33.7596 3.80728 37.4142 3.06666C43.3819 1.85725 49.2002 5.71468 50.4096 11.6824C52.5994 22.488 41.8199 34.8992 35.4068 38.5778ZM35.4068 38.5778C39.8586 50.4269 40.8982 57.1118 41.5911 69.0938"
                                 stroke={data ? data[data?.length - 1].color : ''}
                                 strokeWidth={0.3}
-                                opacity={data[data?.length - 1].articles.length >= 15 ? 1 : 0.3}
+                                opacity={data[data?.length - 1].articles.length >= minCount ? 1 : 0.3}
                                 stroke-linecap="square" stroke-linejoin="round"
                             />
                             <path
                                 d="M84.29 99.5C78.0437 82.2838 61.6905 70 42.5002 70C23.3099 70 6.95677 82.2838 0.710449 99.5"
                                 stroke={data ? data[data?.length - 1].color : ''}
                                 strokeWidth={0.3}
-                                opacity={data[data?.length - 1].articles.length >= 15 ? 1 : 0.3}
+                                opacity={data[data?.length - 1].articles.length >= minCount ? 1 : 0.3}
                             />
                         </svg>
                         }
@@ -176,7 +176,7 @@ const StyledRotaryFile = styled.div`
     }
 
     .content {
-        width: 80px;
+        width: 120px;
         opacity: 0;
         animation: rotateIn .2s ease-in-out forwards;
     }
