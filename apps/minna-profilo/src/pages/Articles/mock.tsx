@@ -1,5 +1,5 @@
 import getRandomRgbaColor from "../../hooks/getRandomRgba.ts";
-import {articles2025_1_20} from "./articles/articles2025_1_20.tsx";
+import {articles2025_1_20} from "./articles/articles2025_1_20/articles2025_1_20.tsx";
 // import {articles2025_2_18} from "./articles/articles2025_2_18.tsx";
 //测试数据
 // export const ROTARY_FOLDER_DATA = [
@@ -35,14 +35,14 @@ export const ROTARY_FOLDER_DATA = [
                 desc:'',
                 date:'1月20日',
                 tag: ['总结'],
-                data: articles2025_1_20
+                data: <></>
             },
             {
                 id:'24',
                 title: '抽奖轮盘的实现方式',
                 desc:'',
                 date:'1月20日',
-                src: ''
+                src: './b38d7d96-61fa-4f09-b322-5329163ec1dd_《Creating_Web_Animations》.pdf'
             }
         ]
     },
