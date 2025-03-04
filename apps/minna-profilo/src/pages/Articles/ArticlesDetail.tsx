@@ -12,14 +12,14 @@ const ArticlesDetail:React.FC<Props> = ({
 }) => {
     const navigate = useNavigate();
     const activeItem = useMemo(() => {
-        const href = window.location.href.split('details/')[1]?.split('-');
+        const href = window.location.href.split('details?id=2025-')[1]?.split('-');
         if(href){
-            return ROTARY_FOLDER_DATA.filter(i => i.id === href[0])[0].articles.filter(j => j.id === href[1])[0];
+            return ROTARY_FOLDER_DATA.filter(i => i.id === href[0])[0]?.articles.filter(j => j.id === `${href[0]}-${href[1]}`)[0];
         }
         return null;
     },[window.location.href]);
     const activeParentItem = useMemo(() => {
-        const href = window.location.href.split('details/')[1]?.split('-');
+        const href = window.location.href.split('details?id=2025-')[1]?.split('-');
         if(href){
             return ROTARY_FOLDER_DATA.filter(i => i.id === href[0])[0];
         }
@@ -43,10 +43,10 @@ const ArticlesDetail:React.FC<Props> = ({
     }
 
     const rotateDirection = useMemo(() => {
-        const href = window.location.href.split('details/')[1]?.split('-');
+        const href = window.location.href.split('details?id=2025-')[1]?.split('-');
         if(href){
             const { nodeIndex } = findNodeAndParentIndex(ROTARY_FOLDER_DATA,href[1],href[0]);
-            const length = ROTARY_FOLDER_DATA.filter(i => i.id === href[0])[0].articles.length;
+            const length = ROTARY_FOLDER_DATA.filter(i => i.id === href[0])[0]?.articles.length;
             if(length > 15){
                 return nodeIndex < length/2 ? 'leftIn':'rightIn'
             }else{
@@ -58,7 +58,7 @@ const ArticlesDetail:React.FC<Props> = ({
 
     const newData = ROTARY_FOLDER_DATA?.filter(i => i.articles?.length > 0);
     const handleNavigateLast = () => {
-        const href = window.location.href.split('details/')[1]?.split('-');
+        const href = window.location.href.split('details?id=2025-')[1]?.split('-');
         if(href){
             const { nodeIndex,parentIndex } = findNodeAndParentIndex(newData,href[1],href[0]);
             if(nodeIndex === 0){
@@ -69,7 +69,7 @@ const ArticlesDetail:React.FC<Props> = ({
         }
     }
     const handleNavigateNext = () => {
-        const href = window.location.href.split('details/')[1]?.split('-');
+        const href = window.location.href.split('details?id=2025-')[1]?.split('-');
         if(href){
             const { nodeIndex,parentIndex } = findNodeAndParentIndex(newData,href[1],href[0]);
             if(nodeIndex === newData[parentIndex].articles.length-1){
@@ -80,18 +80,19 @@ const ArticlesDetail:React.FC<Props> = ({
         }
     }
     const lastDisabled = useMemo(() => {
-        const href = window.location.href.split('details/')[1]?.split('-');
+        const href = window.location.href.split('details?id=2025-')[1]?.split('-');
         if(href){
-            const { nodeIndex,parentIndex } = findNodeAndParentIndex(newData,href[1],href[0]);
+            const { nodeIndex,parentIndex } = findNodeAndParentIndex(newData,`${href[0]}-${href[1]}`,href[0]);
+            console.log(href,nodeIndex, parentIndex);
             return nodeIndex === 0 && parentIndex === 0;
         }
         return false;
     },[window.location.href])
     const nextDisabled = useMemo(() => {
-        const href = window.location.href.split('details/')[1]?.split('-');
+        const href = window.location.href.split('details?id=2025-')[1]?.split('-');
         if(href){
-            const { nodeIndex,parentIndex } = findNodeAndParentIndex(newData,href[1],href[0]);
-            return nodeIndex === newData[parentIndex].articles.length-1 && parentIndex === newData?.length-1;
+            const { nodeIndex,parentIndex } = findNodeAndParentIndex(newData,`${href[0]}-${href[1]}`,href[0]);
+            return nodeIndex === newData[parentIndex]?.articles.length-1 && parentIndex === newData?.length-1;
         }
         return false;
     },[window.location.href])

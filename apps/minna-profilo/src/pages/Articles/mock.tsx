@@ -1,5 +1,5 @@
 import getRandomRgbaColor from "../../hooks/getRandomRgba.ts";
-import {articles2025_1_20} from "./articles/articles2025_1_20/articles2025_1_20.tsx";
+import {articles2025_2_16} from "./articles/articles2025_2_16.tsx";
 // import {articles2025_2_18} from "./articles/articles2025_2_18.tsx";
 //测试数据
 // export const ROTARY_FOLDER_DATA = [
@@ -34,7 +34,7 @@ export const ROTARY_FOLDER_DATA = [
                 title: '深色模式的实现方案',
                 desc:'',
                 date:'1月20日',
-                data: <></>
+                data: <>深色模式的实现方案</>
             },
             {
                 id:'1-2',
@@ -57,11 +57,11 @@ export const ROTARY_FOLDER_DATA = [
                 title: '图片像素化',
                 desc:'通过对图片的像素数据进行特定处理，输出类似像素画的图片。',
                 date:'2月16日',
-                data: <></>
+                data: articles2025_2_16
             },
             {
                 id:'2-2',
-                title: '轻量在线数据库——supabase的使用指南',
+                title: 'supabase使用指南',
                 desc:'如何借助supebase实现无后端的网站的登录、注册等功能。',
                 date:'2月22日',
                 data: <></>
