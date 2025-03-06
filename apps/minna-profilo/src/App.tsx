@@ -12,6 +12,7 @@ import ImgEffect from "./pages/projects/ImgEffect";
 import PickMainColors from "./pages/projects/ImgEffect/pages/PickMainColors.tsx";
 import ImgPixel from "./pages/projects/ImgEffect/pages/ImgPixel.tsx";
 import ImgWaterMark from "./pages/projects/ImgEffect/pages/ImgWaterMark.tsx";
+import ImgColorChange from "./pages/projects/ImgEffect/pages/ImgColorChange.tsx";
 
 function App() {
 
@@ -31,6 +32,7 @@ function App() {
         <Route path={'/imgEffect'} element={<ImgEffect/>}/>
         <Route path={'/imgEffect/pickMainColors'} element={<PickMainColors/>}/>
         <Route path={'/imgEffect/imgPixel'} element={<ImgPixel/>}/>
+        <Route path={'/imgEffect/imgColorChange'} element={<ImgColorChange/>}/>
         <Route path={'/imgEffect/imgWaterMark'} element={<ImgWaterMark/>}/>
     </Routes>
 </>

@@ -1,5 +1,6 @@
 import getRandomRgbaColor from "../../hooks/getRandomRgba.ts";
 import {articles2025_2_16} from "./articles/articles2025_2_16.tsx";
+import {article2025_1_20} from "./articles/article2025_1_20.tsx";
 // import {articles2025_2_18} from "./articles/articles2025_2_18.tsx";
 //测试数据
 // export const ROTARY_FOLDER_DATA = [
@@ -34,7 +35,7 @@ export const ROTARY_FOLDER_DATA = [
                 title: '深色模式的实现方案',
                 desc:'',
                 date:'1月20日',
-                data: <>深色模式的实现方案</>
+                data: article2025_1_20
             },
             {
                 id:'1-2',
