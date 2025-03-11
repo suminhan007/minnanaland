@@ -1,10 +1,10 @@
-//@ts-nocheck
 import React, {useEffect, useRef, useState} from "react";
 import * as THREE from "three";
 import {Icon, LandInput, LandUploader} from "@suminhan/land-design";
 
 const AudioParticleVisualizer = () => {
-    const [audioUrl, setAudioUrl] = useState<string>('https://suminhan.cn/land-design/daoxiang.mp3');
+    const [audioUrl, setAudioUrl] = useState<string>('');
+    const [pause, setPause] = useState<boolean>(false);
     const [input,setInput] = useState<string>('');
     const containerRef = useRef<HTMLDivElement>(null);
 
@@ -64,6 +64,9 @@ const AudioParticleVisualizer = () => {
         source.connect(analyser);
         analyser.connect(audioContext.destination);
         audioElement.play();
+        if(pause){
+            audioElement.pause();
+        }
 
         // 动画循环
         const animate = () => {
@@ -102,13 +105,36 @@ const AudioParticleVisualizer = () => {
             renderer.dispose();
             containerRef.current&&containerRef.current.removeChild(renderer.domElement);
         };
-    }, [audioUrl]);
+    }, [audioUrl,pause]);
 
-    return <div className={'relative'} style={{width:'100vw',height:'100vh'}} >
+    const musicList = [
+        {id:'1', name:'稻香', author:'周杰伦',src:'./music/daoxiang.mp3'},
+        {id:'2', name:'黑夜', author:'陈粒',src:'./music/heiye.mp3'},
+        {id:'3', name:'小半', author:'陈粒',src:'./music/xiaoban.mp3'},
+        {id:'4', name:'给电影人的情书', author:'蔡琴',src:'./music/geidianyingrendeqingshu.mp3'}
+    ]
+    const [curMusic,setCurMusic] = useState('');
+    useEffect(() => {
+        if(!curMusic) return;
+        const curMusicSrc = musicList?.filter(i => i.id === curMusic)[0].src;
+        if(curMusicSrc){
+            setAudioUrl(curMusicSrc);
+        }
+    }, [curMusic]);
+    return <div className={'relative overflow-hidden'} style={{width:'100vw',height:'100vh'}} onClick={()=>setPause(!pause)}>
+        <div className={'absolute flex column fs-12 fw-400'} style={{top:24,left:24,zIndex:10}}>
+            {
+                musicList?.map((item) => <div key={item.id}
+                                              onClick={(e) => {
+                    e.stopPropagation();
+                    setCurMusic(item.id)
+                }} className={`${curMusic === item.id ? 'color-white':'color-gray-4' } py-4 cursor-pointer`}>{item.name} - {item.author}</div>)
+            }
+        </div>
         <div className={'absolute top-0 left-0 width-100 height-100 cursor-pointer'}>
-            <LandUploader onUpload={url => setAudioUrl(url)} style={{backgroundColor:'transparent',border:'none'}}  height={'100vh'}><></></LandUploader>
             <div className={'absolute top-8 flex items-center color-gray-3 fs-12 no-wrap'} style={{left:'50%',transform:'translateX(-50%)'}}>
-                点击屏幕任意位置 或 <LandInput type={'transparent'} className={'mx-8'} style={{fontSize:'12px',color:'var(--color-text-4)'}} placeholder={'输入链接'} value={input} onChange={(val:string) => setInput(val)}/>
+                <LandUploader onUpload={url => setAudioUrl(url)} style={{backgroundColor:'transparent',border:'none',color:'var(--color-text-4)'}} width={'32px'}  height={'20px'}>点击此处</LandUploader>
+                或 <LandInput type={'transparent'} className={'mx-8'} style={{fontSize:'12px',color:'var(--color-text-4)'}} placeholder={'输入链接'} value={input} onChange={(val:string) => setInput(val)}/>
                 <div style={{height:'12px'}} className={'mr-8'} onClick={() => input && input.includes('.mp3') && setAudioUrl(input)}><Icon name={'check'} strokeWidth={0} size={12}/></div> 来上传音频
             </div>
         </div>

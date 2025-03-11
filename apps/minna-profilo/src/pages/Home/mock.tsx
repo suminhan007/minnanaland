@@ -106,17 +106,7 @@ export const HomeData = [
                 desc: '2024年度文章',
                 color: randomCoverColor[0].value,
                 type:randomCoverColor[0].name,
-            },
-            {
-                id: '2024-2',
-                title: '组件库（初建）',
-                desc: '持续更新、优化做过的组件',
-                details: '立志做一个日益完善、交互友好的组件库，收集在了一个专门的网站。',
-                href:'https://suminhan.cn/land-design',
-                target: '_blank',
-                color: randomCoverColor[2].value,
-                type: randomCoverColor[2].name
-            },
+            }
         ],
     },
     {

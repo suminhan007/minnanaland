@@ -1,7 +1,10 @@
 import getRandomRgbaColor from "../../hooks/getRandomRgba.ts";
-import {articles2025_2_16} from "./articles/articles2025_2_16.tsx";
-import {article2025_1_20} from "./articles/article2025_1_20.tsx";
-// import {articles2025_2_18} from "./articles/articles2025_2_18.tsx";
+import {articles2025_2_1} from "./articles/articles2025_2_1.tsx";
+import {article2025_1_1} from "./articles/article2025_1_1.tsx";
+import {article2025_1_2} from "./articles/article2025_1_2.tsx";
+import {articles2025_2_2} from "./articles/articles2025_2_2.tsx";
+
+// import {articles2025_2_2} from "./articles/articles2025_2_2.tsx";
 //测试数据
 // export const ROTARY_FOLDER_DATA = [
 //     ...Array.from({length:12}).map((_i, index) => ({
@@ -35,14 +38,14 @@ export const ROTARY_FOLDER_DATA = [
                 title: '深色模式的实现方案',
                 desc:'',
                 date:'1月20日',
-                data: article2025_1_20
+                data: article2025_1_1
             },
             {
                 id:'1-2',
                 title: '抽奖轮盘的实现方式',
                 desc:'',
                 date:'1月20日',
-                src: './b38d7d96-61fa-4f09-b322-5329163ec1dd_《Creating_Web_Animations》.pdf'
+                src: article2025_1_2
             }
         ]
     },
@@ -58,14 +61,14 @@ export const ROTARY_FOLDER_DATA = [
                 title: '图片像素化',
                 desc:'通过对图片的像素数据进行特定处理，输出类似像素画的图片。',
                 date:'2月16日',
-                data: articles2025_2_16
+                data: articles2025_2_1
             },
             {
                 id:'2-2',
                 title: 'supabase使用指南',
                 desc:'如何借助supebase实现无后端的网站的登录、注册等功能。',
                 date:'2月22日',
-                data: <></>
+                data: articles2025_2_2
             },
             {
                 id:'2-3',
@@ -73,14 +76,7 @@ export const ROTARY_FOLDER_DATA = [
                 desc:'借助three.js的粒子系统，将音频文件的波形数据可视化。',
                 date:'2月24日',
                 data: <></>
-            },
-            {
-                id:'2-4',
-                title: '深色模式的实现方案',
-                desc:'探究常见的网站深色模式的实现方案。',
-                date:'2月28日',
-                data: <></>
-            },
+            }
         ]
     },
     {
@@ -106,17 +102,17 @@ export const ROTARY_FOLDER_DATA = [
             },
             {
                 id:'3-3',
-                title: '网页中几种常见登录方式的实现方法',
+                title: '认识 claude.ai',
                 desc:'通过实践总结账号密码登录、邮箱验证登录、电话验证登录、微信扫码登录的实现步骤。',
                 date:'3月16日',
                 data: <></>
             },
         ]
     },
-    ...Array.from({length:11}).map((_i, index) => ({
-        id: `${index+3}`,
-        name:`${index+3}月`,
-        date:`${index+3}`,
+    ...Array.from({length:9}).map((_i, index) => ({
+        id: `${index+4}`,
+        name:`${index+4}月`,
+        date:`${index+4}`,
         bg: getRandomRgbaColor(0.1),
         color: getRandomRgbaColor(1),
         articles:[]

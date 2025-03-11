@@ -73,13 +73,13 @@ const RotaryFolder:React.FC<Props> = ({
                                 style={{
                                     transform: index % 2 ? `translate(-50%,-50%) rotate(${getRotateAngle(index, idx, item)}deg)` : `translate(-50%,-50%) rotate(${getRotateAngle(index, idx, item)}deg)`,
                                 }}
-                                onClick={() => onClick?.(itm, item)}
                             >
                                 <div className={'content height-100'}
                                      style={{animationDelay: `${getRotaryAngle(index, idx) * minCount}ms`}}>
                                     <div
                                         className={`relative hover-content flex gap-8 ${index % 2 ? 'items-end pb-16 ' : 'pt-16'} px-16 fw-500 width-100 height-100 fs-16 color-gray-2 radius-4 cursor-pointer`}
                                         style={{background: item.bg, color: item.color, border: `1px solid ${item.color}`}}
+                                        onClick={() => onClick?.(itm, item)}
                                     >
                                         <div style={{writingMode:'vertical-lr'}}>{itm.title}</div>
                                         <div className={'fs-10 color-gray-4 text-center'} style={{width:'14px'}}>{itm.date}</div>
@@ -193,9 +193,9 @@ const StyledRotaryFile = styled.div`
     &:hover:not(.default) {
         transform: rotate(0deg);
 
-        .hover-content {
-            transform: translateY(-20px);
-        }
+    }
+    .hover-content:hover {
+        transform: translateY(-20px);
     }
 
     @keyframes rotateIn {
