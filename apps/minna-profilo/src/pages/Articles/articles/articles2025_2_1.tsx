@@ -5,8 +5,9 @@ import ArticleTitle from "../components/ArticleTitle.tsx";
 import ArticleDesc from "../components/ArticleDesc.tsx";
 import ArticleImage from "../components/ArticleImage.tsx";
 import ArticleContentLayout from "../components/ArticleContentLayout.tsx";
+import ArticleLayout from "../components/ArticleLayout.tsx";
 
-export const articles2025_2_1 = <div className={'flex column gap-24 mt-20'}>
+export const articles2025_2_1 = <ArticleLayout>
         <ArticlePreface>图片是由很多像素组成的，对图片进行一系列特殊处理可以理解为在处理图片的一个个像素。
             如果通过 Canvas 2D API 提供的 getImageData() 方法，可以得到图片的像素数据，每一个像素数据包含了该像素的R、G、B、A四个值。
             对图片进行像素处理相当于在修改每个像素对应的rgba数据，从而得到一张有新的像素数据组成的图片。
@@ -42,4 +43,4 @@ export const articles2025_2_1 = <div className={'flex column gap-24 mt-20'}>
             <ArticleDesc></ArticleDesc>
         </ArticlePartLayout>
     </ArticleSectionLayout>
-</div>
+</ArticleLayout>

@@ -35,7 +35,7 @@ export const ROTARY_FOLDER_DATA = [
         articles: [
             {
                 id:'1-1',
-                title: '深色模式的实现方案',
+                title: '深色模式与适配指南',
                 desc:'',
                 date:'1月20日',
                 data: article2025_1_1

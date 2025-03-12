@@ -99,10 +99,10 @@ const ArticlesDetail:React.FC<Props> = ({
     return (
         <StyledArticlesDetailLayout className={`fixed top-0 left-0 flex justify-center width-100 height-100 py-32 overflow-auto ${rotateDirection}`}>
             <div className={`mask absolute top-0 left-0 width-100 height-100`} ></div>
-            <div className={`content relative radius-12 bg-white`} style={activeItem?.src ? {border: `1px solid ${activeParentItem?.color}`}:{border: `1px solid ${activeParentItem?.color}`}}>
+            <div className={`content relative radius-12 bg-white`} style={{borderColor: activeParentItem?.color}}>
                 {activeItem?.data && <div className={'article-content pb-32 height-100 px-24 pt-24 overflow-auto border-box'}>
-                    <div className={'flex column gap-8'}>
-                        <h1 className={'fs-24 color-gray-2 my-12'}>{activeItem?.title}</h1>
+                    <div className={'flex column gap-8 width-100'}>
+                        <div className={'title'}><h1 className={'fs-24 color-gray-2 my-12 ellipsis'}>{activeItem?.title}</h1></div>
                         <div className={'fs-12 color-gray-3'}>2025年{activeItem?.date}</div>
                     </div>
                     {activeItem?.data && <div className={'fs-14 color-gray-2'} style={{letterSpacing: '0.2rem'}}>{activeItem?.data}</div>}
@@ -110,7 +110,7 @@ const ArticlesDetail:React.FC<Props> = ({
                 {activeItem?.src && <iframe className={'article-content radius-12 overflow-auto'} src={activeItem?.src} width={'100%'} height={'100%'}/>}
 
                 <div className={'back absolute flex both-center radius-100 cursor-pointer'}
-                     style={{border: `1px solid ${activeParentItem?.color}`}} onClick={() => navigate('/2025articles')}>
+                     style={{borderColor: activeParentItem?.color}} onClick={() => navigate('/2025articles')}>
                     <svg width="20" height="20" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M5.79889 24H41.7989" stroke={activeParentItem?.color} strokeWidth="3"
                               strokeLinecap="round" strokeLinejoin="round"/>
@@ -119,14 +119,14 @@ const ArticlesDetail:React.FC<Props> = ({
                     </svg>
                 </div>
                 <div className={`last absolute flex both-center radius-100 cursor-pointer ${lastDisabled ? 'disabled':''}`}
-                     style={{border: `1px solid ${activeParentItem?.color}`}} onClick={handleNavigateLast}>
+                     style={{borderColor: activeParentItem?.color}} onClick={handleNavigateLast}>
                     <svg width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M31 36L19 24L31 12" stroke={activeParentItem?.color} stroke-width="2"
                               stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
                 </div>
                 <div className={`next absolute flex both-center radius-100 cursor-pointer  ${nextDisabled ? 'disabled':''}`}
-                     style={{border: `1px solid ${activeParentItem?.color}`}} onClick={handleNavigateNext}>
+                     style={{borderColor: activeParentItem?.color}} onClick={handleNavigateNext}>
                     <svg width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M31 36L19 24L31 12" stroke={activeParentItem?.color} stroke-width="2"
                               stroke-linecap="round" stroke-linejoin="round"/>
@@ -179,7 +179,18 @@ const StyledArticlesDetailLayout = styled.div`
         width: 80%;
         max-width: 1000px;
         z-index: 2;
+        border-width: 1px;
+        border-style: solid;
 
+        .title{
+            width: 100%;
+        }
+        .back,
+        .last,
+        .next{
+            border-width: 1px;
+            border-style: solid;
+        }
         .back {
             right: 100%;
             top: 0;
@@ -208,6 +219,71 @@ const StyledArticlesDetailLayout = styled.div`
             transform: translate(16px,-16px);
             svg{
                 transform: rotate(-90deg);
+            }
+        }
+    }
+    @media (max-width: 767px) {
+        padding: 0;
+        .content{
+            width: 100%;
+            border-width: 0;
+            .article-content{
+                padding-inline: 24px;
+                padding-top: 80px;
+                h1{
+                    padding-left: 48px;
+                    padding-right: 64px;
+                }
+            }
+            .title{
+                padding-block: 12px;
+                position: absolute;
+                top: 0px;
+                background-color: rgba(255,255,255,0.8);
+                backdrop-filter: blur(12px);
+            }
+            .back,
+            .last,
+            .next{
+                border-width: 0;
+                svg path{
+                    stroke: var(--color-text-2);
+                    stroke-width: 4px;
+                }
+            }
+            .back{
+                width: 36px;
+                height: 36px;
+                background-color: var(--color-bg-2);
+                right: unset;
+                left: 16px;
+                top: 18px;
+                transform: translateX(0);
+                svg {
+                    path{
+                        stroke: var(--color-text-4);
+                        stroke-width: 4px;
+                    }
+                }
+            }
+            .last,
+            .next{
+                bottom: unset;
+                left: unset;
+                right: 24px;
+                top: 18px;
+            }
+            .last{
+                transform: translateX(-100%);
+                svg{
+                    transform: unset;
+                }
+            }
+            .next{
+                transform: translate(0);
+                svg{
+                    transform: rotate(180deg);
+                }
             }
         }
     }

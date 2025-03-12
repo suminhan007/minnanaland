@@ -12,10 +12,6 @@ const StyledArticlesDesc = styled.p`
         font-weight: bold;
         font-style: italic;
     }
-    a{
-        color: var(--color-link-6);
-        text-decoration: underline;
-    }
     iframe{
         border: none;
         border-radius: 8px;
