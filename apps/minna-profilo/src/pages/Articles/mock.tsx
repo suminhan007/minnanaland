@@ -58,7 +58,7 @@ export const ROTARY_FOLDER_DATA = [
         articles: [
             {
                 id:'2-1',
-                title: '图片像素化',
+                title: '图片处理（像素化、提色、换色）',
                 desc:'通过对图片的像素数据进行特定处理，输出类似像素画的图片。',
                 date:'2月16日',
                 data: articles2025_2_1
@@ -72,7 +72,7 @@ export const ROTARY_FOLDER_DATA = [
             },
             {
                 id:'2-3',
-                title: 'three.js实现音频数据的粒子化',
+                title: '音频数据的粒子可视化',
                 desc:'借助three.js的粒子系统，将音频文件的波形数据可视化。',
                 date:'2月24日',
                 data: <></>

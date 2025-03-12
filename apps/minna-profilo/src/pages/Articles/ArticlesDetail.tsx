@@ -95,18 +95,17 @@ const ArticlesDetail:React.FC<Props> = ({
             return nodeIndex === newData[parentIndex]?.articles.length-1 && parentIndex === newData?.length-1;
         }
         return false;
-    },[window.location.href])
+    }, [window.location.href])
     return (
         <StyledArticlesDetailLayout className={`fixed top-0 left-0 flex justify-center width-100 height-100 py-32 overflow-auto ${rotateDirection}`}>
             <div className={`mask absolute top-0 left-0 width-100 height-100`} ></div>
-            <div className={`content relative radius-12`} style={activeItem?.src ? {border: `1px solid ${activeParentItem?.color}`}:{border: `1px solid ${activeParentItem?.color}`, backgroundColor: activeParentItem?.bg}}>
-                {activeItem?.data && <div className={'article-content height-100 px-24 pt-24 overflow-auto border-box'}>
+            <div className={`content relative radius-12 bg-white`} style={activeItem?.src ? {border: `1px solid ${activeParentItem?.color}`}:{border: `1px solid ${activeParentItem?.color}`}}>
+                {activeItem?.data && <div className={'article-content pb-32 height-100 px-24 pt-24 overflow-auto border-box'}>
                     <div className={'flex column gap-8'}>
-                        <h1 className={'fs-20 color-gray-2'}>{activeItem?.title}</h1>
+                        <h1 className={'fs-24 color-gray-2 my-12'}>{activeItem?.title}</h1>
                         <div className={'fs-12 color-gray-3'}>2025年{activeItem?.date}</div>
-                        <div className={'fs-12 color-gray-3'}>{activeItem?.desc}</div>
                     </div>
-                    {activeItem?.data && <div className={'fs-14 color-gray-2'}>{activeItem?.data}</div>}
+                    {activeItem?.data && <div className={'fs-14 color-gray-2'} style={{letterSpacing: '0.2rem'}}>{activeItem?.data}</div>}
                 </div>}
                 {activeItem?.src && <iframe className={'article-content radius-12 overflow-auto'} src={activeItem?.src} width={'100%'} height={'100%'}/>}
 

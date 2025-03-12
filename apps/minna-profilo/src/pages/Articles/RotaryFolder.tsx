@@ -81,7 +81,7 @@ const RotaryFolder:React.FC<Props> = ({
                                         style={{background: item.bg, color: item.color, border: `1px solid ${item.color}`}}
                                         onClick={() => onClick?.(itm, item)}
                                     >
-                                        <div style={{writingMode:'vertical-lr'}}>{itm.title}</div>
+                                        <div style={{fontSize:'85%',writingMode:'vertical-lr'}}>{itm.title}</div>
                                         <div className={'fs-10 color-gray-4 text-center'} style={{width:'14px'}}>{itm.date}</div>
                                         <div className={`absolute ${index%2?'bottom-8':'top-8'} right-0 flex gap-4 fs-10 color-white`}>
                                             {itm.tag?.map((j, jdx) => <div key={jdx} className={'px-4'} style={{
@@ -110,7 +110,7 @@ const RotaryFolder:React.FC<Props> = ({
                                             background: item.bg,
                                             color: item.color,
                                             border: `1px solid ${item.color}`,
-                                            opacity: 0.3
+                                            opacity: 0.25
                                         }}
                                     >
                                     </div>
@@ -136,14 +136,14 @@ const RotaryFolder:React.FC<Props> = ({
                                 d="M35.4068 38.5778C28.0674 37.6863 13.3064 30.451 11.1166 19.6454C9.90718 13.6777 13.7646 7.85942 19.7323 6.65001C23.3869 5.90939 26.9854 7.06889 29.5037 9.44952C30.8964 6.27629 33.7596 3.80728 37.4142 3.06666C43.3819 1.85725 49.2002 5.71468 50.4096 11.6824C52.5994 22.488 41.8199 34.8992 35.4068 38.5778ZM35.4068 38.5778C39.8586 50.4269 40.8982 57.1118 41.5911 69.0938"
                                 stroke={data ? data[data?.length - 1].color : ''}
                                 strokeWidth={0.3}
-                                opacity={data[data?.length - 1].articles.length >= minCount ? 1 : 0.3}
+                                opacity={data[data?.length - 1].articles.length >= minCount ? 1 : 0.25}
                                 stroke-linecap="square" stroke-linejoin="round"
                             />
                             <path
                                 d="M84.29 99.5C78.0437 82.2838 61.6905 70 42.5002 70C23.3099 70 6.95677 82.2838 0.710449 99.5"
                                 stroke={data ? data[data?.length - 1].color : ''}
                                 strokeWidth={0.3}
-                                opacity={data[data?.length - 1].articles.length >= minCount ? 1 : 0.3}
+                                opacity={data[data?.length - 1].articles.length >= minCount ? 1 : 0.25}
                             />
                         </svg>
                         }
