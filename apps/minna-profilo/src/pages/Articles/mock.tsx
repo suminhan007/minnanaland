@@ -3,6 +3,7 @@ import {articles2025_2_1} from "./articles/articles2025_2_1.tsx";
 import {article2025_1_1} from "./articles/article2025_1_1.tsx";
 import {article2025_1_2} from "./articles/article2025_1_2.tsx";
 import {articles2025_2_2} from "./articles/articles2025_2_2.tsx";
+import {article2025_1_3} from "./articles/article2025_1_3.tsx";
 
 // import {articles2025_2_2} from "./articles/articles2025_2_2.tsx";
 //测试数据
@@ -37,15 +38,22 @@ export const ROTARY_FOLDER_DATA = [
                 id:'1-1',
                 title: '深色模式与适配指南',
                 desc:'',
-                date:'1月20日',
+                date:'1月2日',
                 data: article2025_1_1
             },
             {
                 id:'1-2',
                 title: '抽奖轮盘的实现方式',
                 desc:'',
+                date:'1月16日',
+                data: article2025_1_2
+            },
+            {
+                id:'1-3',
+                title: '深刻认识图片',
+                desc:'',
                 date:'1月20日',
-                src: article2025_1_2
+                data: article2025_1_3
             }
         ]
     },

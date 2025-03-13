@@ -45,8 +45,37 @@ export const article2025_1_1 = <ArticleLayout>
                     使用有限的色彩强调，使大部分空间专用于深色表面。
                 </ArticleDesc>
                 <ArticleTitle type={'h3'} title={'3. 节省能源'}/>
+                <ArticleDesc>
+                </ArticleDesc>
                 <ArticleTitle type={'h3'} title={'4. 增强可访问性'}/>
+                <ArticleDesc>
+                </ArticleDesc>
             </ArticleContentLayout>
         </ArticlePartLayout>
+
+        <ArticlePartLayout>
+            <ArticleTitle type={'h2'} title={'四. 深色模式的应用案例'}/>
+            <ArticleContentLayout>
+
+            </ArticleContentLayout>
+        </ArticlePartLayout>
+
+        <ArticlePartLayout>
+            <ArticleTitle type={'h2'} title={'五. 组件库的深色模式'}/>
+            <ArticleContentLayout>
+                <ArticleTitle type={'h3'} title={'1. One Design'}/>
+                <ArticleDesc></ArticleDesc>
+                <ArticleTitle type={'h3'} title={'2. TDesign'}/>
+                <ArticleDesc></ArticleDesc>
+                <ArticleTitle type={'h3'} title={'3. Ant Design'}/>
+                <ArticleDesc></ArticleDesc>
+            </ArticleContentLayout>
+        </ArticlePartLayout>
+
+        <ArticlePartLayout>
+            <ArticleTitle type={'h2'} title={'六. 深色模式的适配指南'}/>
+            <ArticleContentLayout></ArticleContentLayout>
+        </ArticlePartLayout>
+
     </ArticleSectionLayout>
     </ArticleLayout>
