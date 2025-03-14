@@ -13,6 +13,13 @@ export const IMG_EFFECT_PROJECT_DATA = [
         date: '2025-02-24',
         src:'imgPixel'
     },
+    {
+        id:'3',
+        title: '图片换色',
+        desc: '获取图片像素数据，将指定颜色换成目标新色，输出新的图片',
+        date: '2025-03-09',
+        src:'imgColorChange'
+    },
     // {
     //     id:'3',
     //     title: '图片水印',

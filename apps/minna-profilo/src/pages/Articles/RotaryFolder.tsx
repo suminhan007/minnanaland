@@ -168,10 +168,8 @@ const StyledRotaryFile = styled.div`
         padding-bottom: 0;
         padding-top: 20%;
 
-        &:hover:not(.default) {
-            .hover-content {
-                transform: translateY(20px);
-            }
+        .hover-content:hover {
+            transform: translateY(20px);
         }
     }
 

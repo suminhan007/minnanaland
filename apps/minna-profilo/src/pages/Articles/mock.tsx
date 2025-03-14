@@ -4,6 +4,7 @@ import {article2025_1_1} from "./articles/article2025_1_1.tsx";
 import {article2025_1_2} from "./articles/article2025_1_2.tsx";
 import {articles2025_2_2} from "./articles/articles2025_2_2.tsx";
 import {article2025_1_3} from "./articles/article2025_1_3.tsx";
+import {articles2025_2_3} from "./articles/articles2025_2_3.tsx";
 
 // import {articles2025_2_2} from "./articles/articles2025_2_2.tsx";
 //测试数据
@@ -83,7 +84,7 @@ export const ROTARY_FOLDER_DATA = [
                 title: '音频数据的粒子可视化',
                 desc:'借助three.js的粒子系统，将音频文件的波形数据可视化。',
                 date:'2月24日',
-                data: <></>
+                data: articles2025_2_3
             }
         ]
     },

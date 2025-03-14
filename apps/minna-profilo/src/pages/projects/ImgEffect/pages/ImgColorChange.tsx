@@ -1,4 +1,4 @@
-import {LandButton, LandFlex, LandLoading, LandSlider, LandUploader} from "@suminhan/land-design";
+import {LandButton, LandFlex, LandLoading,  LandUploader} from "@suminhan/land-design";
 import {useEffect, useMemo, useRef, useState} from "react";
 
 const ImgColorChange = () => {
@@ -14,8 +14,6 @@ const ImgColorChange = () => {
 
     /*平均化*/
     const canvasRef2 = useRef<HTMLCanvasElement>(null);
-    const pixelatedCanvasRef2 = useRef<HTMLCanvasElement>(null);
-    const [pixelatedImageSrc2, setPixelatedImageSrc2] = useState<string | null>(null);
     useEffect(() => {
         if(!canvasRef.current || !canvasRef2.current) return;
         imgUrl && setFinished(false)
@@ -107,53 +105,6 @@ const ImgColorChange = () => {
         setPixelatedImageSrc(pixelatedCanvas.toDataURL());
         setLoading(false);
     };
-
-    const pixelateImage2 = () => {
-        setLoading(true);
-        if (!imgUrl || !canvasRef2.current || !pixelatedCanvasRef2.current ||!imgData) return;
-
-        const pixelatedCanvas = pixelatedCanvasRef2.current;
-        const pixelatedCtx = pixelatedCanvas.getContext('2d');
-
-        if (!pixelatedCtx) return;
-
-        // 设置 canvas 尺寸为图片尺寸
-        pixelatedCanvas.width = imgSize.w;
-        pixelatedCanvas.height = imgSize.h;
-        pixelatedCtx.clearRect(0, 0, imgSize.w, imgSize.h);
-
-        // 像素化处理
-        for (let y = 0; y < imgSize.h; y += pixelSize) {
-            for (let x = 0; x < imgSize.w; x += pixelSize) {
-                // 计算当前小块的像素平均值
-                let r = 0, g = 0, b = 0,  a = 0, count = 0;
-
-                for (let dy = 0; dy < pixelSize; dy++) {
-                    for (let dx = 0; dx < pixelSize; dx++) {
-                        const px = ((y + dy) * imgSize.w + (x + dx)) * 4;
-                        r += imgData[px];
-                        g += imgData[px + 1];
-                        b += imgData[px + 2];
-                        a += imgData[px + 3]; // Alpha 通道
-                        count++;
-                    }
-                }
-
-                r = Math.floor(r / count);
-                g = Math.floor(g / count);
-                b = Math.floor(b / count);
-                a = Math.floor(a / count); // 计算平均透明度
-
-                // 将平均值填充到当前小块
-                pixelatedCtx.fillStyle = `rgba(${r}, ${g}, ${b}, ${a / 255})`;
-                pixelatedCtx.fillRect(x, y, pixelSize, pixelSize);
-            }
-        }
-
-        // 将像素化后的图片转换为 URL
-        setPixelatedImageSrc2(pixelatedCanvas.toDataURL());
-        setLoading(false);
-    };
     const pixelMax = useMemo(() => Math.round(Math.min(imgSize.w, imgSize.h)/20), [imgSize.w, imgSize.h]);
     useEffect(() => {
         console.log(pixelMax,pixelSize);
@@ -165,26 +116,10 @@ const ImgColorChange = () => {
                 {imgUrl && <img src={imgUrl} alt="" width={'100%'} height={'100%'} className={'object-contain'}/>}
             </LandUploader>
             <LandFlex gap={12} align={'center'} className={'width-100'}>
-                <div className={'flex-1 flex gap-8 items-center fs-12 color-gray-3 no-wrap'}>程度:
-                    <LandSlider
-                        value={pixelSize}
-                        onChange={(val) => {
-                            pixelateImage();
-                            pixelateImage2();
-                            setPixelSize(val)
-                        }}
-                        min={1}
-                        max={pixelMax}
-                        step={1}
-                        height={16}
-                        className={`${!imgUrl ? 'events-none cursor-not-allowed' :''}`}
-                    />
-                </div>
                 <LandButton width={'120px'} type={'background'} status={'primary'} className={'mx-auto'}
                             onClick={() => {
                                 setFinished(true);
                                 pixelateImage?.();
-                                pixelateImage2?.()
                             }}
                             disabled={loading || !imgUrl || finished} pop={!imgUrl ? '请先上传图片':''}>{loading ?
                     <LandLoading size={16}/> : '确定'}</LandButton>
@@ -195,16 +130,6 @@ const ImgColorChange = () => {
                     <canvas ref={pixelatedCanvasRef} style={{display: 'none'}}/>
                     {pixelatedImageSrc &&
                         <img src={pixelatedImageSrc} width={'100%'} height={'100%'} className={'object-contain'}/>}
-                    <div
-                        className={`absolute top-0 left-0 width-100 height-100 flex both-center transition ${loading ? '' : 'opacity-0 events-none'}`}
-                        style={{zIndex: 1}}>
-                        <LandLoading/></div>
-                </div>
-                <div className={'flex-1 relative border'}>
-                    <canvas ref={canvasRef2} style={{display: 'none'}}/>
-                    <canvas ref={pixelatedCanvasRef2} style={{display: 'none'}}/>
-                    {pixelatedImageSrc2 &&
-                        <img src={pixelatedImageSrc2} width={'100%'} height={'100%'} className={'object-contain'}/>}
                     <div
                         className={`absolute top-0 left-0 width-100 height-100 flex both-center transition ${loading ? '' : 'opacity-0 events-none'}`}
                         style={{zIndex: 1}}>

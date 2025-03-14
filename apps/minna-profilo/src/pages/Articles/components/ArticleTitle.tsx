@@ -8,9 +8,9 @@ const ArticleTitle:React.FC<Props> = ({
                                       }) => {
     switch (type) {
         case "h2": return <h2 className={'fs-20 color-gray-2 fw-600'}>{title}</h2>;break;
-        case "h3": return <h3 className={'fs-18 color-gray-2 fw-600'}>{title}</h3>;break;
-        case "h4": return <h4 className={'fs-16 color-gray-2 fw-600'}>{title}</h4>;break;
-        case "h5": return <h5 className={'fs-14 color-gray-2 fw-600'}>{title}</h5>;break;
+        case "h3": return <h3 className={'fs-16 color-gray-2 fw-600'}>{title}</h3>;break;
+        case "h4": return <h4 className={'fs-14 color-gray-2 fw-600'}>{title}</h4>;break;
+        case "h5": return <h5 className={'fs-12 color-gray-2 fw-600'}>{title}</h5>;break;
         default: return null;
     }
 }
