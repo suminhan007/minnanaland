@@ -2,11 +2,11 @@ import getRandomRgbaColor from "../../hooks/getRandomRgba.ts";
 import {articles2025_2_1} from "./articles/articles2025_2_1.tsx";
 import {article2025_1_1} from "./articles/article2025_1_1.tsx";
 import {article2025_1_2} from "./articles/article2025_1_2.tsx";
-import {articles2025_2_2} from "./articles/articles2025_2_2.tsx";
+import Articles2025_2_2 from "./articles/Articles2025_2_2.tsx";
 import {article2025_1_3} from "./articles/article2025_1_3.tsx";
 import {articles2025_2_3} from "./articles/articles2025_2_3.tsx";
 
-// import {articles2025_2_2} from "./articles/articles2025_2_2.tsx";
+// import {articles2025_2_2} from "./articles/Articles2025_2_2.tsx";
 //测试数据
 // export const ROTARY_FOLDER_DATA = [
 //     ...Array.from({length:12}).map((_i, index) => ({
@@ -74,10 +74,10 @@ export const ROTARY_FOLDER_DATA = [
             },
             {
                 id:'2-2',
-                title: 'supabase使用指南',
-                desc:'如何借助supebase实现无后端的网站的登录、注册等功能。',
+                title: 'CSS实现变形动画（Morph）的关键',
+                desc:'',
                 date:'2月22日',
-                data: articles2025_2_2
+                data: <Articles2025_2_2/>
             },
             {
                 id:'2-3',

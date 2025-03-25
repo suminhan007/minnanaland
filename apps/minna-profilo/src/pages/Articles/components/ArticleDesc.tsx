@@ -14,6 +14,9 @@ const StyledArticlesDesc = styled.div`
         font-weight: bold;
         font-style: italic;
     }
+    .bold{
+        font-weight: bold;
+    }
     iframe{
         border: none;
         border-radius: 8px;
