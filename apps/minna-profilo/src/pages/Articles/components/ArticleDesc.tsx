@@ -3,13 +3,16 @@ import styled from "styled-components";
 
 type Props = {
     noIndent?: boolean;
+    useBg?:boolean;
     children?: React.ReactNode;
 }
 const ArticleDesc: React.FC<Props> = ({
                                           noIndent,
+                                          useBg,
                                           children = '正文内容...',
-                                      }) => <StyledArticlesDesc className={`fs-14 color-gray-2 ${noIndent ? '':'indent-2'}`}>{children}</StyledArticlesDesc>
+                                      }) => <StyledArticlesDesc className={`${noIndent ? '':'indent-2'} ${useBg ? 'p-12 fs-12 bg-gray radius-8 color-gray-3':'color-gray-2 fs-14'}`}>{children}</StyledArticlesDesc>
 const StyledArticlesDesc = styled.div`
+    
     em{
         font-weight: bold;
         font-style: italic;

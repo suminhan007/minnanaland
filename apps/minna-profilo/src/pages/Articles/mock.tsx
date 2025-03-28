@@ -5,6 +5,7 @@ import {article2025_1_2} from "./articles/article2025_1_2.tsx";
 import Articles2025_2_2 from "./articles/Articles2025_2_2.tsx";
 import {article2025_1_3} from "./articles/article2025_1_3.tsx";
 import {articles2025_2_3} from "./articles/articles2025_2_3.tsx";
+import {articles2025_3_3} from "./articles/articles2025_3_3.tsx";
 
 // import {articles2025_2_2} from "./articles/Articles2025_2_2.tsx";
 //测试数据
@@ -111,10 +112,10 @@ export const ROTARY_FOLDER_DATA = [
             },
             {
                 id:'3-3',
-                title: '认识 claude.ai',
-                desc:'通过实践总结账号密码登录、邮箱验证登录、电话验证登录、微信扫码登录的实现步骤。',
-                date:'3月16日',
-                data: <></>
+                title: '流畅的 Agent UI 对话式布局',
+                desc: '',
+                date:'3月28日',
+                data: articles2025_3_3
             },
         ]
     },

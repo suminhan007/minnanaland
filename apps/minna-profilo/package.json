@@ -13,6 +13,9 @@
     "@suminhan/land-design": "^0.0.71",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-markdown": "^10.1.0",
+    "react-syntax-highlighter": "^15.6.1",
+    "remark-gfm": "^4.0.1",
     "three": "^0.173.0",
     "tinycolor2": "^1.6.0"
   },
@@ -26,6 +29,6 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
     "typescript": "^5.2.2",
-    "vite": "^5.1.4"
+    "vite": "^5.4.14"
   }
 }

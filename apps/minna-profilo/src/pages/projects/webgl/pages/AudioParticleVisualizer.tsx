@@ -1,4 +1,5 @@
-import React, {useEffect, useRef, useState} from "react";
+//@ts-nocheck
+import  {useEffect, useRef, useState} from "react";
 import * as THREE from "three";
 import {Icon, LandInput, LandUploader} from "@suminhan/land-design";
 

@@ -7,9 +7,7 @@ import {RotaryFolderDataType} from "./RotaryFolder.tsx";
 type Props = {
     initialRotate?:number;
 }
-const ArticlesDetail:React.FC<Props> = ({
-                                            // initialRotate=0,
-}) => {
+const ArticlesDetail:React.FC<Props> = () => {
     const navigate = useNavigate();
     const activeItem = useMemo(() => {
         const href = window.location.href.split('details?id=2025-')[1]?.split('-');
@@ -100,14 +98,14 @@ const ArticlesDetail:React.FC<Props> = ({
         <StyledArticlesDetailLayout className={`fixed top-0 left-0 flex justify-center width-100 height-100 py-32 overflow-auto ${rotateDirection}`}>
             <div className={`mask absolute top-0 left-0 width-100 height-100`} ></div>
             <div className={`content relative radius-12 bg-white`} style={{borderColor: activeParentItem?.color}}>
-                {activeItem?.data && <div className={'article-content pb-32 height-100 px-24 pt-24 overflow-auto border-box'}>
+                {activeItem?.data && <div className={'article-content pb-32 height-100 px-24 pt-24 border-box'} style={{overflow:'auto'}}>
                     <div className={'flex column gap-8 width-100'}>
-                        <div className={'title'}><h1 className={'fs-24 color-gray-2 my-12 ellipsis'}>{activeItem?.title}</h1></div>
+                        <div className={'title'}><h1 className={'fs-24 color-gray-2 my-12'}>{activeItem?.title}</h1></div>
                         <div className={'fs-12 color-gray-3'}>2025年{activeItem?.date}</div>
                     </div>
                     {activeItem?.data && <div className={'fs-14 color-gray-2'} style={{letterSpacing: '0.2rem'}}>{activeItem?.data}</div>}
                 </div>}
-                {activeItem?.src && <iframe className={'article-content radius-12 overflow-auto'} src={activeItem?.src} width={'100%'} height={'100%'}/>}
+                {/*{activeItem?.src && <iframe className={'article-content radius-12 overflow-auto'} src={activeItem?.src} width={'100%'} height={'100%'}/>}*/}
 
                 <div className={'back absolute flex both-center radius-100 cursor-pointer'}
                      style={{borderColor: activeParentItem?.color}} onClick={() => navigate('/2025articles')}>
