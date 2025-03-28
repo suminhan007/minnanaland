@@ -1,6 +1,5 @@
-import React, {Fragment, useMemo} from "react";
+import React, {Fragment} from "react";
 import styled from "styled-components";
-import getRandomRgbaColor from "../../hooks/getRandomRgba.ts";
 
 export type RotaryFileDataType = {
     id: string;
@@ -33,7 +32,7 @@ const RotaryFolder:React.FC<Props> = ({
         let found = false;
 
         data?.some((subArray, i) => {
-            return subArray.articles?.some((_node:RotaryFileDataType, j:number) => {
+            return subArray.articles.some((_node:RotaryFileDataType, j:number) => {
                 if (i === index && j === idx) {
                     found = true;
                     return true; // 终止内部循环
@@ -55,30 +54,19 @@ const RotaryFolder:React.FC<Props> = ({
            return  90 + idx * angle - angle*2 * idx
         }
     }
-    const newData = useMemo(() => {
-        const length = data?.length ?? 0;
-        return data?.concat(...Array.from({length:12-length}).map((_i, index) => ({
-            id: `${index+length+1}`,
-            name:`${index+length+1}月`,
-            date:`${index+length+1}`,
-            bg: getRandomRgbaColor(0.1),
-            color: getRandomRgbaColor(1),
-            articles:[]
-        })))
-    },[data])
     return (
         <StyledRotaryFolderLayout className={'relative flex items-center shrink-0 overflow-auto'}>
-            {newData?.map?.((item, index) => <Fragment key={item.id ?? index}>
+            {data?.map?.((item, index) => <Fragment key={item.id ?? index}>
                     <div className={'relative flex shrink-0'}
                          style={{
                              width: '67%',
-                             maxWidth: '800px',
+                             maxWidth: '900px',
                              minWidth: '600px',
                              aspectRatio: '2',
                              transform: index % 2 ? `translate(-${36 * index}%,70%)` : `translate(-${36 * index}%,-70%)`
                          }}
                     >
-                        {item.articles?.map((itm, idx) =>
+                        {item.articles.map((itm, idx) =>
                             <StyledRotaryFile
                                 key={itm.id ?? idx}
                                 className={`absolute height-100 ${index % 2 ? 'double' : ''} ${index === 0 ? 'first' : ''}`}
@@ -108,14 +96,14 @@ const RotaryFolder:React.FC<Props> = ({
                                 </div>
                             </StyledRotaryFile>
                         )}
-                        {item.articles?.length < minCount && <>
-                            {Array.from({length: minCount - item.articles?.length}).map((_itm, idx) => <StyledRotaryFile
+                        {item.articles.length < minCount && <>
+                            {Array.from({length: minCount - item.articles.length}).map((_itm, idx) => <StyledRotaryFile
                                 key={idx}
                                 className={`absolute height-100 ${index % 2 ? 'double' : ''} ${index === 0 ? 'first' : ''} default events-none`}
-                                style={{transform: index % 2 ? `translate(-50%,-50%) rotate(${getRotateAngle(index, item.articles?.length + idx, item)}deg)` : `translate(-50%,-50%) rotate(${getRotateAngle(index, item.articles?.length + idx, item)}deg)`}}
+                                style={{transform: index % 2 ? `translate(-50%,-50%) rotate(${getRotateAngle(index, item.articles.length + idx, item)}deg)` : `translate(-50%,-50%) rotate(${getRotateAngle(index, item.articles.length + idx, item)}deg)`}}
                             >
                                 <div className={'content height-100'}
-                                     style={{animationDelay: `${(getRotaryAngle(index, idx) + item.articles?.length) * minCount}ms`}}>
+                                     style={{animationDelay: `${(getRotaryAngle(index, idx) + item.articles.length) * minCount}ms`}}>
                                     <div
                                         className={'hover-content flex gap-12 pt-16 px-16 width-100 height-100 fs-12 radius-4 cursor-pointer'}
                                         style={{
@@ -139,23 +127,23 @@ const RotaryFolder:React.FC<Props> = ({
                               className={'absolute'} style={{top: '100%', left: '6%',transform:'translateY(20%)'}}>
                             <path
                                 d="M102 0.5C102 28.3904 79.3904 51 51.5 51M51.5 51C23.6096 51 1 28.3904 1 0.5M51.5 51V77.5M51.5 77.5L39.5 85.5M51.5 77.5L61 85.5"
-                                stroke={newData ? newData[0].color : ''}
+                                stroke={data ? data[0].color : ''}
                                 strokeWidth={0.3}
                             />
                         </svg>}
-                        {index === newData?.length - 1 && <svg width={'34%'} viewBox="0 0 85 100" fill="none" className={'absolute'} style={{bottom: '100%', right: '-4%', transform: 'translateY(-30%)'}}>
+                        {index === data?.length - 1 && <svg width={'34%'} viewBox="0 0 85 100" fill="none" className={'absolute'} style={{bottom: '100%', right: '-4%', transform: 'translateY(-30%)'}}>
                             <path
                                 d="M35.4068 38.5778C28.0674 37.6863 13.3064 30.451 11.1166 19.6454C9.90718 13.6777 13.7646 7.85942 19.7323 6.65001C23.3869 5.90939 26.9854 7.06889 29.5037 9.44952C30.8964 6.27629 33.7596 3.80728 37.4142 3.06666C43.3819 1.85725 49.2002 5.71468 50.4096 11.6824C52.5994 22.488 41.8199 34.8992 35.4068 38.5778ZM35.4068 38.5778C39.8586 50.4269 40.8982 57.1118 41.5911 69.0938"
-                                stroke={newData ? newData[newData?.length - 1].color : ''}
+                                stroke={data ? data[data?.length - 1].color : ''}
                                 strokeWidth={0.3}
-                                opacity={newData[newData?.length - 1].articles?.length >= minCount ? 1 : 0.25}
+                                opacity={data[data?.length - 1].articles.length >= minCount ? 1 : 0.25}
                                 stroke-linecap="square" stroke-linejoin="round"
                             />
                             <path
                                 d="M84.29 99.5C78.0437 82.2838 61.6905 70 42.5002 70C23.3099 70 6.95677 82.2838 0.710449 99.5"
-                                stroke={newData ? newData[newData?.length - 1].color : ''}
+                                stroke={data ? data[data?.length - 1].color : ''}
                                 strokeWidth={0.3}
-                                opacity={newData[newData?.length - 1].articles?.length >= minCount ? 1 : 0.25}
+                                opacity={data[data?.length - 1].articles.length >= minCount ? 1 : 0.25}
                             />
                         </svg>
                         }

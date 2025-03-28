@@ -13,7 +13,6 @@ import PickMainColors from "./pages/projects/ImgEffect/pages/PickMainColors.tsx"
 import ImgPixel from "./pages/projects/ImgEffect/pages/ImgPixel.tsx";
 import ImgWaterMark from "./pages/projects/ImgEffect/pages/ImgWaterMark.tsx";
 import ImgColorChange from "./pages/projects/ImgEffect/pages/ImgColorChange.tsx";
-import CreateArticle from "./pages/Articles/CreateArticle";
 
 function App() {
 
@@ -23,7 +22,6 @@ function App() {
         <Route path="/" element={<Home/>}></Route>
         <Route path="/2025articles" element={<Articles/>}></Route>
         <Route path="/2025articles/details" element={<ArticlesDetail/>}></Route>
-        <Route path={'/newArticles'} element={<CreateArticle/>}></Route>
 
         <Route path={'/works'} element={<Works/>}/>
 
