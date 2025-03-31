@@ -1,32 +1,33 @@
-import {useCallback, useEffect, useState} from "react";
+import { useCallback, useEffect, useState } from "react";
 import UserItem from "./AgentScroller/components/UserItem.tsx";
 import AgentScrollLayout from "./AgentScroller/components/AgentScrollLayout.tsx";
 import TypewriterMarkdown from "./AgentScroller/components/TypewriterMarkdown.tsx";
 import ServerItem from "./AgentScroller/components/ServerItem.tsx";
-import {LandButton} from "@suminhan/land-design";
+import { LandButton } from "@suminhan/land-design";
 
 const AgentScroller2: React.FC = () => {
-    const [innerContent, setInnerContent] = useState<{id:string,content:React.ReactNode}[]>([]);
-    const [answering, setAnswering] = useState<boolean>(false);
-    useEffect(() => {
-        const scroller = document.querySelector('.ckt-agent-scroll-layout');
-        scroller?.scrollTo({
-            top: scroller?.scrollHeight,
-        })
-    }, []);
-    const scrollToBottom = useCallback(() => {
-        const scroller = document.querySelector('.ckt-agent-scroll-layout');
-        scroller?.scrollTo({
-            top: scroller?.scrollHeight,
-            behavior: 'smooth',
-        })
-    }, []);
-    useEffect(() => {
-        if (answering) {
-            scrollToBottom()
-            setTimeout(() => {
-                setInnerContent([...innerContent, {id:`${Date.now()}`,content:<ServerItem message={<TypewriterMarkdown
-                        content="# React + TypeScript + Vite
+  const [innerContent, setInnerContent] = useState<{ id: string, content: React.ReactNode }[]>([]);
+  const [answering, setAnswering] = useState<boolean>(false);
+  useEffect(() => {
+    const scroller = document.querySelector('.ckt-agent-scroll-layout');
+    scroller?.scrollTo({
+      top: scroller?.scrollHeight,
+    })
+  }, []);
+  const scrollToBottom = useCallback(() => {
+    const scroller = document.querySelector('.ckt-agent-scroll-layout');
+    scroller?.scrollTo({
+      top: scroller?.scrollHeight,
+      behavior: 'smooth',
+    })
+  }, []);
+  useEffect(() => {
+    if (answering) {
+      scrollToBottom()
+      setTimeout(() => {
+        setInnerContent([...innerContent, {
+          id: `${Date.now()}`, content: <ServerItem message={<TypewriterMarkdown
+            content="# React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
@@ -77,35 +78,36 @@ export default tseslint.config({
 })
 ```
 "
-                        speed={20}
-                        onComplete={() => console.log('Render complete!')}
-                    />} />}]);
-                setAnswering(false);
-            }, 1000);
-        }
-    }, [answering])
-
-    const loadHistory = () => {
-        setTimeout(()=>{
-            setInnerContent([{
-                id: '111', content: <div className="flex column gap-24">
-                    <UserItem message="历史问了一个问题"/>
-                    <div>一段历史回答一段历史回答一段历史回答一段历史回答一段历史回答一段历史回答一段历史回答一段历史回答一段历史回答一段历史回答一段历史回答一段历史回答一段历史回答一段历史回答一段历史回答一段历史回答一段历史回答一段历史回答一段历史回答一段历史回答</div>
-                </div>
-            }, ...innerContent])
-        },2000)
+            speed={20}
+            onComplete={() => console.log('Render complete!')}
+          />} />
+        }]);
+        setAnswering(false);
+      }, 1000);
     }
-    return <div className="width-100 flex column bg-gray" style={{height:'400px'}}>
-            <AgentScrollLayout onPreLoad={loadHistory} isEnd className={'px-12 border-box'}>
-                {innerContent?.map(i => i.content)}
-            </AgentScrollLayout>
-        <div className={'flex justify-end px-12 py-12'}>
-            <LandButton text={'开始'} onClick={() => {
-                setInnerContent([...innerContent, {id: `${Date.now()}`, content:<UserItem message={'问了一个问题'} />}]);
-                setAnswering(true);
-            }}/>
+  }, [answering])
+
+  const loadHistory = () => {
+    setTimeout(() => {
+      setInnerContent([{
+        id: '111', content: <div className="flex column gap-24">
+          <UserItem message="历史问了一个问题" />
+          <div>一段历史回答一段历史回答一段历史回答一段历史回答一段历史回答一段历史回答一段历史回答一段历史回答一段历史回答一段历史回答一段历史回答一段历史回答一段历史回答一段历史回答一段历史回答一段历史回答一段历史回答一段历史回答一段历史回答一段历史回答</div>
         </div>
+      }, ...innerContent])
+    }, 2000)
+  }
+  return <div className="width-100 flex column bg-gray" style={{ height: '400px' }}>
+    <AgentScrollLayout onPreLoad={loadHistory} isEnd className={'px-12 border-box'}>
+      {innerContent?.map(i => i.content)}
+    </AgentScrollLayout>
+    <div className={'flex justify-end px-12 py-12'}>
+      <LandButton text={'开始'} onClick={() => {
+        setInnerContent([...innerContent, { id: `${Date.now()}`, content: <UserItem message={'问了一个问题'} /> }]);
+        setAnswering(true);
+      }} />
     </div>
+  </div>
 }
 
 export default AgentScroller2;
