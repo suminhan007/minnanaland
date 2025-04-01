@@ -15,7 +15,7 @@ const AgentScroller2: React.FC = () => {
   }, []);
 
   const scrollToBottom = useCallback(() => {
-    const scroller = document.querySelector('.ckt-agent-scroll-layout');
+    const scroller = document.querySelector('.ckt-agent-scroll-layout3');
     scroller?.scrollTo({
       top: scroller?.scrollHeight,
       behavior: 'smooth',
@@ -83,9 +83,20 @@ export default tseslint.config({
       />} />
     }]);
   }
+  const [autoScroll, setAutoScroll] = useState<boolean>(false);
+
+  useEffect(() => {
+    const scroller = document.querySelector('.ckt-agent-scroll-layout3');
+    if (!scroller) return;
+    scroller.addEventListener('scroll', () => {
+      const { scrollTop, scrollHeight, clientHeight } = scroller;
+      const isBottom = Math.abs(scrollHeight - scrollTop - clientHeight) < 0;
+      !isBottom && setAutoScroll
+    })
+  }, [])
 
   return <div className="width-100 flex column bg-gray" style={{ height: '400px' }}>
-    <AgentScrollLayout isEnd className={'px-12 border-box'}>
+    <AgentScrollLayout isEnd className={'px-12 border-box ckt-agent-scroll-layout3'}>
       {innerContent?.map(i => i.content)}
     </AgentScrollLayout>
     <div className={'flex justify-end px-12 py-12'}>

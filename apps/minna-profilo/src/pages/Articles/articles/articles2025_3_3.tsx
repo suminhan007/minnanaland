@@ -8,6 +8,7 @@ import ArticleTitle from "../components/ArticleTitle.tsx";
 import AgentScroller1 from "./Articles2025-3-3/AgentScroller1.tsx";
 import AgentScroller2 from "./Articles2025-3-3/AgentScroller2";
 import { LandLink } from "@suminhan/land-design";
+import AgentScroller3 from "./Articles2025-3-3/AgentScroller3.tsx";
 
 export const articles2025_3_3 = <ArticleLayout>
   <ArticleSectionLayout>
@@ -189,7 +190,7 @@ export const articles2025_3_3 = <ArticleLayout>
       <ArticleDesc>step 2. 结合 AI 逐字输出实时定位到底部：</ArticleDesc>
       <AgentScroller2 />
       <ArticleDesc>step 3. 解决难点——回答过程中页面会持续地滚动到底部，因此页面本身的滚动浏览会受到影响，即在回答过程中是不支持向上滚动的。如何解决呢？🤔</ArticleDesc>
-
+      <AgentScroller3 />
       <ArticleTitle type={'h4'} title={'优点'} />
       <ArticleDesc>这种实现方式因为没有改动网页常规布局，而是通过 js 控制滚动容器的位置，所以不会影响到网页滚动布局中的一些元素和交互，如滚动条的位置、展开收起交互等（对比后续方案）。</ArticleDesc>
       <ArticleTitle type={'h4'} title={'缺点'} />

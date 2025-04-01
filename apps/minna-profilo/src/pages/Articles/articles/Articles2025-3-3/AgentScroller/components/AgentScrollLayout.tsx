@@ -1,19 +1,19 @@
-import {useEffect, useRef} from "react";
+import { useEffect, useRef } from "react";
 import Loading from "./Loading.tsx";
 
 type Props = {
-  onPreLoad?:()=>void;
-  isEnd?:boolean;
+  onPreLoad?: () => void;
+  isEnd?: boolean;
   children?: React.ReactNode;
   className?: string;
   style?: React.CSSProperties;
 }
 const AgentScrollLayout: React.FC<Props> = ({
-    onPreLoad,
-                                              isEnd,
+  onPreLoad,
+  isEnd,
   children,
-    className='',
-    style,
+  className = '',
+  style,
 }) => {
   const loadIndicatorRef = useRef(null);
   const options = {
@@ -37,12 +37,12 @@ const AgentScrollLayout: React.FC<Props> = ({
     return () => observer.disconnect();
   }, []);
   return <div
-      className={`ckt-agent-scroll-layout flex-1 height-1 width-100 py-24 ${className}`}
-      style={{overflow: 'auto',...style}}
+    className={`ckt-agent-scroll-layout flex-1 height-1 width-100 py-24 ${className}`}
+    style={{ overflow: 'auto', ...style }}
   >
-    {!isEnd&&<div ref={loadIndicatorRef} className="flex items-center mx-auto fs-14"
-          style={{width: 'fit-content', height: '64px'}} onClick={onPreLoad}>
-      <Loading/>
+    {!isEnd && <div ref={loadIndicatorRef} className="flex items-center mx-auto fs-14"
+      style={{ width: 'fit-content', height: '64px' }} onClick={onPreLoad}>
+      <Loading />
     </div>}
     <div className={' flex column gap-24 height-100'}>{children}</div>
   </div>
